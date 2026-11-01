@@ -1,10 +1,31 @@
 // Paste this file into the Apps Script project attached to your RSVP spreadsheet.
 const RSVP_SHEET_NAME = 'RSVPs';
 const RSVP_SHEET_ID_KEY = 'RSVP_SPREADSHEET_ID';
+const RSVP_CALENDAR_ID_KEY = 'RSVP_CALENDAR_ID';
 const RSVP_HEADERS = [
   'Submitted at', 'Name', 'Email', 'Attending', 'Total people',
   'Joining with', 'After party', 'Farewell brunch', 'Message',
-  'Language', 'Confirmation email'
+  'Language', 'Confirmation email', 'Calendar status', 'Calendar event IDs'
+];
+const RSVP_EVENTS = [
+  {
+    key: 'wedding', title: 'Joohyun & Fin — Wedding & Dinner',
+    start: '2027-04-24T16:00:00+09:00', end: '2027-04-24T18:00:00+09:00',
+    location: 'Ilhwadang, Samcheonggak, Seoul, South Korea',
+    description: 'Ceremony 4:00–4:40 PM; dinner reception 4:45–6:00 PM. All times are Seoul time (KST).'
+  },
+  {
+    key: 'afterparty', title: 'Joohyun & Fin — After Party',
+    start: '2027-04-24T19:00:00+09:00', end: '2027-04-25T01:00:00+09:00',
+    location: 'Pairing, 163-22 Hyehwa-dong, Jongno-gu, Seoul, South Korea',
+    description: 'After party at Pairing. All times are Seoul time (KST).'
+  },
+  {
+    key: 'brunch', title: 'Joohyun & Fin — Farewell Brunch',
+    start: '2027-04-25T10:00:00+09:00', end: '2027-04-25T13:00:00+09:00',
+    location: '',
+    description: 'Farewell brunch. Venue to follow. All times are Seoul time (KST).'
+  }
 ];
 
 // Run once from the Apps Script editor while the project is attached to your sheet.
@@ -14,9 +35,7 @@ function setup() {
 
   const sheet = spreadsheet.getSheetByName(RSVP_SHEET_NAME) ||
     spreadsheet.insertSheet(RSVP_SHEET_NAME);
-  if (sheet.getLastRow() === 0) {
-    sheet.getRange(1, 1, 1, RSVP_HEADERS.length).setValues([RSVP_HEADERS]);
-  }
+  sheet.getRange(1, 1, 1, RSVP_HEADERS.length).setValues([RSVP_HEADERS]);
   sheet.setFrozenRows(1);
   PropertiesService.getScriptProperties().setProperty(RSVP_SHEET_ID_KEY, spreadsheet.getId());
 
@@ -25,11 +44,29 @@ function setup() {
   return 'Ready: ' + spreadsheet.getName() + ' / ' + sheet.getName();
 }
 
+// Run after setup() to create a separate wedding calendar in your account.
+function setupCalendar() {
+  setup();
+  const properties = PropertiesService.getScriptProperties();
+  let calendar = properties.getProperty(RSVP_CALENDAR_ID_KEY) &&
+    CalendarApp.getCalendarById(properties.getProperty(RSVP_CALENDAR_ID_KEY));
+  if (!calendar) {
+    calendar = CalendarApp.createCalendar('Joohyun & Fin — RSVP Invitations', {
+      description: 'Calendar invitations sent from the wedding RSVP form.',
+      timeZone: 'Asia/Seoul'
+    });
+    properties.setProperty(RSVP_CALENDAR_ID_KEY, calendar.getId());
+  }
+  return 'Ready: ' + calendar.getName() + ' (' + calendar.getTimeZone() + ')';
+}
+
 // A read-only check for the deployed /exec URL. It never includes private sheet data.
 function doGet() {
+  const properties = PropertiesService.getScriptProperties();
   return jsonResponse_({
     result: 'ready',
-    configured: Boolean(PropertiesService.getScriptProperties().getProperty(RSVP_SHEET_ID_KEY))
+    configured: Boolean(properties.getProperty(RSVP_SHEET_ID_KEY)),
+    calendarConfigured: Boolean(properties.getProperty(RSVP_CALENDAR_ID_KEY))
   });
 }
 
@@ -46,12 +83,14 @@ function doPost(event) {
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
     let rowNumber;
+    let previousEventIds;
     try {
       rowNumber = sheet.getLastRow() + 1;
+      previousEventIds = previousEventIds_(sheet, rsvp.email, rowNumber - 1);
       const row = [
         new Date(), rsvp.name, rsvp.email, rsvp.attending, rsvp.guests,
         rsvp.guestNames.join('; '), rsvp.afterparty, rsvp.brunch,
-        rsvp.message, rsvp.lang, rsvp.email ? 'Pending' : 'Not requested'
+        rsvp.message, rsvp.lang, 'Pending', 'Pending', ''
       ];
       // Keep names and notes as text, including any that begin with "=".
       sheet.getRange(rowNumber, 2, 1, RSVP_HEADERS.length - 1).setNumberFormat('@');
@@ -61,26 +100,39 @@ function doPost(event) {
       lock.releaseLock();
     }
 
-    let mailed = false;
-    if (rsvp.email) {
-      try {
-        MailApp.sendEmail({
-          to: rsvp.email,
-          subject: rsvp.lang === 'ko' ? '주현 & 핀 결혼식 참석 확인' : 'Your RSVP for Joohyun & Fin',
-          body: confirmationText_(rsvp),
-          name: 'Joohyun & Fin'
-        });
-        mailed = true;
-      } catch (mailError) {
-        console.error('Confirmation email failed for row ' + rowNumber + ': ' + mailError);
-      }
-      try {
-        sheet.getRange(rowNumber, RSVP_HEADERS.length).setValue(mailed ? 'Sent' : 'Failed');
-      } catch (statusError) {
-        console.error('Could not update email status for row ' + rowNumber + ': ' + statusError);
-      }
+    const calendarResult = syncCalendar_(rsvp, previousEventIds);
+    try {
+      sheet.getRange(rowNumber, 12).setValue(calendarResult.failed.length ?
+        'Failed: ' + calendarResult.failed.join(', ') :
+        rsvp.attending === 'X' ? 'No invitations (declined)' :
+          'Invited: ' + calendarResult.sent.join(', '));
+      sheet.getRange(rowNumber, 13).setValue(JSON.stringify(calendarResult.eventIds));
+    } catch (calendarStatusError) {
+      console.error('Could not record calendar status for row ' + rowNumber + ': ' + calendarStatusError);
     }
-    return jsonResponse_({result: 'success', mailed: mailed});
+
+    let mailed = false;
+    try {
+      MailApp.sendEmail({
+        to: rsvp.email,
+        subject: rsvp.lang === 'ko' ? '주현 & 핀 결혼식 참석 확인' : 'Your RSVP for Joohyun & Fin',
+        body: confirmationText_(rsvp, calendarResult),
+        name: 'Joohyun & Fin'
+      });
+      mailed = true;
+    } catch (mailError) {
+      console.error('Confirmation email failed for row ' + rowNumber + ': ' + mailError);
+    }
+    try {
+      sheet.getRange(rowNumber, 11).setValue(mailed ? 'Sent' : 'Failed');
+    } catch (statusError) {
+      console.error('Could not update email status for row ' + rowNumber + ': ' + statusError);
+    }
+    return jsonResponse_({
+      result: 'success', mailed: mailed,
+      calendarInvites: calendarResult.sent,
+      calendarFailed: calendarResult.failed
+    });
   } catch (error) {
     console.error('RSVP failed: ' + error);
     return jsonResponse_({result: 'error', message: 'Could not save RSVP.'});
@@ -100,7 +152,7 @@ function parseRsvp_(data) {
 
   if (!name || !['O', 'X'].includes(attending)) throw new Error('Name or attendance missing.');
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('Invalid email.');
-  if (lang === 'en' && !email) throw new Error('Email required for English RSVP.');
+  if (!email) throw new Error('Email required for confirmation and calendar invitations.');
   if (!Array.isArray(guestNames)) throw new Error('Names must be a list.');
   if (attending === 'O') {
     if (!Number.isInteger(guests) || guests < 1 || guests > 4 || guestNames.length !== guests - 1) {
@@ -141,18 +193,123 @@ function choice_(value) {
   return value;
 }
 
-function confirmationText_(rsvp) {
+function previousEventIds_(sheet, email, lastRow) {
+  if (lastRow < 2) return {};
+  const emails = sheet.getRange(2, 3, lastRow - 1, 1).getValues();
+  const eventIds = sheet.getRange(2, 13, lastRow - 1, 1).getValues();
+  for (let i = emails.length - 1; i >= 0; i--) {
+    if (String(emails[i][0]).toLowerCase() !== email.toLowerCase() || !eventIds[i][0]) continue;
+    try {
+      const parsed = JSON.parse(eventIds[i][0]);
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
+    } catch (error) { /* check an older row */ }
+  }
+  return {};
+}
+
+function selectedEventKeys_(rsvp) {
+  if (rsvp.attending !== 'O') return [];
+  const keys = ['wedding'];
+  if (rsvp.afterparty === 'O') keys.push('afterparty');
+  if (rsvp.brunch === 'O') keys.push('brunch');
+  return keys;
+}
+
+function syncCalendar_(rsvp, previousIds) {
+  const desired = selectedEventKeys_(rsvp);
+  const result = {sent: [], failed: [], eventIds: {}};
+  const calendarId = PropertiesService.getScriptProperties().getProperty(RSVP_CALENDAR_ID_KEY);
+  let calendar;
+  try { calendar = calendarId && CalendarApp.getCalendarById(calendarId); }
+  catch (error) { console.error('Could not open RSVP calendar: ' + error); }
+  if (!calendar) {
+    result.failed = desired.length ? desired : Object.keys(previousIds);
+    result.eventIds = previousIds;
+    return result;
+  }
+
+  RSVP_EVENTS.forEach(function (spec) {
+    const oldId = previousIds[spec.key];
+    let oldEvent;
+    try {
+      oldEvent = oldId && calendar.getEventById(oldId);
+      if (desired.indexOf(spec.key) !== -1) {
+        if (oldEvent) {
+          updateCalendarEvent_(oldEvent, spec, rsvp);
+          result.eventIds[spec.key] = oldId;
+        } else {
+          const event = calendar.createEvent(spec.title, new Date(spec.start), new Date(spec.end), {
+            description: eventDescription_(spec, rsvp),
+            location: spec.location,
+            guests: rsvp.email,
+            sendInvites: true
+          });
+          result.eventIds[spec.key] = event.getId();
+          event.setGuestsCanSeeGuests(false);
+          event.setGuestsCanInviteOthers(false);
+          event.setGuestsCanModify(false);
+        }
+        result.sent.push(spec.key);
+      } else if (oldEvent) {
+        oldEvent.deleteEvent();
+      }
+    } catch (error) {
+      console.error('Calendar ' + spec.key + ' failed: ' + error);
+      result.failed.push(spec.key);
+      if (oldId) result.eventIds[spec.key] = oldId;
+    }
+  });
+  return result;
+}
+
+function eventDescription_(spec, rsvp) {
+  return spec.description + '\nRSVP for: ' + [rsvp.name].concat(rsvp.guestNames).join(', ');
+}
+
+function updateCalendarEvent_(event, spec, rsvp) {
+  if (event.getTitle() !== spec.title) event.setTitle(spec.title);
+  if (event.getStartTime().getTime() !== new Date(spec.start).getTime() ||
+      event.getEndTime().getTime() !== new Date(spec.end).getTime()) {
+    event.setTime(new Date(spec.start), new Date(spec.end));
+  }
+  if (event.getLocation() !== spec.location) event.setLocation(spec.location);
+  const description = eventDescription_(spec, rsvp);
+  if (event.getDescription() !== description) event.setDescription(description);
+  if (event.guestsCanSeeGuests()) event.setGuestsCanSeeGuests(false);
+  if (event.guestsCanInviteOthers()) event.setGuestsCanInviteOthers(false);
+  if (event.guestsCanModify()) event.setGuestsCanModify(false);
+}
+
+function confirmationText_(rsvp, calendarResult) {
   const group = [rsvp.name].concat(rsvp.guestNames).join(', ');
   if (rsvp.lang === 'ko') {
-    return rsvp.name + '님,\n\n주현 & 핀 결혼식 참석 여부를 보내주셔서 감사합니다.\n' +
-      '참석 여부: ' + (rsvp.attending === 'O' ? '참석' : '불참') + '\n' +
-      (rsvp.attending === 'O' ? '함께 오시는 분: ' + group + '\n' : '') +
-      '\n2027년 4월 24일 · 서울\n\n주현 & 핀';
+    const lines = [rsvp.name + '님,', '', '주현 & 핀 결혼식 참석 여부를 보내주셔서 감사합니다.',
+      '참석 여부: ' + (rsvp.attending === 'O' ? '참석' : '불참')];
+    if (rsvp.attending === 'O') {
+      lines.push('함께 오시는 분: ' + group, '',
+        '예식 및 피로연: 2027년 4월 24일 오후 4:00–6:00 (한국 시간)',
+        '장소: 삼청각 일화당, 서울');
+    }
+    if (rsvp.afterparty === 'O') lines.push('애프터 파티: 4월 24일 오후 7:00–다음 날 오전 1:00 (한국 시간), 페어링 · 종로구 혜화동 163-22');
+    if (rsvp.brunch === 'O') lines.push('작별 브런치: 4월 25일 오전 10:00–오후 1:00 (한국 시간), 장소 추후 안내');
+    if (rsvp.message) lines.push('메시지: ' + rsvp.message);
+    if (calendarResult.failed.length) lines.push('', '일부 캘린더 일정 변경을 완료하지 못했습니다. 일정을 확인해 주세요.');
+    return lines.concat(['', '주현 & 핀']).join('\n');
   }
-  return 'Hi ' + rsvp.name + ',\n\nThank you for replying to Joohyun & Fin\'s wedding invitation.\n' +
-    'RSVP: ' + (rsvp.attending === 'O' ? 'Attending' : 'Unable to attend') + '\n' +
-    (rsvp.attending === 'O' ? 'Coming: ' + group + '\n' : '') +
-    '\nApril 24, 2027 · Seoul\n\nJoohyun & Fin';
+  const lines = ['Hi ' + rsvp.name + ',', '',
+    'Thank you for replying to Joohyun & Fin\'s wedding invitation.',
+    'RSVP: ' + (rsvp.attending === 'O' ? 'Attending' : 'Unable to attend')];
+  if (rsvp.attending === 'O') {
+    lines.push('Coming: ' + group, '',
+      'Your schedule (Seoul time, KST):',
+      'Wedding ceremony & dinner — Saturday, April 24, 2027, 4:00–6:00 PM',
+      'Ilhwadang, Samcheonggak, Seoul',
+      'After party: ' + (rsvp.afterparty === 'O' ? 'Yes — April 24, 7:00 PM–April 25, 1:00 AM at Pairing, 163-22 Hyehwa-dong, Seoul' : rsvp.afterparty === 'X' ? 'No' : 'Not selected'),
+      'Farewell brunch: ' + (rsvp.brunch === 'O' ? 'Yes — Sunday, April 25, 10:00 AM–1:00 PM; venue to follow' : rsvp.brunch === 'X' ? 'No' : 'Not selected'));
+  }
+  if (rsvp.message) lines.push('Your note: ' + rsvp.message);
+  if (calendarResult.failed.length) lines.push('', 'Some calendar changes could not be completed. Please check your calendar against the schedule above.');
+  return lines.concat(['', 'Joohyun & Fin']).join('\n');
 }
 
 function jsonResponse_(value) {
