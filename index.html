@@ -450,7 +450,7 @@ html[lang="ko"] .h2{color:var(--ink)}
 .orn.bow{width:58px;rotate:16deg}
 
 /* ---------- opening: the petal itself is the card ----------
-   closed: one petal with the names. On a language choice the front petal swings open on its left edge
+   closed: one petal with the invitation. On a language choice the front petal swings open on its left edge
    (like a card cover), revealing the inside petal printed with the invitation; then it melts into the cover. */
 .pbook{width:min(470px,84vw,calc((100svh - 210px) * 1.49));min-width:0;aspect-ratio:1910/1282;container-type:inline-size}
 .pbook .inside,.pbook .face{background:none;box-shadow:none;padding:0;display:block}
@@ -459,11 +459,12 @@ html[lang="ko"] .h2{color:var(--ink)}
 .pbook .face.back img{filter:brightness(1.05) saturate(.9)}
 .pt{position:absolute;left:0;right:0;top:46%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;color:#fff;text-shadow:0 1px 3px rgba(150,55,70,.3);font-family:var(--display);line-height:1.04}
 .pt>span{display:flex;flex-direction:column;align-items:center}
-.pt-front .names{display:grid;font-style:italic;font-weight:400;font-size:12cqw;line-height:1}
-.pt-front .names .s-ko{font-family:var(--ko-head);font-style:normal !important;font-size:13.5cqw}
-.pt-front .date{display:grid;margin-top:5.2cqw;font-family:var(--label);font-size:2.6cqw;letter-spacing:.32em;text-indent:.32em;text-transform:uppercase}
-.pt-front .date .s-ko{font-family:var(--ko);letter-spacing:.2em;font-size:2.9cqw}
-.pt-front .date::before{content:"";grid-area:1/1;align-self:start;justify-self:center;width:8cqw;height:1px;background:rgba(255,255,255,.85);margin-top:-2.6cqw}
+.pt-front .cover-invitation{display:grid}
+.cover-invitation>span{display:flex;flex-direction:column;align-items:center;white-space:nowrap;line-height:1.18}
+.cover-invitation .s-en{font-style:italic;font-size:5.8cqw}
+.cover-invitation .s-en strong{font-size:8.3cqw;font-weight:400;margin-top:.12em}
+.cover-invitation .s-ko{font-family:var(--ko);font-size:5.3cqw}
+.cover-invitation .s-ko strong{font-family:var(--ko-head);font-size:9cqw;font-weight:400;margin-top:.12em}
 .i1{font-style:italic;font-size:7.9cqw}
 .i2{font-weight:300;font-style:italic;text-transform:uppercase;font-size:9.2cqw;letter-spacing:.02em}
 .j1{font-family:var(--ko-head);font-size:6.2cqw;line-height:1.15}
@@ -585,8 +586,10 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
     <div class="cover-card" aria-hidden="true">
       <span class="face front"><img src="assets/petal.webp" alt="" width="1910" height="1282">
         <span class="pt pt-front">
-          <span class="swap names"><span class="s-ko">주현 &amp; 핀</span><span class="s-en">Joohyun &amp; Fin</span></span>
-          <span class="swap date"><span class="s-ko">2027. 4. 24 · 서울</span><span class="s-en">April 24, 2027 · Seoul</span></span>
+          <span class="swap cover-invitation">
+            <span class="s-ko"><span>저희 두 사람의</span><span>결혼식에 초대합니다</span><strong>주현 &amp; 핀</strong></span>
+            <span class="s-en"><span>please join us</span><span>in celebrating</span><span>the marriage of</span><strong>Joohyun &amp; Fin</strong></span>
+          </span>
         </span>
       </span>
       <span class="face back"><img src="assets/petal.webp" alt="" width="1910" height="1282">
