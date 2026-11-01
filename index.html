@@ -930,7 +930,7 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
 
 <script>
 (function(){
-  var SCRIPT_URL='https://script.google.com/macros/s/AKfycbwtDsPiIgrVxRX9QvY8KeblFG1WyxhUAwAgsPv4zv0og4TauKH2X5zXjASYE7ZcZBw/exec';
+  var SCRIPT_URL='https://script.google.com/macros/s/AKfycbwQuxybNUo-oSVCHf2hJSd7ySrz-u16fcynLnfvcxH4zaOmtO6L-vSIK8cH9BvVXP2hrQ/exec';
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
   function sess(k,v){try{if(v===undefined)return sessionStorage.getItem(k);sessionStorage.setItem(k,v)}catch(e){return null}}
@@ -1097,13 +1097,12 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
     var apOn=att==='yes'&&document.querySelector('.ap-field').offsetParent!==null,ap=apOn?document.getElementById('afterparty').value:'';
     if(apOn&&att==='yes'&&!ap){msg.textContent=ko?'애프터 파티 참석 여부를 선택해 주세요.':'Please let us know if you’ll join the after party.';return}
     var note=document.getElementById('message').value.trim();
-    var savedMessage=guestNames.length?(note?note+'\n\n':'')+'Joining with: '+guestNames.join('; '):note;
-    var data={name:name,email:email,attending:att==='yes'?'O':'X',guests:att==='yes'?String(guestCount):'0',guestNames:guestNames,brunch:att==='yes'?(b==='yes'?'O':b==='no'?'X':''):'',afterparty:att==='no'?'X':!apOn?'':ap==='yes'?'O':'X',message:savedMessage,lang:ko?'ko':'en'};
+    var data={name:name,email:email,attending:att==='yes'?'O':'X',guests:att==='yes'?String(guestCount):'0',guestNames:guestNames,brunch:att==='yes'?(b==='yes'?'O':b==='no'?'X':''):'',afterparty:att==='no'?'X':!apOn?'':ap==='yes'?'O':'X',message:note,lang:ko?'ko':'en'};
     btn.disabled=true;btn.textContent=ko?'보내는 중…':'Sending…';msg.textContent='';
     function failed(text){btn.disabled=false;btn.textContent=ko?'보내기':'Send RSVP';msg.textContent=text}
     function succeeded(res){
       btn.textContent=ko?'감사합니다':'Thank you';
-      msg.textContent=res.mailed?(ko?'회신이 전달되었습니다. 확인 메일을 보내드렸습니다.':'Your RSVP is in! A confirmation email is on its way.'):(ko?'회신이 전달되었습니다. 감사합니다.':'Your RSVP is in. Thank you!');
+      msg.textContent=res.mailed?(ko?'회신이 전달되었습니다. 확인 메일을 보내드렸습니다.':'Your RSVP is in! A confirmation email is on its way.'):email?(ko?'회신은 저장되었지만 확인 메일을 보내지 못했습니다.':'Your RSVP is in, but we couldn’t send the confirmation email.'):(ko?'회신이 전달되었습니다. 감사합니다.':'Your RSVP is in. Thank you!');
     }
     /* the thank-you only shows once Google confirms the RSVP was saved in the sheet */
     fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(data)})
