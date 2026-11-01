@@ -238,6 +238,8 @@ function syncCalendar_(rsvp, previousIds) {
           updateCalendarEvent_(oldEvent, spec, rsvp);
           result.eventIds[spec.key] = oldId;
         } else {
+          // Include all guest-facing details before sending the first invitation.
+          // Editing the event immediately afterward can send a second update email.
           const event = calendar.createEvent(spec.title, new Date(spec.start), new Date(spec.end), {
             description: eventDescription_(spec, rsvp),
             location: spec.location,
@@ -245,9 +247,6 @@ function syncCalendar_(rsvp, previousIds) {
             sendInvites: true
           });
           result.eventIds[spec.key] = event.getId();
-          event.setGuestsCanSeeGuests(false);
-          event.setGuestsCanInviteOthers(false);
-          event.setGuestsCanModify(false);
         }
         result.sent.push(spec.key);
       } else if (oldEvent) {
@@ -275,9 +274,6 @@ function updateCalendarEvent_(event, spec, rsvp) {
   if (event.getLocation() !== spec.location) event.setLocation(spec.location);
   const description = eventDescription_(spec, rsvp);
   if (event.getDescription() !== description) event.setDescription(description);
-  if (event.guestsCanSeeGuests()) event.setGuestsCanSeeGuests(false);
-  if (event.guestsCanInviteOthers()) event.setGuestsCanInviteOthers(false);
-  if (event.guestsCanModify()) event.setGuestsCanModify(false);
 }
 
 function confirmationText_(rsvp, calendarResult) {
