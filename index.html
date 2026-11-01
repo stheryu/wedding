@@ -1,0 +1,1100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Joohyun &amp; Fin · Wedding</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&amp;family=Josefin+Sans:wght@300;400&amp;family=Hahmlet:wght@300;400;500&amp;family=Diphylleia&amp;display=swap">
+<style>
+/* base reset (normally added by the preview host) */
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+
+/* Layout: one invitation suite. A full-bleed cover "card" (three draft designs on a fixed 1366×768 canvas that scales with container units),
+   then the inserts — each section opened by an ornament cut from the couple's own wreath, set in a narrow centred column. */
+:root{
+  --paper:#fff9eb;      /* the Canva page colour, so illustrations sit seamlessly */
+  --paper-2:#f6edda;
+  --ink:#2f2925;
+  --ink-soft:#655b53;
+  --rule:rgba(47,41,37,.16);
+  --blush:#c77d8c;      /* the ribbon pink */
+  --blush-ink:#9c4f63;  /* darker pink for small text */
+  --blush-wash:rgba(199,125,140,.12);
+  --sage:#7d8c66;
+  --river:#bcd0dc;
+  --display:'Cormorant Garamond', Cormorant, Garamond, Georgia, 'Times New Roman', serif;
+  --label:'Josefin Sans', 'Futura', 'Century Gothic', 'Helvetica Neue', Arial, sans-serif;
+  --ko:'Nanum Myeongjo', 'AppleMyungjo', 'Batang', serif;  /* swapped by the Korean font picker */
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{background:var(--paper);color:var(--ink);font-family:var(--display);font-size:1.2rem;line-height:1.65;font-weight:500;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--paper)}
+/* Korean headings: brush-calligraphy faces closest to the Canva font FBS 산 */
+:root{--ko-head:'East Sea Dokdo','Nanum Brush Script',var(--ko)}
+html[data-kohead="dokdo"]{--ko-head:'Dokdo','East Sea Dokdo',var(--ko)}
+html[data-kohead="brush"]{--ko-head:'Nanum Brush Script','East Sea Dokdo',var(--ko)}
+html[data-kohead="yeonsung"]{--ko-head:'Yeon Sung','East Sea Dokdo',var(--ko)}
+html[data-kofont="hahmlet"]{--ko:'Hahmlet','AppleMyungjo','Batang',serif}
+html[data-kofont="batang"]{--ko:'Gowun Batang','AppleMyungjo','Batang',serif}
+html[data-kofont="dodum"]{--ko:'Gowun Dodum','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+html[lang="ko"] body{font-family:var(--ko);font-weight:400;font-size:1.03rem;line-height:2;letter-spacing:-.005em;word-break:keep-all}
+/* Korean layout: centred, airy, invitation-style; an English eyebrow above each Korean heading */
+.ko-eyebrow{font-family:var(--label);font-size:10.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--blush-ink);font-weight:400}
+html[lang="ko"] .sec{padding-block:88px 8px}
+html[lang="ko"] .sec-head{gap:10px;margin-bottom:40px}
+html[lang="ko"] .lede{font-size:1.04rem;line-height:2.15}
+.ko-timeline{list-style:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:0;text-align:center}
+.ko-timeline li{display:flex;flex-direction:column;align-items:center;gap:6px;padding-block:22px;max-width:30em}
+.ko-timeline li+li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--blush);opacity:.7;margin:-22px auto 22px}
+.ko-timeline .t-time{padding:0;font-size:12.5px;letter-spacing:.14em}
+.ko-timeline .t-title{font-size:1.3rem;margin:0}
+.ko-timeline p:last-child{color:var(--ink-soft)}
+.soft-card{max-width:520px;margin:44px auto 0;padding:28px 24px;text-align:center;background:rgba(255,255,255,.45);border:1px solid var(--rule);border-radius:2px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.soft-card p{color:var(--ink-soft)}
+.account{display:flex;flex-direction:column;align-items:center;gap:4px}
+.account .who{font-size:.95rem;color:var(--ink-soft)}
+.account .num{font-size:1.35rem;letter-spacing:.06em;font-variant-numeric:tabular-nums;color:var(--ink);user-select:all;-webkit-user-select:all}
+.copy{margin-top:10px;font:inherit;font-size:.9rem;letter-spacing:.06em;background:transparent;color:var(--ink);border:1px solid rgba(47,41,37,.35);border-radius:999px;padding:9px 22px;min-height:40px;cursor:pointer;transition:background .2s,color .2s}
+.copy:hover{background:var(--ink);color:var(--paper)}
+.copied{min-height:1.5em;font-size:.85rem;color:var(--blush-ink)}
+
+.vm-name{fill:var(--ink);font-family:var(--ko);font-size:15px}
+.vm-sub{fill:var(--ink-soft);font-family:var(--ko);font-size:11.5px}
+.vm-venue-name{fill:var(--ink);font-family:var(--ko);font-size:18px;font-weight:700}
+.vm-note{font-size:.8rem;color:var(--ink-soft);text-align:center;margin-top:6px}
+.addr{font-size:1.15rem;color:var(--ink)}
+p,h1,h2,h3,ol,ul,dl,dd{margin:0}
+a{color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blush-ink);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ko-only{display:none !important}
+html[lang="ko"] .ko-only{display:revert !important}
+html[lang="ko"] .en-only{display:none !important}
+.wrap{max-width:820px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(255,249,235,.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid var(--rule)}
+.topbar-in{display:flex;align-items:center;gap:16px;height:52px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.nav{display:flex;gap:26px;flex:1;justify-content:center;overflow-x:auto;scrollbar-width:none;font-family:var(--label);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:400;white-space:nowrap}
+.nav::-webkit-scrollbar{display:none}
+.nav a{text-decoration:none;color:var(--ink-soft);padding:6px 0;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+.nav a:hover,.nav a[aria-current="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+html[lang="ko"] .nav{font-family:var(--ko);letter-spacing:.1em;font-size:13.5px;gap:44px}
+html[lang="ko"] nav.nav.ko-only{display:flex !important}
+@media (max-width:720px){html[lang="ko"] .nav{gap:30px}}
+.lang{display:flex;align-items:center;gap:6px;font-family:var(--label);font-size:11px;letter-spacing:.12em;flex:none}
+.lang button{background:none;border:0;padding:6px 2px;cursor:pointer;color:var(--ink-soft);font:inherit;letter-spacing:inherit;border-bottom:1px solid transparent}
+.lang button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.lang span{color:var(--rule)}
+
+/* ---------- cover (hero) ---------- */
+.hero{overflow:hidden;padding-block:20px 8px}
+.cover[hidden]{display:none}
+.canvas{position:relative;width:100%;max-width:1240px;margin:0 auto;aspect-ratio:1366/768;container-type:inline-size}
+.lines{position:absolute;left:50%;transform:translateX(-50%);width:max-content;max-width:96cqw;text-align:center;line-height:1.02;color:var(--ink);font-family:var(--display);font-style:italic}
+.l{display:block}
+.l1,.l3{font-weight:400;font-size:5.5cqw}
+.l2,.l4{font-weight:300;font-size:6.5cqw;text-transform:uppercase;letter-spacing:.02em;margin-block:.04em .1em}
+html[lang="ko"] .lines{font-family:var(--ko);font-style:normal;line-height:1.35}
+html[lang="ko"] .l1,html[lang="ko"] .l3{font-size:3.1cqw;font-weight:400;color:var(--ink-soft)}
+html[lang="ko"] .l2,html[lang="ko"] .l4{font-size:5.2cqw;font-weight:300;letter-spacing:.06em}
+.cover-a .lines{top:18%}
+.cover-a .couple{position:absolute;left:44.8%;top:68.5%;width:12.2cqw}
+.cover-a .couple img{display:block;width:100%;transform-origin:50% 92%}
+.garland{position:absolute;top:0;height:100%;width:auto;pointer-events:none}
+.cover-a .garland-r{right:5.2%}
+.cover-b .lines{top:2.5%;color:var(--ink-soft)}
+.cover-b .garland-l{left:5%}
+.cover-b .garland-r{right:5%;transform:scaleX(-1)}
+.cover-b .photo{position:absolute;left:50%;bottom:0;width:35cqw;transform:translateX(-50%)}
+.cover-b .photo img{display:block;width:100%;height:auto}
+.cover-c .wreath{position:absolute;inset:0;width:100%;height:100%;
+  -webkit-mask-image:conic-gradient(from 180deg at 50% 52%,#000 0deg var(--sweep),transparent var(--sweep) calc(360deg - var(--sweep)),#000 calc(360deg - var(--sweep)) 360deg);
+          mask-image:conic-gradient(from 180deg at 50% 52%,#000 0deg var(--sweep),transparent var(--sweep) calc(360deg - var(--sweep)),#000 calc(360deg - var(--sweep)) 360deg)}
+.cover-c .lines{top:47.5%;transform:translate(-50%,-50%)}
+.cover-c .l1,.cover-c .l3{font-size:4.5cqw}
+.cover-c .l2,.cover-c .l4{font-size:5.4cqw}
+html[lang="ko"] .cover-c .l1,html[lang="ko"] .cover-c .l3{font-size:2.8cqw}
+html[lang="ko"] .cover-c .l2,html[lang="ko"] .cover-c .l4{font-size:4.6cqw}
+@property --sweep{syntax:'<angle>';inherits:false;initial-value:180deg}
+
+/* ---- Korean cover: brush-written invitation lines + names, fine serif date ---- */
+html[lang="ko"] *{font-style:normal !important}
+html[lang="ko"] .lines .ko-only{display:block !important}
+html[lang="ko"] .lines{line-height:1.12}
+.k1{font-family:var(--ko-head);font-size:4.3cqw;color:#4a403a;letter-spacing:.04em}
+.k2{font-family:var(--ko-head);font-size:9.6cqw;line-height:1;margin-top:.16em;letter-spacing:.03em;color:var(--ink)}
+.k2 em{color:var(--blush);font-size:.78em;padding:0 .06em}
+.k3{font-family:var(--ko);font-size:1.5cqw;letter-spacing:.24em;color:var(--ink-soft);margin-top:2.2cqw;font-weight:400}
+.cover-a .k2{font-size:10.6cqw}.cover-a .k1{font-size:4.8cqw}
+.cover-b .k2{font-size:8.4cqw}.cover-b .k1{font-size:3.9cqw}
+html[lang="ko"] .inside p{font-family:var(--ko);font-size:clamp(.95rem,3.6vw,1.1rem);line-height:1.5}
+html[lang="ko"] .inside .big{font-family:var(--ko-head);text-transform:none;font-size:clamp(1.6rem,7vw,2.1rem);line-height:1.15}
+html[lang="ko"] .dateband{padding-block:44px 12px;gap:8px}
+html[lang="ko"] .parents.ko-only{display:grid !important;grid-template-columns:minmax(0,11em) 1px minmax(0,11em);column-gap:clamp(24px,6vw,48px);align-items:stretch;margin:14px 0 0;font-size:.98rem;line-height:1.75}
+.fam{display:flex;flex-direction:column;align-items:center;text-align:center}
+.fam .pn{color:var(--ink)}
+.fam .rel{color:var(--ink-soft);font-size:.9rem;margin-top:4px}
+.fam b{font-family:var(--ko-head);font-weight:400;font-size:2.1rem;line-height:1.1;margin-top:6px;color:var(--ink)}
+.fam-rule{background:var(--blush);opacity:.45}
+html[lang="ko"] .ko-rule{display:block !important;width:44px;height:1px;background:var(--blush);opacity:.6;margin:34px auto 26px}
+html[lang="ko"] .when{font-size:clamp(1.25rem,3vw,1.5rem);letter-spacing:.06em;font-weight:500}
+html[lang="ko"] .where{font-size:1rem;letter-spacing:.06em}
+html[lang="ko"] .countdown{margin-top:26px}
+
+/* cover motion — only runs once the invitation has been opened (.play); at rest everything is visible */
+.play .l{animation:rise 1.2s var(--ease) both;animation-delay:calc(var(--base,.35s) + var(--i) * .22s)}
+.play .l2,.play .l4{animation:rise 1.2s var(--ease) both,track 1.8s var(--ease) both;animation-delay:calc(var(--base,.35s) + var(--i) * .22s)}
+html[lang="ko"] .play .l2,html[lang="ko"] .play .l4{animation-name:rise,none}
+.cover-c.play{--base:1.1s}
+.cover-c.play .wreath{animation:sweep 2.8s cubic-bezier(.45,0,.2,1) .1s both,breathe 9s ease-in-out 3.2s infinite}
+.play .garland{animation:unroll 2.2s cubic-bezier(.5,0,.2,1) .15s both}
+.cover-a.play .couple{animation:popin 1.1s var(--ease) 1.5s both}
+.cover-a.play .couple img{animation:dance 2.6s ease-in-out 2.6s infinite alternate}
+.cover-b.play .photo{animation:photoin 1.4s var(--ease) 1.2s both}
+.play .k1,.play .k2{animation:brush 1.5s cubic-bezier(.5,0,.3,1) both;animation-delay:calc(var(--base,.35s) + var(--i) * .5s)}
+@keyframes brush{from{clip-path:inset(-30% 100% -30% -6%);opacity:.4}to{clip-path:inset(-30% -6% -30% -6%);opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(.45em);filter:blur(5px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes track{from{letter-spacing:.32em}to{letter-spacing:.02em}}
+@keyframes sweep{from{--sweep:0deg}to{--sweep:180deg}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.012)}}
+@keyframes unroll{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes popin{from{opacity:0;transform:translateY(24px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes dance{0%{transform:rotate(-2.5deg) translateY(0)}50%{transform:rotate(0deg) translateY(-3px)}100%{transform:rotate(2.5deg) translateY(0)}}
+@keyframes photoin{from{opacity:0;transform:translate(-50%,40px)}to{opacity:1;transform:translate(-50%,0)}}
+
+/* ---------- date band ---------- */
+.dateband{text-align:center;padding-block:28px 12px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.eyebrow{font-family:var(--label);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--blush-ink);font-weight:400}
+html[lang="ko"] .eyebrow{font-family:var(--ko);letter-spacing:.12em;font-size:13px}
+.when{font-size:clamp(1.5rem,3.4vw,2rem);font-style:italic;font-weight:400;line-height:1.25}
+.where{color:var(--ink-soft);font-size:1.15rem}
+.parents{color:var(--ink-soft);font-size:.95rem;line-height:1.9;margin-bottom:6px}
+.parents b{color:var(--ink);font-weight:500}
+.countdown{display:flex;gap:clamp(18px,5vw,44px);margin-top:14px;font-variant-numeric:lining-nums tabular-nums}
+.cd{display:flex;flex-direction:column;align-items:center;min-width:3ch}
+.cd b{font-weight:300;font-size:clamp(2rem,6vw,3rem);line-height:1}
+.cd span{font-family:var(--label);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px}
+html[lang="ko"] .cd span{font-family:var(--ko);letter-spacing:.1em;font-size:12px}
+
+/* ---------- sections ---------- */
+.sec{padding-block:72px 8px;scroll-margin-top:64px}
+.sec-head{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:36px;text-align:center}
+.orn{width:96px;height:auto}
+.orn.bow{width:120px}
+.h2{font-weight:300;font-style:italic;text-transform:uppercase;font-size:clamp(2.2rem,5.5vw,3.4rem);letter-spacing:.04em;line-height:1.05;text-wrap:balance}
+html[lang="ko"] .h2{font-family:var(--ko-head);font-style:normal;font-weight:400;font-size:clamp(2.4rem,6vw,3.3rem);letter-spacing:.06em;text-indent:.06em;line-height:1.1;color:#2f2925}
+html[lang="ko"][data-kohead="yeonsung"] .h2{font-size:clamp(2rem,5vw,2.7rem)}
+.lede{max-width:60ch;margin:0 auto;}
+#wedding{max-width:1040px}
+#wedding .lede{max-width:none;}
+.lede{text-align:center;font-size:1.3rem;line-height:1.75}
+html[lang="ko"] .lede{font-size:1.05rem;line-height:2}
+
+/* The Day — a timeline read like an order of service */
+.timeline{list-style:none;padding:0;display:flex;flex-direction:column}
+.timeline li{display:grid;grid-template-columns:minmax(120px,170px) 1fr;gap:24px;padding-block:22px;border-top:1px solid var(--rule)}
+.timeline li:last-child{border-bottom:1px solid var(--rule)}
+.t-time{font-family:var(--label);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);padding-top:.5em;font-variant-numeric:tabular-nums}
+html[lang="ko"] .t-time{font-family:var(--ko);letter-spacing:.04em;font-size:13px}
+.t-next{display:inline-block;margin-left:6px;color:var(--blush-ink)}
+.t-title{font-size:1.75rem;font-style:italic;font-weight:400;line-height:1.2;margin-bottom:4px}
+html[lang="ko"] .t-title{font-style:normal;font-size:1.3rem;font-weight:500}
+.t-desc{color:var(--ink-soft);min-width:0}
+.textlink{font-family:var(--label);font-size:11px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid var(--blush);padding-bottom:2px;display:inline-block;margin-top:8px;color:var(--ink)}
+html[lang="ko"] .textlink{font-family:var(--ko);letter-spacing:.06em;font-size:13px}
+.note{text-align:center;margin-top:28px;color:var(--ink-soft)}
+
+/* Travel */
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+.label{font-family:var(--label);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--blush-ink);font-weight:400;margin-bottom:6px}
+html[lang="ko"] .label{font-family:var(--ko);letter-spacing:.08em;font-size:13px}
+.block p{min-width:0}
+.stay{margin-top:44px;padding-top:28px;border-top:1px solid var(--rule)}
+.hotels{list-style:none;padding:0;margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 32px}
+.hotels a{text-decoration:none;font-size:1.25rem;font-style:italic;border-bottom:1px solid var(--rule);transition:border-color .2s}
+.hotels a:hover{border-bottom-color:var(--blush)}
+.hotels span{display:block;font-family:var(--label);font-size:11px;letter-spacing:.08em;color:var(--ink-soft);margin-top:2px}
+
+/* Seoul */
+.tabs{display:flex;justify-content:center;gap:28px;margin-bottom:28px}
+.tab{background:none;border:0;cursor:pointer;font-family:var(--label);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);padding:10px 2px;border-bottom:1px solid transparent}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+/* hand-drawn map: ink lines + watercolour washes, drawn in when it scrolls into view */
+.map{--mw:min(1040px,calc(100vw - 32px));width:var(--mw);margin:0 0 36px calc((100% - var(--mw)) / 2);overflow-x:auto;scrollbar-width:thin}
+.map svg{display:block;width:100%;min-width:680px;height:auto}
+.m-ink{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+.m-ink .soft{stroke:var(--ink-soft);stroke-width:.8}
+.m-name{fill:var(--ink);font-family:var(--display);font-style:italic;font-size:17px;font-weight:500}
+.m-sub{fill:var(--ink-soft);font-family:var(--label);font-size:8.5px;letter-spacing:1.6px;text-transform:uppercase}
+.m-river-label{fill:#4a6a7d;font-family:var(--display);font-style:italic;font-size:15px;letter-spacing:2px}
+.m-dot{fill:var(--ink);stroke:none}
+.map.rv-in .m-draw{stroke-dasharray:1;stroke-dashoffset:1;animation:mdraw 2.6s var(--ease) forwards;animation-delay:var(--d,0s)}
+.map.rv-in .m-washes{animation:mbleed 1.8s var(--ease) .5s both}
+.map.rv-in .m-labels{animation:mfade 1.2s ease 1.5s both}
+.map.rv-in .m-venue{transform-box:fill-box;transform-origin:50% 80%;animation:mpop 1.2s cubic-bezier(.2,.9,.25,1.3) 1.2s both}
+@keyframes mdraw{to{stroke-dashoffset:0}}
+@keyframes mbleed{from{opacity:0;filter:blur(6px)}to{opacity:1;filter:blur(0)}}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+@keyframes mpop{from{opacity:0;transform:scale(.3) rotate(-15deg)}to{opacity:1;transform:none}}
+.hoods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px}
+.hood{padding-block:16px;border-top:1px solid var(--rule);min-width:0}
+.hood h3,.sight h3{font-family:var(--label);font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:400;margin-bottom:4px}
+.hood p,.sight p{color:var(--ink-soft)}
+.sights{display:flex;flex-direction:column}
+.sight{display:grid;grid-template-columns:150px 1fr;gap:20px;padding-block:16px;border-top:1px solid var(--rule)}
+.sight:last-child{border-bottom:1px solid var(--rule)}
+.tag{font-family:var(--label);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--blush-ink);padding-top:3px}
+.sight a{text-decoration:none;border-bottom:1px solid var(--blush)}
+
+/* FAQ */
+.faq{display:flex;flex-direction:column}
+.faq div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:28px;padding-block:20px;border-top:1px solid var(--rule)}
+.faq div:last-child{border-bottom:1px solid var(--rule)}
+.faq dt{font-size:1.4rem;font-style:italic;line-height:1.3}
+.faq dd{color:var(--ink-soft)}
+
+/* Korean venue card */
+.card{border:1px solid var(--rule);padding:28px 24px;text-align:center;max-width:560px;margin:32px auto 0;background:rgba(255,255,255,.35)}
+.maplinks{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+
+/* RSVP */
+.rsvp{position:relative;padding-block:80px 40px;scroll-margin-top:64px}
+.rsvp .garland{height:100%;top:0;opacity:.95}
+.rsvp .garland-l{left:max(4px,calc(50% - 470px))}
+.rsvp .garland-r{right:max(4px,calc(50% - 470px));transform:scaleX(-1)}
+.rsvp .garland.rv-in{animation:unroll 2.4s cubic-bezier(.5,0,.2,1) both}
+.due{text-align:center;color:var(--ink-soft);margin-top:-22px;margin-bottom:30px}
+form{max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:22px;position:relative;z-index:1}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-family:var(--label);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
+html[lang="ko"] .field label{font-family:var(--ko);letter-spacing:.06em;font-size:13px}
+.field input,.field select,.field textarea{font:inherit;font-size:1.2rem;color:var(--ink);background:transparent;border:0;border-bottom:1px solid rgba(47,41,37,.4);padding:8px 2px;border-radius:0;appearance:none;-webkit-appearance:none;width:100%}
+.field select{background-image:linear-gradient(45deg,transparent 50%,var(--ink-soft) 50%),linear-gradient(135deg,var(--ink-soft) 50%,transparent 50%);background-position:calc(100% - 14px) 55%,calc(100% - 9px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+.field textarea{resize:vertical;min-height:70px}
+.send{margin-top:8px;align-self:center;font-family:var(--label);font-size:12px;letter-spacing:.28em;text-transform:uppercase;background:var(--ink);color:var(--paper);border:0;padding:16px 44px;cursor:pointer;transition:background .2s}
+.send:hover{background:#4a403a}
+.send:disabled{opacity:.7;cursor:default}
+html[lang="ko"] .send{font-family:var(--ko);letter-spacing:.2em;font-size:14px}
+.msg{text-align:center;min-height:1.6em;color:var(--blush-ink)}
+footer{text-align:center;padding-block:36px 24px;border-top:1px solid var(--rule);display:flex;flex-direction:column;align-items:center;gap:8px;font-family:var(--label);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
+footer img{width:72px}
+html[lang="ko"] footer{font-family:var(--ko);letter-spacing:.1em;font-size:12px}
+
+/* portrait: arched photo between the two ribbon garlands */
+.portrait{position:relative;display:flex;justify-content:center;padding-block:56px 8px;max-width:760px;margin:0 auto}
+.portrait figure{margin:0;width:min(420px,78vw);position:relative;padding-block:12px}
+.portrait .arch-line{position:absolute;left:calc(100% * -12 / 420);top:0;width:calc(100% * 444 / 420);height:auto;overflow:visible}
+.portrait .arch-line path{fill:none;stroke:var(--blush);stroke-width:1;vector-effect:non-scaling-stroke;opacity:.8}
+.portrait figure.rv-in .arch-line path{animation:archdraw 2.4s cubic-bezier(.45,0,.2,1) .5s both}
+@keyframes archdraw{from{stroke-dasharray:1;stroke-dashoffset:1}to{stroke-dasharray:1;stroke-dashoffset:0}}
+.portrait .photo-img{position:relative;display:block;width:100%;height:auto;border-radius:999px 999px 6px 6px;box-shadow:0 18px 40px rgba(47,41,37,.14)}
+.portrait .tie{position:absolute;left:50%;top:-6px;width:112px;margin-left:-56px;z-index:2}
+.portrait .tie.rv-armed{transform:scale(.55) rotate(-12deg)}
+.portrait .garland-l{left:max(0px,calc(50% - 330px))}
+.portrait .garland-r{right:max(0px,calc(50% - 330px));transform:scaleX(-1)}
+.portrait .garland.rv-in{animation:unroll 2.4s cubic-bezier(.5,0,.2,1) both}
+.portrait .garland.rv-armed{opacity:1;transform:scaleX(1);clip-path:inset(0 0 100% 0)}
+.portrait .garland-r.rv-armed{transform:scaleX(-1)}
+.portrait figure.rv-armed{transform:translateY(40px) scale(.96)}
+@media (max-width:720px){.portrait .garland{display:none}.portrait{padding-block:44px 0}}
+
+/* scroll reveal — content is visible at rest; JS only arms elements that are still below the fold */
+.rv-armed{opacity:0;transform:translateY(26px)}
+.rv-in{transition:opacity 1s var(--ease),transform 1.1s var(--ease);transition-delay:calc(var(--i,0) * 90ms)}
+.orn.rv-armed{transform:scale(.55) rotate(-12deg)}
+.orn.rv-in{transition:opacity .9s var(--ease),transform 1.3s cubic-bezier(.2,.9,.25,1.25)}
+.h2.rv-armed{letter-spacing:.3em}
+.h2.rv-in{transition:opacity 1s var(--ease),transform 1s var(--ease),letter-spacing 1.6s var(--ease)}
+.rsvp .garland.rv-armed{opacity:1;transform:scaleX(1);clip-path:inset(0 0 100% 0)}
+.rsvp .garland-r.rv-armed{transform:scaleX(-1)}
+
+/* ---------- the folded invitation ---------- */
+.intro{position:fixed;inset:0;z-index:100;background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:24px;perspective:1600px}
+.intro[hidden]{display:none}
+.book{position:relative;width:min(300px,62vw,calc((100svh - 190px) * .714));min-width:150px;aspect-ratio:5/7}
+.intro{overflow-y:auto}
+.inside,.face{position:absolute;inset:0;background:#fffdf6;box-shadow:0 18px 40px rgba(47,41,37,.16),0 2px 6px rgba(47,41,37,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.inside::before,.face::before{content:"";position:absolute;inset:10px;border:1px solid rgba(47,41,37,.5)}
+.inside::after,.face::after{content:"";position:absolute;inset:14px;border:.5px solid rgba(47,41,37,.35)}
+.inside p{font-style:italic;line-height:1.1;font-size:clamp(1.05rem,4.4vw,1.35rem)}
+.inside .big{font-weight:300;text-transform:uppercase;font-size:clamp(1.25rem,5.4vw,1.65rem)}
+.cover-card{position:absolute;inset:0;padding:0;border:0;background:none;cursor:default;pointer-events:none;transform-style:preserve-3d;transform-origin:0% 50%;z-index:2;font:inherit;color:inherit}
+.face{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.back{transform:rotateY(180deg)}
+.face img{width:44%;margin-bottom:6px}
+.mono{font-size:clamp(2.2rem,10vw,3rem);font-style:italic;font-weight:300;line-height:1}
+.face small{display:block;font-family:var(--label);font-size:10px;letter-spacing:.3em;text-transform:uppercase;margin-top:10px;color:var(--ink-soft)}
+.tap{font-style:italic;font-size:1.15rem;color:var(--ink-soft);animation:nudge 2.4s ease-in-out infinite}
+html[lang="ko"] .tap{font-style:normal;font-size:.95rem}
+.skip{position:absolute;right:max(16px,env(safe-area-inset-right,0px));top:calc(14px + env(safe-area-inset-top,0px));background:none;border:0;font-family:var(--label);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);cursor:pointer;padding:10px}
+.intro.opening .cover-card{animation:openCover 1.3s cubic-bezier(.6,.05,.3,1) .05s forwards}
+.intro.opening .book{animation:spread 2.9s cubic-bezier(.5,0,.3,1) forwards}
+.intro.opening .tap,.intro.opening .skip,.intro.opening .intro-lang{animation:fadeout .4s forwards}
+.intro-lang{display:flex;flex-direction:column;align-items:center;gap:8px}
+.pick{position:relative;height:1.4em;width:16em;font-size:.8rem;color:var(--ink-soft);text-align:center}
+/* card front + prompt alternate Korean / English in sync until a language is chosen */
+.swap,.face small.swap{display:grid;justify-items:center}
+.intro-lang .lang button,.intro-lang .lang button[aria-pressed="true"]{color:var(--ink);border-bottom-color:transparent;font-size:15px;padding:8px 14px}
+.intro-lang .lang button:hover,.intro-lang .lang button:focus-visible{border-bottom-color:var(--ink)}
+.swap>span{grid-area:1/1}
+.s-ko{animation:swapA 6s ease-in-out infinite}
+.s-en{animation:swapA 6s ease-in-out -3s infinite}
+@keyframes swapA{0%,40%{opacity:1}50%,90%{opacity:0}100%{opacity:1}}
+.mono.s-ko{font-family:var(--ko-head);font-size:clamp(2rem,9vw,2.7rem);font-style:normal !important}
+.face small .s-ko{font-family:var(--ko);letter-spacing:.2em}
+.intro.chosen .s-ko,.intro.chosen .s-en{animation:none;opacity:0;transition:opacity .3s}
+html[lang="ko"] .intro.chosen .s-ko,html[lang="en"] .intro.chosen .s-en{opacity:1}
+.pick span{font-family:var(--label);letter-spacing:.18em;text-transform:uppercase;font-size:11px}
+.pick .s-ko{font-family:var(--ko);letter-spacing:.14em;font-size:13px;text-transform:none}
+.pick{position:relative;height:auto;width:auto;margin:0}
+.intro-lang .lang{font-size:13px;gap:10px}
+.intro-lang .lang button{padding:8px 10px;min-height:40px}
+.intro.opening{animation:introOut .8s ease 2.3s forwards}
+@keyframes openCover{to{transform:rotateY(-180deg)}}
+@keyframes spread{0%{transform:none;opacity:1}45%,64%{transform:translateX(calc(50% * var(--sp))) scale(var(--sp));opacity:1}100%{transform:translateX(0) scale(2.6);opacity:0}}
+@keyframes introOut{to{background:transparent;visibility:hidden}}
+@keyframes fadeout{to{opacity:0}}
+@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.book{--sp:1}
+@media (max-width:720px){.book{--sp:.62}}
+
+/* ---------- draft controls ---------- */
+.dock{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:90;display:flex;align-items:center;gap:4px;padding:5px;background:var(--ink);color:var(--paper);border-radius:999px;box-shadow:0 8px 24px rgba(47,41,37,.25);font-family:var(--label);font-size:11px;letter-spacing:.1em;max-width:calc(100vw - 24px);overflow-x:auto;scrollbar-width:none}
+.dock span{padding:0 10px 0 12px;text-transform:uppercase;letter-spacing:.2em;opacity:.7;white-space:nowrap}
+.dock button{background:none;border:0;color:var(--paper);font:inherit;letter-spacing:.08em;padding:10px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.dock button[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.dock .sep{width:1px;height:18px;background:rgba(255,249,235,.25);padding:0}
+
+/* ---------- small screens ---------- */
+@media (max-width:720px){
+  .topbar-in{gap:10px}
+  .nav{justify-content:flex-start;gap:18px}
+  .cover-a .canvas,.cover-b .canvas{aspect-ratio:4/5}
+  .nav{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .cover-a .lines{top:12%;left:45%}
+  .cover-b .lines{top:4%}
+  .cover-a .l1,.cover-a .l3{font-size:7cqw}
+  .cover-a .l2,.cover-a .l4{font-size:7.8cqw}
+  .cover-b .l1,.cover-b .l3{font-size:7cqw}
+  .cover-b .l2,.cover-b .l4{font-size:7.9cqw}
+  html[lang="ko"] .cover-a .l1,html[lang="ko"] .cover-a .l3,html[lang="ko"] .cover-b .l1,html[lang="ko"] .cover-b .l3{font-size:4.6cqw}
+  html[lang="ko"] .cover-a .l2,html[lang="ko"] .cover-a .l4,html[lang="ko"] .cover-b .l2,html[lang="ko"] .cover-b .l4{font-size:7.4cqw}
+  .cover-a .couple{left:37%;top:58%;width:26cqw}
+  .cover-a .garland-r{right:-5%}
+  .cover-b .garland-l{left:-7%}.cover-b .garland-r{right:-7%}
+  .cover-b .photo{width:82cqw}
+  .cover-c .canvas{width:146%;max-width:none;margin-left:-23%}
+  .cover-a .k1,.cover-b .k1{font-size:7cqw}
+  .cover-a .k2{font-size:15cqw}.cover-b .k2{font-size:13cqw}
+  .cover-a .k3,.cover-b .k3{font-size:3.1cqw}
+  .cover-c .k3{font-size:2.3cqw;letter-spacing:.16em}
+  html[lang="ko"] .parents.ko-only{font-size:.92rem}
+  .pair,.hotels,.hoods{grid-template-columns:minmax(0,1fr)}
+  .timeline li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .sight{grid-template-columns:minmax(0,1fr);gap:2px}
+  .faq div{grid-template-columns:minmax(0,1fr);gap:6px}
+  .rsvp .garland{display:none}
+  .dock span{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-delay:0s !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  .rv-armed{opacity:1;transform:none}
+}
+/* the after party is only on the English site; Korean guests are invited individually */
+html[lang="ko"] .ap-ko,html[lang="ko"] .ap-field{display:none !important}
+
+/* =====================================================================
+   PRESSED PETAL — one still pressed rose petal on #FCEFEC, white serif on the cover,
+   rose-brown text, and the folded invitation card as the opening page.
+   ===================================================================== */
+:root{--paper:#fcefec;--paper-2:#f7e1dd;--ink:#5a2e35;--ink-soft:#86595f;--rule:rgba(90,46,53,.16);--blush:#d27f8b;--blush-ink:#a3495a;--blush-wash:rgba(210,127,139,.14);--bar:rgba(252,239,236,.94);--card:#fffaf8}
+.topbar{background:var(--bar)}
+html[lang="ko"] .h2{color:var(--ink)}
+.send:hover{background:var(--blush-ink)}
+
+/* ---------- cover: the still petal with white serif lines ---------- */
+.cover-p .canvas{aspect-ratio:1366/768}
+.cover-p .petal-wrap{position:absolute;left:15.4%;top:10.4%;width:69.25%}
+.cover-p .petal{display:block;width:100%;height:auto}
+.cover-p .lines{top:50.5%;transform:translate(-50%,-50%);color:#fff;text-shadow:0 1px 3px rgba(150,55,70,.28);z-index:2}
+.cover-p .l1,.cover-p .l3{font-size:5.5cqw}
+.cover-p .l2,.cover-p .l4{font-size:6.5cqw}
+.cover-p .k1{color:#fff;font-size:4cqw}
+.cover-p .k2{color:#fff;font-size:8.6cqw}
+.cover-p .k2 em{color:#fff;opacity:.85}
+.cover-p .k3{color:rgba(255,255,255,.95);font-size:1.5cqw}
+.cover-p.play{--base:.5s}
+
+/* section ornaments: single still petals */
+.orn{width:58px;rotate:-14deg}
+.orn.bow{width:58px;rotate:16deg}
+
+/* ---------- opening: the petal itself is the card ----------
+   closed: one petal with the names. On a language choice the front petal swings open on its left edge
+   (like a card cover), revealing the inside petal printed with the invitation; then it melts into the cover. */
+.pbook{width:min(470px,84vw,calc((100svh - 210px) * 1.49));min-width:0;aspect-ratio:1910/1282;container-type:inline-size}
+.pbook .inside,.pbook .face{background:none;box-shadow:none;padding:0;display:block}
+.pbook .inside::before,.pbook .face::before,.pbook .inside::after,.pbook .face::after{content:none}
+.pbook img{display:block;width:100% !important;height:auto;margin:0 !important;rotate:none !important}
+.pbook .face.back img{filter:brightness(1.05) saturate(.9)}
+.pt{position:absolute;left:0;right:0;top:46%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;color:#fff;text-shadow:0 1px 3px rgba(150,55,70,.3);font-family:var(--display);line-height:1.04}
+.pt>span{display:flex;flex-direction:column;align-items:center}
+.pt-front .names{display:grid;font-style:italic;font-weight:400;font-size:12cqw;line-height:1}
+.pt-front .names .s-ko{font-family:var(--ko-head);font-style:normal !important;font-size:13.5cqw}
+.pt-front .date{display:grid;margin-top:5.2cqw;font-family:var(--label);font-size:2.6cqw;letter-spacing:.32em;text-indent:.32em;text-transform:uppercase}
+.pt-front .date .s-ko{font-family:var(--ko);letter-spacing:.2em;font-size:2.9cqw}
+.pt-front .date::before{content:"";grid-area:1/1;align-self:start;justify-self:center;width:8cqw;height:1px;background:rgba(255,255,255,.85);margin-top:-2.6cqw}
+.i1{font-style:italic;font-size:7.9cqw}
+.i2{font-weight:300;font-style:italic;text-transform:uppercase;font-size:9.2cqw;letter-spacing:.02em}
+.j1{font-family:var(--ko-head);font-size:6.2cqw;line-height:1.15}
+.j2{font-family:var(--ko-head);font-size:12.4cqw;line-height:1;margin-top:.12em}
+.j2 em{font-style:normal;opacity:.85;font-size:.78em}
+.b1{font-style:italic;font-size:6.4cqw}
+.b2{font-weight:300;font-style:italic;text-transform:uppercase;font-size:7.6cqw}
+.b3{font-family:var(--label);font-size:2.5cqw;letter-spacing:.3em;text-indent:.3em;text-transform:uppercase;margin-top:3cqw}
+.c1{font-family:var(--ko);font-size:4.6cqw;line-height:1.5}
+.c2{font-family:var(--ko-head);font-size:8.4cqw;margin-top:1.4cqw}
+/* show the inside text in the chosen language only */
+.pbook .ko-txt{display:none}
+html[lang="ko"] .pbook .ko-txt{display:flex}
+html[lang="ko"] .pbook .en-txt{display:none}
+.pbook{--sp:.86}
+@media (max-width:720px){.pbook{--sp:.5}}
+.intro.opening .pbook{animation:pspread 3s cubic-bezier(.5,0,.3,1) forwards}
+@keyframes pspread{0%{transform:none;opacity:1}40%,66%{transform:translateX(calc(50% * var(--sp))) scale(var(--sp));opacity:1}100%{transform:translateX(0) scale(1.5);opacity:0}}
+.intro-lang .lang span{color:var(--ink-soft)}
+
+@media (max-width:720px){
+  .cover-p .canvas{width:146%;max-width:none;margin-left:-23%}
+  .cover-p .l2,.cover-p .l4{font-size:6.1cqw}
+  .cover-p .k3{font-size:2.3cqw}
+}
+
+/* left petal of the open card: blank and faint */
+.pbook .face.back img{filter:none;opacity:.38}
+.pbook .face.back .pt{display:none}
+
+/* draft font picker */
+.fdock{z-index:110;flex-direction:column;align-items:stretch;gap:2px;border-radius:22px;padding:8px 8px 6px;background:rgba(90,46,53,.94)}
+.fdock .frow{display:flex;align-items:center;gap:2px}
+.fdock .frow span{display:inline;width:4.2em;flex:none;padding:0 6px 0 8px;font-size:11px;letter-spacing:.12em;opacity:.75}
+.fdock .frow button{font-size:15px;letter-spacing:.02em;padding:6px 12px}
+.fdock .replay{align-self:center;font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:6px 12px;opacity:.8}
+@media (max-width:720px){.fdock .frow button{font-size:13px;padding:6px 8px}.fdock .frow span{width:auto}}
+html[data-kohead="songmyung"]{--ko-head:'Song Myung',var(--ko)}
+html[data-kohead="diphylleia"]{--ko-head:'Diphylleia',var(--ko)}
+html[data-kohead="stylish"]{--ko-head:'Stylish',var(--ko)}
+html[data-kohead="pen"]{--ko-head:'Nanum Pen Script',var(--ko)}
+html[data-kohead="melody"]{--ko-head:'Hi Melody',var(--ko)}
+.fdock .frow{flex-wrap:wrap}
+.fdock .fbar{display:flex;justify-content:center;gap:4px}
+.fdock #ftoggle{font-size:12px;letter-spacing:.12em;padding:7px 14px}
+.fdock #ftoggle[aria-expanded="true"]{background:var(--paper);color:var(--ink)}
+.fdock .fpanel{display:flex;flex-direction:column;gap:2px;padding-bottom:4px;margin-bottom:4px;border-bottom:1px solid rgba(252,239,236,.2)}
+.fdock .fpanel[hidden]{display:none}
+.fdock{padding:5px}
+.fdock:has(.fpanel:not([hidden])){padding:8px 8px 6px;border-radius:22px}
+
+/* opening v2: the info petal stays centred; only the cover petal swings open and fades away */
+.intro.opening .pbook{animation:pstay 3s cubic-bezier(.5,0,.3,1) forwards}
+.intro.opening .pbook .cover-card{animation:pflip 1.5s cubic-bezier(.55,.05,.35,1) .05s forwards}
+@keyframes pflip{0%{transform:none;opacity:1}45%{opacity:1}80%,100%{transform:rotateY(-180deg);opacity:0}}
+@keyframes pstay{0%,62%{transform:none;opacity:1}100%{transform:scale(1.5);opacity:0}}
+.intro.opening .pbook .cover-card{animation:openCover 1.5s cubic-bezier(.55,.05,.35,1) .05s forwards}
+.intro.opening .pbook .face{animation:pfade 1.5s linear .05s forwards}
+@keyframes pfade{0%,45%{opacity:1}80%,100%{opacity:0}}
+/* zoom starts sooner: right as the cover petal finishes turning away */
+.intro.opening .pbook{animation:pstay 2.5s cubic-bezier(.5,0,.3,1) forwards}
+@keyframes pstay{0%,40%{transform:none;opacity:1}100%{transform:scale(1.5);opacity:0}}
+.intro.opening{animation:introOut .7s ease 1.85s forwards}
+
+/* opening v3: the inside petal carries the exact title-page lines and glides into the cover petal */
+html{scrollbar-gutter:stable}
+.vwrap{position:absolute;left:-22.24%;top:-12.58%;width:144.4%;pointer-events:none}
+.vcanvas{position:relative;width:100%;aspect-ratio:1366/768;container-type:inline-size}
+.intro.opening .pbook{animation:none}
+.intro.opening{animation:none}
+.intro.fading{background:transparent;transition:background 1s ease}
+.pbook{transform-origin:50% 50%}
+/* the title-page petal stays hidden until the card lands on it, so there is never a second petal */
+body:has(#intro:not([hidden])) .hero .cover-p .canvas{visibility:hidden}
+@keyframes pfade{0%,30%{opacity:1}62%,100%{opacity:0}}
+
+/* language choice sits above the petal, as clear pill buttons */
+.intro{gap:22px}
+.intro .intro-lang{order:-1;gap:14px}
+.intro .pick span{font-size:13px;letter-spacing:.24em;color:var(--ink)}
+.intro .pick .s-ko{font-size:15px;letter-spacing:.12em}
+.intro .intro-lang .lang{gap:12px}
+.intro .intro-lang .lang>span{display:none}
+.intro .intro-lang .lang button,.intro .intro-lang .lang button[aria-pressed="true"]{min-width:118px;min-height:46px;padding:10px 24px;border:1px solid rgba(163,73,90,.55);border-radius:999px;background:rgba(255,255,255,.55);color:var(--blush-ink);font-size:15px;letter-spacing:.1em;transition:background .25s,color .25s,border-color .25s}
+.intro .intro-lang .lang button[data-lang="ko"]{font-family:var(--ko);letter-spacing:.14em}
+.intro .intro-lang .lang button:hover,.intro .intro-lang .lang button:focus-visible{background:var(--blush-ink);color:#fff;border-color:var(--blush-ink);outline:none}
+.intro .intro-lang .lang button:focus-visible{box-shadow:0 0 0 3px rgba(163,73,90,.25)}
+/* buttons back under the petal, slimmer */
+.intro{gap:26px}
+.intro .intro-lang{order:0;gap:12px}
+.intro .intro-lang .lang button,.intro .intro-lang .lang button[aria-pressed="true"]{min-height:34px;padding:5px 22px;min-width:108px;font-size:14px;line-height:1.4}
+
+/* lock the page while the opening is showing: nothing scrolls until a language is chosen */
+html:has(#intro:not([hidden])),html:has(#intro:not([hidden])) body{overflow:hidden !important;overscroll-behavior:none}
+.intro{overscroll-behavior:contain}
+.t-place{margin-top:6px !important;color:var(--ink);font-size:.95em}
+:root{--ko:'Hahmlet','AppleMyungjo','Batang',serif;--ko-head:'Diphylleia','Hahmlet','AppleMyungjo',serif}
+html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif;--ko-head:'Diphylleia','Hahmlet','AppleMyungjo',serif}
+</style>
+</head>
+<body>
+
+
+<!-- ============ the folded invitation ============ -->
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Invitation">
+  <div class="book pbook" id="book">
+    <div class="inside"><img src="assets/petal.webp" alt="" width="1910" height="1282">
+      <div class="cover-p vwrap" aria-hidden="true"><div class="vcanvas"><div class="lines">
+        <span class="l l1 en-only" style="--i:0">please join us</span>
+        <span class="l l2 en-only" style="--i:1">in celebrating</span>
+        <span class="l l3 en-only" style="--i:2">the marriage of</span>
+        <span class="l l4 en-only" style="--i:3">Joohyun &amp; Fin</span>
+        <span class="l k1 ko-only" style="--i:0">저희 두 사람의</span>
+        <span class="l k1 ko-only" style="--i:1">결혼식에 초대합니다</span>
+        <span class="l k2 ko-only" style="--i:2">주현 <em>&amp;</em> 핀</span>
+        <span class="l k3 ko-only" style="--i:4">2027. 4. 24. 토요일 오후 4시</span>
+      </div></div></div>
+    </div>
+    <div class="cover-card" aria-hidden="true">
+      <span class="face front"><img src="assets/petal.webp" alt="" width="1910" height="1282">
+        <span class="pt pt-front">
+          <span class="swap names"><span class="s-ko">주현 &amp; 핀</span><span class="s-en">Joohyun &amp; Fin</span></span>
+          <span class="swap date"><span class="s-ko">2027. 4. 24 · 서울</span><span class="s-en">April 24, 2027 · Seoul</span></span>
+        </span>
+      </span>
+      <span class="face back"><img src="assets/petal.webp" alt="" width="1910" height="1282">
+        <span class="pt pt-back">
+          <span class="en-txt"><span class="b1">Saturday</span><span class="b2">April 24, 2027</span><span class="b1">four o'clock</span><span class="b3">Samcheonggak · Seoul</span></span>
+          <span class="ko-txt"><span class="c1">2027년 4월 24일 토요일</span><span class="c1">오후 4시</span><span class="c2">삼청각 일화당</span></span>
+        </span>
+      </span>
+    </div>
+  </div>
+  <div class="intro-lang">
+    <p class="pick swap"><span class="s-ko" lang="ko">언어를 선택해 주세요</span><span class="s-en">Choose your language</span></p>
+    <div class="lang" role="group" aria-label="Language · 언어"><button type="button" data-lang="ko" aria-pressed="false" lang="ko">한국어</button><span aria-hidden="true"></span><button type="button" data-lang="en" aria-pressed="true">English</button></div>
+  </div>
+</div>
+
+<!-- ============ top bar ============ -->
+<header class="topbar">
+  <div class="topbar-in">
+    <nav class="nav en-only" aria-label="Sections">
+      <a href="#wedding">Wedding</a>
+      <a href="#rsvp">RSVP</a>
+      <a href="#schedule">The Day</a>
+      <a href="#travel">Travel</a>
+      <a href="#todo">Seoul</a>
+      <a href="#faq">Questions</a>
+    </nav>
+    <nav class="nav ko-only" aria-label="섹션">
+      <a href="#k-schedule">예식안내</a>
+      <a href="#rsvp">참석 여부</a>
+      <a href="#k-location">오시는 길</a>
+      <a href="#k-gift">마음 전하실 곳</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="ko" aria-pressed="false">한</button><span aria-hidden="true">|</span><button type="button" data-lang="en" aria-pressed="true">ENG</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<h1 class="sr-only" data-ko="주현 &amp; 핀의 결혼식">Joohyun &amp; Fin's Wedding</h1>
+
+<!-- ============ cover: three draft designs ============ -->
+<section class="hero" aria-label="Cover">
+  <div class="cover cover-p" data-cover="p">
+    <div class="canvas">
+      <div class="petal-wrap"><img class="petal" src="assets/petal.webp" alt="" width="1910" height="1282"></div>
+      <div class="lines">
+        <span class="l l1 en-only" style="--i:0">please join us</span>
+        <span class="l l2 en-only" style="--i:1">in celebrating</span>
+        <span class="l l3 en-only" style="--i:2">the marriage of</span>
+        <span class="l l4 en-only" style="--i:3">Joohyun &amp; Fin</span>
+        <span class="l k1 ko-only" style="--i:0">저희 두 사람의</span>
+        <span class="l k1 ko-only" style="--i:1">결혼식에 초대합니다</span>
+        <span class="l k2 ko-only" style="--i:2">주현 <em>&amp;</em> 핀</span>
+        <span class="l k3 ko-only" style="--i:4">2027. 4. 24. 토요일 오후 4시</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ date + countdown ============ -->
+<section class="wrap dateband" aria-label="Date">
+  <p class="eyebrow" data-ko="결혼식 안내">Save the Date</p>
+  <div class="parents ko-only"><div class="fam"><span class="pn">베르미어 카이</span><span class="pn">베르미어 이나</span><span class="rel">의 장남</span><b>핀</b></div><i class="fam-rule" aria-hidden="true"></i><div class="fam"><span class="pn">유충겸</span><span class="pn">양혜경</span><span class="rel">의 장녀</span><b>주현</b></div></div>
+  <span class="ko-only ko-rule" aria-hidden="true"></span>
+  <p class="when" data-ko="2027년 4월 24일 토요일 오후 4시">Saturday, April 24, 2027</p>
+  <p class="where" data-ko="삼청각 일화당 · 서울">Ilhwadang, Samcheonggak · Seoul <span lang="ko" class="en-only" style="display:block;opacity:.75;font-size:.95rem">일화당 · 삼청각</span></p>
+  <div class="countdown" id="countdown" aria-live="off">
+    <div class="cd"><b id="cd-days">--</b><span data-ko="일">Days</span></div>
+    <div class="cd"><b id="cd-hours">--</b><span data-ko="시간">Hours</span></div>
+    <div class="cd"><b id="cd-mins">--</b><span data-ko="분">Minutes</span></div>
+    <div class="cd"><b id="cd-secs">--</b><span data-ko="초">Seconds</span></div>
+  </div>
+</section>
+
+<!-- ============ the two of us ============ -->
+<section class="portrait" aria-label="Joohyun and Fin">
+  <figure class="rv"><svg class="arch-line" viewBox="0 0 444 549" aria-hidden="true"><path pathLength="1" d="M222 0 A222 222 0 0 0 0 222 L0 539 Q0 549 10 549 L222 549"/><path pathLength="1" d="M222 0 A222 222 0 0 1 444 222 L444 539 Q444 549 434 549 L222 549"/></svg><img class="photo-img" src="assets/couple-portrait.webp" alt="Joohyun and Fin sitting together at a café table" width="1100" height="1375"></figure>
+</section>
+
+<!-- ============ ENGLISH SECTIONS ============ -->
+<section id="wedding" class="wrap sec en-only">
+  <div class="sec-head"><img class="orn rv" src="assets/petal-sm.webp" alt=""><h2 class="h2 rv">The Wedding</h2></div>
+  <p class="lede rv">Joohyun and Fin are getting married on Saturday, April 24, 2027 at Ilhwadang, Samcheonggak, a historic garden venue nestled in the mountains of Seoul, Korea. The ceremony begins at 4:00 PM, followed by dinner. The celebration continues at an after party that evening, and with a farewell brunch the next morning. The dress code is cocktail attire. If you can, we kindly ask that you avoid wearing black.</p>
+</section>
+
+<section id="schedule" class="wrap sec en-only">
+  <div class="sec-head"><img class="orn bow rv" src="assets/petal-sm.webp" alt=""><h2 class="h2 rv">The Day</h2></div>
+  <ol class="timeline">
+    <li class="rv" style="--i:0"><p class="t-time">4:00 to 4:40 PM</p><div class="t-desc"><h3 class="t-title">Ceremony</h3><p>A quiet, heartfelt ceremony at the private gardens of Samcheonggak. Guests are welcome to arrive early, as a photographer will be present and photos with the couple are encouraged before and after the ceremony.</p><a class="textlink" href="https://maps.google.com/?q=Samcheonggak+Seoul" target="_blank" rel="noopener">View on Google Maps →</a></div></li>
+    <li class="rv" style="--i:1"><p class="t-time">4:45 to 6:00 PM</p><div class="t-desc"><h3 class="t-title">Dinner Reception</h3><p>Moving indoors for a Korean course meal. The meal will include seafood, Hanwoo Korean beef, and traditional rice cakes.</p></div></li>
+    <li class="rv" style="--i:2"><p class="t-time">7:00 PM to 1:00 AM</p><div class="t-desc"><h3 class="t-title">After Party</h3><p>Taking the celebration into the night, with time after dinner to freshen up and make your way over.</p><p class="t-place">Pairing · 163-22 Hyehwa-dong, Jongno District, Seoul</p><a class="textlink" href="https://maps.google.com/?q=163-22+Hyehwa-dong,+Jongno-gu,+Seoul" target="_blank" rel="noopener">View on Google Maps →</a></div></li>
+    <li class="rv" style="--i:3"><p class="t-time">10:00 AM to 1:00 PM <span class="t-next">+1 day</span></p><div class="t-desc"><h3 class="t-title">Farewell Brunch</h3><p>A farewell brunch for our guests who traveled from abroad or from afar, to thank you for making the journey. Please let us know in your RSVP if you’ll be joining. Venue TBD.</p></div></li>
+  </ol>
+</section>
+
+<section id="travel" class="wrap sec en-only">
+  <div class="sec-head"><img class="orn rv" src="assets/petal-sm.webp" alt=""><h2 class="h2 rv">Travel</h2></div>
+  <div class="pair">
+    <div class="block rv"><p class="label">By Air</p><p>Incheon International Airport (ICN) is the main gateway. The express airport train (AREX) reaches Seoul Station in about 45 minutes.</p></div>
+    <div class="block rv" style="--i:1"><p class="label">Visa Info</p><p>Many nationalities can visit South Korea without a visa for up to 90 days. If you travel without a visa, you may also need a K-ETA (Korea Electronic Travel Authorization), applied for online before you fly. Many countries are exempt from the K-ETA only through December 31, 2026, so please check your country's requirements well in advance on the <a href="https://www.k-eta.go.kr" target="_blank" rel="noopener">official K-ETA site</a>.</p></div>
+  </div>
+  <div class="stay rv">
+    <p class="label">Where to Stay</p>
+    <p>We recommend the following hotels, all within easy reach of the venue.</p>
+    <ul class="hotels">
+      <li><a href="https://maps.google.com/?q=The+Westin+Josun+Seoul" target="_blank" rel="noopener">The Westin Josun Seoul</a><span>106 Sogong-ro, Jung-gu</span></li>
+      <li><a href="https://maps.google.com/?q=The+Shilla+Seoul" target="_blank" rel="noopener">The Shilla Seoul</a><span>249 Dongho-ro, Jung-gu</span></li>
+      <li><a href="https://maps.google.com/?q=L+Escape+Hotel+Seoul" target="_blank" rel="noopener">L'Escape Hotel</a><span>67 Toegye-ro, Jung-gu</span></li>
+      <li><a href="https://maps.google.com/?q=Courtyard+by+Marriott+Seoul+Myeongdong" target="_blank" rel="noopener">Courtyard by Marriott Myeongdong</a><span>9 Namdaemun-ro, Jung-gu</span></li>
+      <li><a href="https://maps.google.com/?q=Shilla+Stay+Gwanghwamun+Seoul" target="_blank" rel="noopener">Shilla Stay Gwanghwamun</a><span>71 Sambong-ro, Jongno-gu</span></li>
+      <li><a href="https://maps.google.com/?q=Nine+Tree+by+Parnas+Seoul+Insadong" target="_blank" rel="noopener">Nine Tree by Parnas Insadong</a><span>49 Insadong-gil, Jongno-gu</span></li>
+      <li><a href="https://maps.google.com/?q=Bukchon+Binkwan+by+Rakkojae+Seoul" target="_blank" rel="noopener">Bukchon Binkwan by Rakkojae</a><span>Hanok stay · Bukchon, Jongno-gu</span></li>
+      <li><a href="https://maps.google.com/?q=Moxy+Seoul+Myeongdong" target="_blank" rel="noopener">Moxy Seoul Myeongdong</a><span>38 Myeongdong 8na-gil, Jung-gu</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="todo" class="wrap sec en-only">
+  <div class="sec-head"><img class="orn bow rv" src="assets/petal-sm.webp" alt=""><h2 class="h2 rv">Seoul</h2></div>
+  <div class="tabs" role="tablist" aria-label="Seoul guide">
+    <button class="tab" role="tab" id="tab-hoods" aria-controls="neighborhoods" aria-selected="true" type="button">Neighborhoods</button>
+    <button class="tab" role="tab" id="tab-sights" aria-controls="sights" aria-selected="false" type="button">Sights</button>
+  </div>
+  <div id="neighborhoods" role="tabpanel" aria-labelledby="tab-hoods">
+    <div class="map rv">
+      <svg viewBox="0 0 900 540" role="img" aria-label="Illustrated map of Seoul, drawn from real coordinates. The venue, Samcheonggak, sits below Bugaksan in the north; Jongno, Insadong and Euljiro are in the old centre; Namsan rises between the centre and Itaewon and Hannam; the Han River curves south of them, with Apgujeong, Cheongdam and Gangnam on the south bank, Hongdae to the west and Seongsu to the east on the north bank.">
+        <defs>
+          <filter id="mInk" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <filter id="mWash" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="8" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="22" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="7"/></filter>
+          <path id="mRiver" d="M -36.0 177.0 C -24.0 186.1 13.2 220.1 36.0 231.4 C 58.8 242.8 81.6 235.2 100.8 245.0 C 120.0 254.9 133.8 277.6 151.2 290.4 C 168.6 303.3 185.4 313.1 205.2 322.2 C 225.0 331.3 252.6 338.1 270.0 344.9 C 287.4 351.7 295.8 352.1 309.6 363.0 C 323.4 374.0 331.8 397.4 352.8 410.7 C 373.8 423.9 412.8 440.5 435.6 442.4 C 458.4 444.3 470.4 434.9 489.6 422.0 C 508.8 409.2 537.0 381.2 550.8 365.3 C 564.6 349.4 559.2 335.0 572.4 326.7 C 585.6 318.4 606.6 315.8 630.0 315.4 C 653.4 315.0 692.4 316.5 712.8 324.5 C 733.2 332.4 736.2 350.5 752.4 363.0 C 768.6 375.5 788.4 396.3 810.0 399.3 C 831.6 402.4 861.0 389.5 882.0 381.2 C 903.0 372.9 927.0 354.7 936.0 349.4"/>
+        </defs>
+        <g class="m-washes" filter="url(#mWash)">
+          <use href="#mRiver" fill="none" stroke="#b8cfdc" stroke-width="30" stroke-linecap="round" opacity=".9"/>
+          <polygon fill="rgba(125,140,102,.30)" points="355,79 375,53 387,65 405,37 427,73 439,61 457,81"/>
+          <ellipse fill="rgba(125,140,102,.22)" cx="461" cy="247" rx="34" ry="22"/>
+          <ellipse fill="rgba(199,125,140,.16)" cx="436" cy="144" rx="80" ry="50"/>
+          <ellipse fill="rgba(125,140,102,.15)" cx="227" cy="230" rx="56" ry="36"/>
+          <ellipse fill="rgba(199,125,140,.16)" cx="500" cy="327" rx="52" ry="24"/>
+          <ellipse fill="rgba(125,140,102,.15)" cx="706" cy="278" rx="50" ry="28"/>
+          <ellipse fill="rgba(199,125,140,.16)" cx="643" cy="372" rx="80" ry="30"/>
+          <ellipse fill="rgba(125,140,102,.15)" cx="603" cy="495" rx="66" ry="36"/>
+        </g>
+        <g class="m-ink" filter="url(#mInk)">
+          <path class="m-draw soft" pathLength="1" transform="translate(0 -15)" d="M -36.0 177.0 C -24.0 186.1 13.2 220.1 36.0 231.4 C 58.8 242.8 81.6 235.2 100.8 245.0 C 120.0 254.9 133.8 277.6 151.2 290.4 C 168.6 303.3 185.4 313.1 205.2 322.2 C 225.0 331.3 252.6 338.1 270.0 344.9 C 287.4 351.7 295.8 352.1 309.6 363.0 C 323.4 374.0 331.8 397.4 352.8 410.7 C 373.8 423.9 412.8 440.5 435.6 442.4 C 458.4 444.3 470.4 434.9 489.6 422.0 C 508.8 409.2 537.0 381.2 550.8 365.3 C 564.6 349.4 559.2 335.0 572.4 326.7 C 585.6 318.4 606.6 315.8 630.0 315.4 C 653.4 315.0 692.4 316.5 712.8 324.5 C 733.2 332.4 736.2 350.5 752.4 363.0 C 768.6 375.5 788.4 396.3 810.0 399.3 C 831.6 402.4 861.0 389.5 882.0 381.2 C 903.0 372.9 927.0 354.7 936.0 349.4"/>
+          <path class="m-draw soft" pathLength="1" style="--d:.25s" transform="translate(0 15)" d="M -36.0 177.0 C -24.0 186.1 13.2 220.1 36.0 231.4 C 58.8 242.8 81.6 235.2 100.8 245.0 C 120.0 254.9 133.8 277.6 151.2 290.4 C 168.6 303.3 185.4 313.1 205.2 322.2 C 225.0 331.3 252.6 338.1 270.0 344.9 C 287.4 351.7 295.8 352.1 309.6 363.0 C 323.4 374.0 331.8 397.4 352.8 410.7 C 373.8 423.9 412.8 440.5 435.6 442.4 C 458.4 444.3 470.4 434.9 489.6 422.0 C 508.8 409.2 537.0 381.2 550.8 365.3 C 564.6 349.4 559.2 335.0 572.4 326.7 C 585.6 318.4 606.6 315.8 630.0 315.4 C 653.4 315.0 692.4 316.5 712.8 324.5 C 733.2 332.4 736.2 350.5 752.4 363.0 C 768.6 375.5 788.4 396.3 810.0 399.3 C 831.6 402.4 861.0 389.5 882.0 381.2 C 903.0 372.9 927.0 354.7 936.0 349.4"/>
+          <path class="m-draw" pathLength="1" style="--d:.8s" stroke-width="1.1" d="M 355 79 L 375 53 L 387 65 L 405 37 L 427 73 L 439 61 L 457 81 M 401 45 L 397 59 M 411 49 L 407 63"/>
+          <path class="m-draw" pathLength="1" style="--d:1s" stroke-width="1.1" d="M 431 257 C 441 241 452 235 461 235 C 471 235 481 243 490 257"/>
+          <path class="m-draw" pathLength="1" style="--d:1.3s" stroke-width="1" d="M 457 236 L 459 203 M 465 236 L 463 203 M 454 203 L 468 203 L 467 195 L 455 195 Z M 457 195 L 458 191 L 464 191 L 465 195 M 461 191 L 461 173 M 456 223 L 466 223"/>
+          <path class="m-draw" pathLength="1" style="--d:1.2s" stroke-width="1.1" d="M 860 76 L 860 36 M 853 47 L 860 34 L 867 47"/>
+        </g>
+        <g class="m-venue"><image href="assets/petal-sm.webp" x="422" y="8" width="50" height="58"/></g>
+        <g class="m-labels">
+          <text class="m-river-label" dy="5" text-anchor="middle"><textPath href="#mRiver" startOffset="33%">Han River</textPath></text>
+          <text class="m-sub" x="860" y="24" text-anchor="middle" style="font-size:11px">N</text>
+          <text class="m-sub" x="349" y="95" text-anchor="end">Bugaksan</text>
+          <text class="m-name" x="477" y="40">Samcheonggak</text><text class="m-sub" x="477" y="54">Our venue · Seongbuk-gu</text>
+          <text class="m-sub" x="457" y="113">Bukchon · Samcheong-dong</text>
+          <text class="m-name" x="407" y="163" text-anchor="end">Jongno-gu</text>
+          <circle class="m-dot" cx="450" cy="150" r="2.6"/><text class="m-name" x="460" y="155" text-anchor="start">Insadong</text>
+          <circle class="m-dot" cx="472" cy="186" r="2.6"/><text class="m-name" x="482" y="191" text-anchor="start">Euljiro</text>
+          <text class="m-sub" x="495" y="253">Namsan · N Seoul Tower</text>
+          <circle class="m-dot" cx="227" cy="230" r="2.6"/><text class="m-name" x="227" y="214" text-anchor="middle">Hongdae</text>
+          <circle class="m-dot" cx="484" cy="329" r="2.6"/><text class="m-name" x="474" y="334" text-anchor="end">Itaewon</text>
+          <circle class="m-dot" cx="515" cy="327" r="2.6"/><text class="m-name" x="537" y="305" text-anchor="end">Hannam-dong</text>
+          <circle class="m-dot" cx="706" cy="284" r="2.6"/><text class="m-name" x="716" y="276" text-anchor="start">Seongsu-dong</text>
+          <circle class="m-dot" cx="605" cy="363" r="2.6"/><text class="m-name" x="615" y="351" text-anchor="start">Apgujeong</text>
+          <circle class="m-dot" cx="673" cy="372" r="2.6"/><text class="m-name" x="673" y="398" text-anchor="middle">Cheongdam-dong</text>
+          <circle class="m-dot" cx="603" cy="495" r="2.6"/><text class="m-name" x="613" y="500" text-anchor="start">Gangnam</text>
+        </g>
+      </svg>
+    </div>
+    <div class="hoods">
+      <div class="hood rv"><h3>Jongno-gu</h3><p>History lives here, quietly. Palaces, shrines, and alleyways that are centuries old, alongside buzzy cafés and independent restaurants.</p></div>
+      <div class="hood rv" style="--i:1"><h3>Bukchon &amp; Samcheong-dong</h3><p>A short drive down the hill from the venue. Traditional hanok alleyways, charming tea houses, and the best independent cafés in Seoul.</p></div>
+      <div class="hood rv"><h3>Insadong</h3><p>Tea houses, craft shops, and street food in narrow alleyways. A great place to pick up something to bring home.</p></div>
+      <div class="hood rv" style="--i:1"><h3>Euljiro</h3><p>Seoul's best kept secret. An old printing district turned into the city's most exciting bar and restaurant scene.</p></div>
+      <div class="hood rv"><h3>Hongdae</h3><p>Seoul's university district. Street performances, indie music, cheap eats, and nightlife that runs late.</p></div>
+      <div class="hood rv" style="--i:1"><h3>Itaewon</h3><p>Seoul's most international neighborhood. Diverse restaurants, vintage shops, and nightlife until morning.</p></div>
+      <div class="hood rv"><h3>Hannam-dong</h3><p>Boutique hotels, bookshops, and a café on every corner. Relaxed, walkable, and endlessly browsable.</p></div>
+      <div class="hood rv" style="--i:1"><h3>Seongsu-dong</h3><p>A former industrial district turned creative hub. Converted factories, emerging designers, specialty coffee.</p></div>
+      <div class="hood rv"><h3>Cheongdam-dong</h3><p>Seoul's luxury flagship district. Designer boutiques, concept stores, and some of the city's finest restaurants.</p></div>
+      <div class="hood rv" style="--i:1"><h3>Apgujeong</h3><p>The original luxury district, home to the Galleria department store, Apgujeong Rodeo Street, and plenty of Korean celebrity culture.</p></div>
+      <div class="hood rv"><h3>Gangnam-gu</h3><p>The neighborhood that gave the world its most famous earworm. Luxury brands and some of the best restaurants in the city.</p></div>
+    </div>
+  </div>
+  <div id="sights" role="tabpanel" aria-labelledby="tab-sights" hidden>
+    <div class="sights">
+      <div class="sight"><p class="tag">Palace</p><div><h3><a href="https://maps.google.com/?q=Gyeongbokgung+Palace+Seoul" target="_blank" rel="noopener">Gyeongbokgung Palace →</a></h3><p>The main royal palace of the Joseon dynasty, built in 1395.</p></div></div>
+      <div class="sight"><p class="tag">Palace · UNESCO</p><div><h3><a href="https://maps.google.com/?q=Changdeokgung+Seoul" target="_blank" rel="noopener">Changdeokgung →</a></h3><p>A UNESCO World Heritage palace with a secret garden.</p></div></div>
+      <div class="sight"><p class="tag">Shrine · UNESCO</p><div><h3><a href="https://maps.google.com/?q=Jongmyo+Shrine+Seoul" target="_blank" rel="noopener">Jongmyo Shrine →</a></h3><p>The oldest preserved Confucian royal shrine, and a UNESCO World Heritage Site.</p></div></div>
+      <div class="sight"><p class="tag">Neighborhood</p><div><h3><a href="https://maps.google.com/?q=Bukchon+Hanok+Village+Seoul" target="_blank" rel="noopener">Bukchon Hanok Village →</a></h3><p>Hundreds of traditional hanok houses.</p></div></div>
+      <div class="sight"><p class="tag">Museum</p><div><h3><a href="https://maps.google.com/?q=MMCA+Seoul+National+Museum+of+Modern+and+Contemporary+Art" target="_blank" rel="noopener">National Museum of Modern and Contemporary Art (MMCA Seoul) →</a></h3><p>Korea’s national museum of modern and contemporary art, right beside Gyeongbokgung and a short ride from the venue.</p></div></div>
+      <div class="sight"><p class="tag">Stream</p><div><h3><a href="https://maps.google.com/?q=Cheonggyecheon+Stream+Seoul" target="_blank" rel="noopener">Cheonggyecheon Stream →</a></h3><p>A restored urban stream through downtown Seoul.</p></div></div>
+      <div class="sight"><p class="tag">Architecture</p><div><h3><a href="https://maps.google.com/?q=Dongdaemun+Design+Plaza+Seoul" target="_blank" rel="noopener">Dongdaemun Design Plaza →</a></h3><p>Zaha Hadid's futuristic landmark.</p></div></div>
+      <div class="sight"><p class="tag">Views</p><div><h3><a href="https://maps.google.com/?q=Namsan+Seoul+Tower" target="_blank" rel="noopener">Namsan Seoul Tower →</a></h3><p>Panoramic views in every direction. Best at sunset.</p></div></div>
+      <div class="sight"><p class="tag">Nature</p><div><h3><a href="https://maps.google.com/?q=Bukhansan+National+Park+Seoul" target="_blank" rel="noopener">Bukhansan National Park →</a></h3><p>Dramatic granite peaks right at the edge of the city.</p></div></div>
+      <div class="sight"><p class="tag">Museum</p><div><h3><a href="https://maps.google.com/?q=Leeum+Museum+of+Art+Seoul" target="_blank" rel="noopener">Leeum Museum of Art →</a></h3><p>Three buildings by Mario Botta, Jean Nouvel, and Rem Koolhaas.</p></div></div>
+      <div class="sight"><p class="tag">Museum</p><div><h3><a href="https://maps.google.com/?q=National+Museum+of+Korea+Seoul" target="_blank" rel="noopener">National Museum of Korea →</a></h3><p>Korea’s flagship museum in Yongsan, home to Silla gold crowns, Goryeo celadon and a stone pagoda ten stories tall. The permanent galleries are free.</p></div></div>
+      <div class="sight"><p class="tag">Shopping</p><div><h3><a href="https://maps.google.com/?q=The+Hyundai+Seoul" target="_blank" rel="noopener">The Hyundai Seoul →</a></h3><p>Seoul's largest department store, in Yeouido, with an indoor garden under a glass roof.</p></div></div>
+      <div class="sight"><p class="tag">Market</p><div><h3><a href="https://maps.google.com/?q=Gwangjang+Market+Seoul" target="_blank" rel="noopener">Gwangjang Market →</a></h3><p>One of Seoul's oldest traditional markets, dating back to 1905, and famous for bindaetteok (mung bean pancakes).</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="wrap sec en-only">
+  <div class="sec-head"><img class="orn rv" src="assets/petal-sm.webp" alt=""><h2 class="h2 rv">Questions</h2></div>
+  <dl class="faq">
+    <div class="rv"><dt>Dress Code</dt><dd>Cocktail attire. Suits and cocktail dresses are perfect. If you can, we kindly ask that you avoid wearing black.</dd></div>
+    <div class="rv"><dt>Do you have a registry?</dt><dd>Your presence is the greatest gift, and we know many of you are traveling a long way to be with us. We don’t have a registry, but for those who wish to give, there will be a station at the venue where you may leave a cash gift.</dd></div>
+    <div class="rv"><dt>Is the venue indoors or outdoors?</dt><dd>The ceremony takes place in the gardens of Samcheonggak, with the reception moving indoors. We recommend a light layer for the evening.</dd></div>
+    <div class="rv"><dt>Can I bring a guest?</dt><dd>Yes, please include them when you RSVP.</dd></div>
+    <div class="rv"><dt>Are children welcome?</dt><dd>We love your little ones! The celebration is planned mostly with adults in mind, but if you’d like to bring your children, please include them in your RSVP so we can plan a seat and meal for each.</dd></div>
+    <div class="rv"><dt>Is there parking at the venue?</dt><dd>Yes, parking is free at the ceremony venue.</dd></div>
+    <div class="rv"><dt>When should I RSVP by?</dt><dd>We'd love to know by February 24, 2027.</dd></div>
+  </dl>
+</section>
+
+<!-- ============ KOREAN SECTIONS ============ -->
+<section id="k-schedule" class="wrap sec ko-only">
+  <div class="sec-head"><img class="orn rv" src="assets/petal-sm.webp" alt=""><p class="ko-eyebrow rv">The Day</p><h2 class="h2 rv">예식안내</h2></div>
+  <p class="lede rv">2027년 4월 24일 토요일 오후 4시<br>삼청각 일화당에서<br>저희 두 사람의 결혼식에 초대합니다.</p>
+  <ol class="ko-timeline" style="margin-top:44px">
+    <li class="rv"><p class="t-time">오후 4:00 ~ 4:40</p><h3 class="t-title">예식</h3><p>삼청각 정원에서 예식이 진행됩니다.<br>일찍 오셔서 신랑 신부와 함께 사진도 남겨 주세요.</p></li>
+    <li class="rv"><p class="t-time">오후 4:45 ~ 6:00</p><h3 class="t-title">피로연</h3><p>실내로 자리를 옮겨 한식 코스 요리를 대접합니다.</p></li>
+    <li class="rv ap-ko"><p class="t-time">오후 7:00 ~ 새벽 1:00</p><h3 class="t-title">애프터 파티</h3><p>페어링 (Pairing)<br>서울 종로구 혜화동 163-22<br><a class="textlink" href="https://map.naver.com/p/search/%EC%A2%85%EB%A1%9C%EA%B5%AC%20%ED%98%9C%ED%99%94%EB%8F%99%20163-22" target="_blank" rel="noopener">네이버 지도 →</a></p></li>
+  </ol>
+  <div class="soft-card rv">
+    <p class="ko-eyebrow">Dress Code</p>
+    <p style="color:var(--ink)">정장 또는 칵테일 드레스</p>
+    <p>봄꽃이 한창일 계절이라, 화사하고 밝은 옷차림이면 더욱 좋겠습니다. 가능하시다면 검은색 옷은 피해 주시면 감사하겠습니다.</p>
+  </div>
+</section>
+
+<section id="k-location" class="wrap sec ko-only">
+  <div class="sec-head"><img class="orn bow rv" src="assets/petal-sm.webp" alt=""><p class="ko-eyebrow rv">Location</p><h2 class="h2 rv">오시는 길</h2></div>
+  <div class="venue-map map rv">
+    <svg viewBox="0 0 880 440" role="img" aria-label="삼청각 약도. 삼청각은 북악산 동쪽 기슭, 삼청터널 북쪽 성북동에 있으며 남쪽으로 삼청동과 경복궁, 동남쪽으로 한성대입구역이 있습니다.">
+      <defs>
+        <filter id="vInk" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+        <filter id="vWash" x="-25%" y="-25%" width="150%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="20" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="6"/></filter>
+      </defs>
+      <g class="m-washes" filter="url(#vWash)">
+        <ellipse fill="rgba(125,140,102,.28)" cx="268" cy="164" rx="95" ry="70"/>
+        <ellipse fill="rgba(125,140,102,.18)" cx="340" cy="62" rx="150" ry="40"/>
+        <ellipse fill="rgba(125,140,102,.22)" cx="382" cy="191" rx="34" ry="26"/>
+        <ellipse fill="rgba(199,125,140,.20)" cx="304" cy="345" rx="44" ry="28"/>
+        <ellipse fill="rgba(199,125,140,.14)" cx="547" cy="123" rx="110" ry="50"/>
+        <circle fill="rgba(199,125,140,.30)" cx="410" cy="92" r="32"/>
+      </g>
+      <g class="m-ink" filter="url(#vInk)" stroke-width="2.2">
+        <path class="m-draw" pathLength="1" d="M 355.7 450.0 C 355.7 442.7 353.9 425.4 355.7 406.3 C 357.6 387.1 363.2 358.8 366.9 335.1 C 370.6 311.4 375.5 288.1 378.0 264.0 C 380.5 239.9 376.6 205.3 381.7 190.7 C 386.9 176.0 404.5 178.4 409.0 176.0"/>
+        <path class="m-draw" pathLength="1" style="--d:.5s" stroke-dasharray="4 6" d="M 409.0 176.0 C 412.1 166.2 424.5 127.1 427.6 117.3"/>
+        <path class="m-draw" pathLength="1" style="--d:.8s" d="M 427.6 117.3 C 425.8 115.3 419.8 109.0 416.9 104.9 C 414.0 100.7 411.4 94.5 410.3 92.4"/>
+        <path class="m-draw" pathLength="1" style="--d:.3s" d="M 890.0 239.5 C 855.7 236.5 731.6 229.7 684.2 221.5 C 636.7 213.2 631.7 202.5 605.5 190.1 C 579.2 177.6 548.1 157.0 526.8 146.7 C 505.4 136.3 493.7 132.9 477.2 128.0 C 460.7 123.1 435.9 119.1 427.6 117.3"/>
+        <path class="m-draw soft" pathLength="1" style="--d:1s" stroke-dasharray="3 5" d="M 410.3 92.4 C 400.3 86.7 371.9 59.7 350.3 58.4 C 328.6 57.1 303.6 86.4 280.3 84.4 C 256.9 82.4 231.9 50.1 210.3 46.4 C 188.6 42.7 187.0 60.7 150.3 62.4 C 113.5 64.1 16.7 57.4 -10.0 56.4"/>
+        <path class="m-draw soft" pathLength="1" style="--d:1.1s" stroke-width="1.1" d="M 208 190 L 232 154 L 246 170 L 268 126 L 294 172 L 308 158 L 330 190 M 264 136 L 258 154 M 276 140 L 271 156"/>
+        <g transform="translate(304 362) scale(.68)" stroke-width="1.6">
+          <!-- Geunjeongjeon-style hall: double stone terrace, columns, two tiers of curved tiled roof -->
+          <path fill="rgba(47,41,37,.10)" stroke="none" d="M -62 -37 C -54 -40 -50 -44 -46 -46 L 46 -46 C 50 -44 54 -40 62 -37 C 52 -35 44 -36 38 -37 L -38 -37 C -44 -36 -52 -35 -62 -37 Z M -48 -55 C -42 -58 -34 -64 -28 -66 L 28 -66 C 34 -64 42 -58 48 -55 C 40 -53 34 -53 30 -54 L -30 -54 C -34 -53 -40 -53 -48 -55 Z"/>
+          <path fill="rgba(199,125,140,.28)" stroke="none" d="M -36 -36 L 36 -36 L 36 -19 L -36 -19 Z M -30 -46 L 30 -46 L 30 -54 L -30 -54 Z"/>
+          <path fill="rgba(255,253,246,.9)" stroke="none" d="M -56 0 L 56 0 L 56 -10 L -56 -10 Z M -46 -10 L 46 -10 L 46 -19 L -46 -19 Z"/>
+          <path class="m-draw" pathLength="1" style="--d:1.3s" d="M -62 -37 C -54 -40 -50 -44 -46 -46 L 46 -46 C 50 -44 54 -40 62 -37 C 52 -35 44 -36 38 -37 L -38 -37 C -44 -36 -52 -35 -62 -37 Z M -48 -55 C -42 -58 -34 -64 -28 -66 L 28 -66 C 34 -64 42 -58 48 -55 C 40 -53 34 -53 30 -54 L -30 -54 C -34 -53 -40 -53 -48 -55 Z M -30 -66 C -20 -68 20 -68 30 -66 M -30 -66 L -34 -71 M 30 -66 L 34 -71 M -30 -46 L -30 -54 M 30 -46 L 30 -54"/>
+          <path class="m-draw soft" pathLength="1" style="--d:1.6s" d="M -40 -46 L -40 -38 M -34 -46 L -34 -38 M -28 -46 L -28 -38 M -22 -46 L -22 -38 M -16 -46 L -16 -38 M -10 -46 L -10 -38 M -4 -46 L -4 -38 M 2 -46 L 2 -38 M 8 -46 L 8 -38 M 14 -46 L 14 -38 M 20 -46 L 20 -38 M 26 -46 L 26 -38 M 32 -46 L 32 -38 M 38 -46 L 38 -38 M -26 -65 L -26 -55 M -20 -65 L -20 -55 M -14 -65 L -14 -55 M -8 -65 L -8 -55 M -2 -65 L -2 -55 M 4 -65 L 4 -55 M 10 -65 L 10 -55 M 16 -65 L 16 -55 M 22 -65 L 22 -55"/>
+          <path class="m-draw" pathLength="1" style="--d:1.5s" d="M -36 -36 L -36 -19 M -24 -36 L -24 -19 M -12 -36 L -12 -19 M 0 -36 L 0 -19 M 12 -36 L 12 -19 M 24 -36 L 24 -19 M 36 -36 L 36 -19 M -38 -36 L 38 -36 M -46 -19 L 46 -19 L 46 -10 L -46 -10 Z M -56 -10 L 56 -10 L 56 0 L -56 0 Z M -8 0 L -6 -19 M 8 0 L 6 -19 M -7 -5 L 7 -5 M -7 -10 L 7 -10 M -6 -15 L 6 -15 M -42 -14 L 42 -14"/>
+        </g>
+        <path class="m-draw" pathLength="1" style="--d:1.2s" stroke-width="1.1" d="M 840 70 L 840 30 M 833 41 L 840 28 L 847 41"/>
+      </g>
+      <g class="m-labels">
+        <circle cx="426" cy="396" r="7" fill="var(--paper)" stroke="#EF7C1C" stroke-width="3"/>
+        <circle cx="684" cy="221" r="7" fill="var(--paper)" stroke="#00A5DE" stroke-width="3"/>
+        <text class="vm-name" x="440" y="401" text-anchor="start">안국역</text><text class="vm-sub" x="440" y="418" text-anchor="start">3호선</text>
+        <text class="vm-name" x="684" y="251" text-anchor="middle">한성대입구역</text><text class="vm-sub" x="684" y="268" text-anchor="middle">4호선</text>
+        <text class="vm-name" x="304" y="381" text-anchor="middle">경복궁</text>
+        <text class="vm-name" x="281" y="253" text-anchor="end">청와대</text>
+        <text class="vm-sub" x="268" y="212" text-anchor="middle">북악산</text>
+        <text class="vm-name" x="392" y="269" text-anchor="start">삼청동</text>
+        <text class="vm-sub" x="342" y="196" text-anchor="end">삼청공원</text>
+        <text class="vm-sub" x="427" y="164" text-anchor="start">삼청터널</text>
+        <text class="vm-name" x="597" y="153" text-anchor="middle">성북동</text>
+        <text class="vm-sub" x="615" y="174" text-anchor="middle">대사관로</text>
+        <text class="vm-sub" x="388" y="322">삼청로</text>
+        <text class="vm-sub" x="260" y="58" text-anchor="middle">북악스카이웨이</text>
+        <text class="vm-sub" x="840" y="20" text-anchor="middle">N</text>
+        <text class="vm-venue-name" x="450" y="88">삼청각 일화당</text>
+        <text class="vm-sub" x="450" y="106">성북구 대사관로 3</text>
+      </g>
+      <g class="m-venue"><image href="assets/petal-sm.webp" x="384" y="54" width="52" height="60"/></g>
+    </svg>
+  </div>
+  <p class="vm-note rv">약도는 위치 이해를 돕기 위한 그림으로, 실제 축척과 다를 수 있습니다.</p>
+  <div class="soft-card rv">
+    <p class="ko-eyebrow">Samcheonggak · Ilhwadang</p>
+    <p class="addr">서울특별시 성북구 대사관로 3</p>
+    <p>삼청각 일화당 · 예식장 내 무료 주차가 가능합니다.</p>
+    <button class="copy" type="button" data-copy="서울특별시 성북구 대사관로 3 삼청각">주소 복사하기</button>
+    <p class="copied" role="status"></p>
+    <div class="maplinks">
+      <a class="textlink" href="https://naver.me/57VZiVeK" target="_blank" rel="noopener">네이버 지도 →</a>
+      <a class="textlink" href="https://maps.google.com/?q=Samcheonggak+Seoul" target="_blank" rel="noopener">구글 지도 →</a>
+    </div>
+  </div>
+</section>
+
+<section id="k-gift" class="wrap sec ko-only">
+  <div class="sec-head"><img class="orn rv" src="assets/petal-sm.webp" alt=""><p class="ko-eyebrow rv">With Thanks</p><h2 class="h2 rv">마음 전하실 곳</h2></div>
+  <p class="lede rv">축의금은 예식 당일 식장 입구에 마련된 접수처에서 전해 주시거나,<br>아래 계좌로 보내 주셔도 감사히 받겠습니다.</p>
+  <div class="soft-card rv">
+    <p class="ko-eyebrow" style="font-family:var(--ko);letter-spacing:.2em;font-size:12px">신부 측</p>
+    <div class="account">
+      <p class="who">하나은행 · 예금주 유주현</p>
+      <p class="num" id="acct">171-910387-76107</p>
+    </div>
+    <button class="copy" type="button" data-copy="하나은행 171-910387-76107 유주현">계좌번호 복사하기</button>
+    <p class="copied" role="status"></p>
+  </div>
+</section>
+
+<!-- ============ RSVP ============ -->
+<section id="rsvp" class="rsvp">
+  <div class="wrap">
+    <div class="sec-head"><img class="orn rv" src="assets/petal-sm.webp" alt=""><h2 class="h2 rv" data-ko="참석 여부">RSVP</h2></div>
+    <p class="due en-only">Kindly try to respond by February 24, 2027</p>
+    <form id="rsvp-form" novalidate>
+      <div class="field"><label for="name" data-ko="성함">Full name</label><input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" data-ko-ph="이름"></div>
+      <div class="field"><label for="email" data-ko="이메일 (선택 · 확인 메일 발송)">Email (for your confirmation)</label><input id="email" name="email" type="email" autocomplete="email" placeholder="your@email.com" data-ko-ph="your@email.com"></div>
+      <div class="field"><label for="attendance" data-ko="참석 여부">Attending?</label>
+        <select id="attendance" name="attendance"><option value="" data-ko="선택해 주세요">Please select</option><option value="yes" data-ko="예">Yes</option><option value="no" data-ko="아니요">No</option></select></div>
+      <div class="field"><label for="guests" data-ko="인원">Guests</label>
+        <select id="guests" name="guests"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+      <div class="field ap-field"><label for="afterparty" data-ko="애프터 파티 참석">After party</label>
+        <select id="afterparty" name="afterparty"><option value="" data-ko="선택해 주세요">Please select</option><option value="yes" data-ko="예">Yes</option><option value="no" data-ko="아니요">No</option></select></div>
+      <div class="field en-only"><label for="brunch" data-ko="작별 브런치 (다음 날)">Farewell brunch (next day)</label>
+        <select id="brunch" name="brunch"><option value="" data-ko="선택해 주세요">Please select</option><option value="yes" data-ko="예">Yes</option><option value="no" data-ko="아니요">No</option></select></div>
+      <div class="field"><label for="message" data-ko="메시지 (선택)">Message (optional)</label><textarea id="message" name="message" placeholder="A note for us" data-ko-ph="전하고 싶은 말"></textarea></div>
+      <button class="send" id="send" type="submit" data-ko="보내기">Send RSVP</button>
+      <p class="msg" id="rsvp-msg" role="status"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <img src="assets/petal-sm.webp" alt="" style="width:46px">
+  <span data-ko="주현 &amp; 핀 · 2027년 4월 24일 · 서울">Joohyun &amp; Fin · April 24, 2027 · Seoul, Korea</span>
+</footer>
+
+
+<script>
+(function(){
+  var SCRIPT_URL='https://script.google.com/macros/s/AKfycbwtDsPiIgrVxRX9QvY8KeblFG1WyxhUAwAgsPv4zv0og4TauKH2X5zXjASYE7ZcZBw/exec';
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+  function sess(k,v){try{if(v===undefined)return sessionStorage.getItem(k);sessionStorage.setItem(k,v)}catch(e){return null}}
+
+  /* ---- language ---- */
+  function setLang(lang){
+    document.documentElement.lang=lang;
+    /* RSVP follows The Wedding in English, and the dress code (end of 예식안내) in Korean */
+    var rs=document.getElementById('rsvp'),an=document.getElementById(lang==='ko'?'k-schedule':'wedding');
+    if(rs&&an&&an.nextElementSibling!==rs)an.after(rs);
+    document.querySelectorAll('[data-ko]').forEach(function(el){
+      if(el.dataset.en===undefined)el.dataset.en=el.innerHTML;
+      if(el.tagName==='BUTTON'&&el.disabled)return;
+      el.innerHTML=lang==='ko'?el.dataset.ko:el.dataset.en;
+    });
+    document.querySelectorAll('[data-ko-ph]').forEach(function(el){
+      if(el.dataset.enPh===undefined)el.dataset.enPh=el.placeholder;
+      el.placeholder=lang==='ko'?el.dataset.koPh:el.dataset.enPh;
+    });
+    document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.lang===lang?'true':'false')});
+    document.title=lang==='ko'?'주현 & 핀의 결혼식':"Joohyun & Fin's Wedding";
+    store('lang',lang);
+    armReveals();
+  }
+  document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang)})});
+
+  /* ---- countdown ---- */
+  var wed=new Date('2027-04-24T16:00:00+09:00').getTime();
+  function pad(n){return String(n).padStart(2,'0')}
+  function tick(){
+    var d=wed-Date.now(),cd=document.getElementById('countdown');
+    if(d<=0){cd.innerHTML='<p class="when">'+(document.documentElement.lang==='ko'?'오늘입니다!':'Today is the day!')+'</p>';return}
+    document.getElementById('cd-days').textContent=pad(Math.floor(d/864e5));
+    document.getElementById('cd-hours').textContent=pad(Math.floor(d%864e5/36e5));
+    document.getElementById('cd-mins').textContent=pad(Math.floor(d%36e5/6e4));
+    document.getElementById('cd-secs').textContent=pad(Math.floor(d%6e4/1e3));
+  }
+  tick();setInterval(tick,1000);
+
+  /* ---- Seoul tabs ---- */
+  var tabs=document.querySelectorAll('.tab');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(o){o.setAttribute('aria-selected',o===t?'true':'false');document.getElementById(o.getAttribute('aria-controls')).hidden=o!==t});
+  })});
+
+  /* ---- cover variants ---- */
+  var covers=document.querySelectorAll('.cover');
+  function activeCover(){return document.querySelector('.cover:not([hidden])')}
+  function play(){
+    var c=activeCover(); if(!c||reduce)return;
+    c.classList.remove('play'); void c.offsetWidth; c.classList.add('play');
+  }
+  function showCover(v,animate){
+    covers.forEach(function(c){c.hidden=c.dataset.cover!==v;c.classList.remove('play')});
+    document.querySelectorAll('.dock [data-v]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===v?'true':'false')});
+    store('cover',v);
+    if(animate)play();
+  }
+  document.querySelectorAll('.dock [data-v]').forEach(function(b){b.addEventListener('click',function(){showCover(b.dataset.v,true);window.scrollTo({top:0,behavior:reduce?'auto':'smooth'})})});
+
+  /* ---- the folded invitation ---- */
+  var intro=document.getElementById('intro'),opened=false,timer;
+  function finish(){var bk=document.getElementById('book');if(bk&&bk.getAnimations)bk.getAnimations().forEach(function(a){a.cancel()});intro.classList.remove('fading');intro.hidden=true;intro.classList.remove('opening');document.body.style.overflow=''}
+  function openCard(){
+    if(opened)return; opened=true; sess('opened','1');
+    if(reduce){finish();return}
+    intro.classList.add('opening');
+    timer=setTimeout(function(){
+      var book=document.getElementById('book'),
+          from=book.querySelector('.inside img').getBoundingClientRect(),
+          to=document.querySelector('.hero .cover-p .petal').getBoundingClientRect();
+      var k=to.width/from.width,
+          dx=(to.left+to.width/2)-(from.left+from.width/2),
+          dy=(to.top+to.height/2)-(from.top+from.height/2);
+      book.animate([{transform:'none'},{transform:'translate('+dx+'px,'+dy+'px) scale('+k+')'}],{duration:1150,easing:'cubic-bezier(.55,0,.25,1)',fill:'forwards'});
+      intro.classList.add('fading');
+      setTimeout(finish,1200);
+    },1000);
+  }
+  /* the card opens only once a language is chosen */
+  intro.querySelectorAll('.lang button').forEach(function(b){
+    b.addEventListener('click',function(){ if(opened)return; intro.classList.add('chosen'); setTimeout(openCard,450); });
+  });
+
+  /* ---- scroll reveal (arms only what is below the fold) ---- */
+  var io=('IntersectionObserver' in window&&!reduce)?new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('rv-in');e.target.classList.remove('rv-armed');io.unobserve(e.target)}});
+  },{rootMargin:'0px 0px -8% 0px'}):null;
+  function armReveals(){
+    if(!io)return;
+    var vh=window.innerHeight;
+    document.querySelectorAll('.rv:not(.rv-in):not(.rv-armed)').forEach(function(el){
+      if(el.offsetParent===null)return;
+      if(el.getBoundingClientRect().top>vh*0.92){el.classList.add('rv-armed');io.observe(el)}
+    });
+  }
+
+  /* ---- nav highlight ---- */
+  var links=document.querySelectorAll('.nav a');
+  var secIO=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.setAttribute('aria-current',a.getAttribute('href')==='#'+e.target.id?'true':'false')})}});
+  },{rootMargin:'-45% 0px -50% 0px'}):null;
+  if(secIO)document.querySelectorAll('main section[id]').forEach(function(s){secIO.observe(s)});
+
+  /* ---- RSVP ---- */
+  var form=document.getElementById('rsvp-form'),msg=document.getElementById('rsvp-msg'),btn=document.getElementById('send');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ko=document.documentElement.lang==='ko';
+    var name=document.getElementById('name').value.trim(),att=document.getElementById('attendance').value,email=document.getElementById('email').value.trim();
+    if(!name||!att){msg.textContent=ko?'성함과 참석 여부를 입력해 주세요.':'Please add your name and let us know if you can come.';return}
+    if(!ko&&!email){msg.textContent='Please add your email so we can send your confirmation.';return}
+    if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.textContent=ko?'이메일 주소를 다시 확인해 주세요.':'Please check your email address.';return}
+    var b=ko?'':document.getElementById('brunch').value;
+    var apOn=document.querySelector('.ap-field').offsetParent!==null,ap=apOn?document.getElementById('afterparty').value:'';
+    if(apOn&&att==='yes'&&!ap){msg.textContent=ko?'애프터 파티 참석 여부를 선택해 주세요.':'Please let us know if you’ll join the after party.';return}
+    var data={name:name,email:email,attending:att==='yes'?'O':'X',guests:document.getElementById('guests').value,brunch:b==='yes'?'O':b==='no'?'X':'',afterparty:!apOn?'':att!=='yes'?'X':ap==='yes'?'O':'X',message:document.getElementById('message').value.trim(),lang:ko?'ko':'en'};
+    btn.disabled=true;btn.textContent=ko?'보내는 중…':'Sending…';msg.textContent='';
+    function failed(text){btn.disabled=false;btn.textContent=ko?'보내기':'Send RSVP';msg.textContent=text}
+    /* the thank-you only shows once Google confirms the RSVP was saved in the sheet */
+    fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(data)})
+      .then(function(r){return r.json()})
+      .then(function(res){
+        if(!res||!res.ok){failed(ko?'회신이 저장되지 않았습니다. 잠시 후 다시 시도해 주세요.':'Your RSVP wasn’t saved. Please try again in a moment.');return}
+        btn.textContent=ko?'감사합니다':'Thank you';
+        msg.textContent=res.mailed?(ko?'회신이 전달되었습니다. 확인 메일을 보내드렸습니다.':'Your RSVP is in! A confirmation email is on its way.'):(ko?'회신이 전달되었습니다. 감사합니다.':'Your RSVP is in. Thank you!');
+      })
+      .catch(function(){failed(ko?'회신을 보내지 못했습니다. 인터넷 연결을 확인하신 뒤 다시 시도해 주세요.':'Your RSVP couldn’t be sent. Please check your connection and try again.')});
+  });
+
+  /* ---- copy buttons (address, account) ---- */
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var text=btn.dataset.copy,out=btn.parentNode.querySelector('.copied');
+      function done(ok){out.textContent=ok?'복사되었습니다':'길게 눌러 직접 복사해 주세요: '+text}
+      try{navigator.clipboard.writeText(text).then(function(){done(true)},function(){done(false)})}catch(e){done(false)}
+    });
+  });
+
+  /* ---- Korean font picker (draft only) ---- */
+  function setKoFont(f){
+    if(f==='myeongjo')document.documentElement.removeAttribute('data-kofont');else document.documentElement.setAttribute('data-kofont',f);
+    document.querySelectorAll('.dock [data-kf]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.kf===f?'true':'false')});
+    store('kofont3',f);
+  }
+  document.querySelectorAll('.dock [data-kf]').forEach(function(b){b.addEventListener('click',function(){setKoFont(b.dataset.kf)})});
+  setKoFont('hahmlet');
+
+  /* ---- Korean heading font picker (draft only) ---- */
+  function setKoHead(h){
+    if(h==='eastsea')document.documentElement.removeAttribute('data-kohead');else document.documentElement.setAttribute('data-kohead',h);
+    document.querySelectorAll('.dock [data-kh]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.kh===h?'true':'false')});
+    store('kohead',h);
+  }
+  document.querySelectorAll('.dock [data-kh]').forEach(function(b){b.addEventListener('click',function(){setKoHead(b.dataset.kh)})});
+  setKoHead('diphylleia');
+
+  /* ---- boot ---- */
+  var lang='en',q=new URLSearchParams(location.search).get('lang'),saved=store('lang');
+  if(q==='ko'||q==='en')lang=q;else if(saved==='ko'||saved==='en')lang=saved;else if((navigator.language||'').toLowerCase().indexOf('ko')===0)lang='ko';
+  showCover('p',false);
+  setLang(lang);
+  if(sess('opened')==='1'||reduce){opened=true;intro.hidden=true}else{document.body.style.overflow='hidden'}
+  armReveals();
+})();
+</script>
+
+</body>
+</html>
