@@ -437,8 +437,12 @@ html[lang="ko"] .h2{color:var(--ink)}
 .cover-p .petal-wrap{position:absolute;left:15.4%;top:10.4%;width:69.25%}
 .cover-p .petal{display:block;width:100%;height:auto}
 .cover-p .lines{top:50.5%;transform:translate(-50%,-50%);color:#fff;text-shadow:0 1px 3px rgba(150,55,70,.28);z-index:2}
-.cover-p .hero-name{font-size:7.2cqw;font-weight:400;letter-spacing:.01em;white-space:nowrap}
-html[lang="ko"] .cover-p .hero-name{font-family:var(--ko-head);font-size:8cqw;letter-spacing:.04em}
+.cover-p .l1,.cover-p .l3{font-size:5.5cqw}
+.cover-p .l2,.cover-p .l4{font-size:6.5cqw}
+.cover-p .k1{color:#fff;font-size:4cqw}
+.cover-p .k2{color:#fff;font-size:8.6cqw}
+.cover-p .k2 em{color:#fff;opacity:.85}
+.cover-p .k3{color:rgba(255,255,255,.95);font-size:1.5cqw}
 .cover-p.play{--base:.5s}
 
 /* section ornaments: single still petals */
@@ -482,6 +486,8 @@ html[lang="ko"] .pbook .en-txt{display:none}
 
 @media (max-width:720px){
   .cover-p .canvas{width:146%;max-width:none;margin-left:-23%}
+  .cover-p .l2,.cover-p .l4{font-size:6.1cqw}
+  .cover-p .k3{font-size:2.3cqw}
 }
 
 /* left petal of the open card: blank and faint */
@@ -566,8 +572,14 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
   <div class="book pbook" id="book">
     <div class="inside"><img src="assets/petal.webp" alt="" width="1910" height="1282">
       <div class="cover-p vwrap" aria-hidden="true"><div class="vcanvas"><div class="lines">
-        <span class="l hero-name en-only" style="--i:0">Joohyun &amp; Fin</span>
-        <span class="l hero-name ko-only" style="--i:0">주현 &amp; 핀</span>
+        <span class="l l1 en-only" style="--i:0">please join us</span>
+        <span class="l l2 en-only" style="--i:1">in celebrating</span>
+        <span class="l l3 en-only" style="--i:2">the marriage of</span>
+        <span class="l l4 en-only" style="--i:3">Joohyun &amp; Fin</span>
+        <span class="l k1 ko-only" style="--i:0">저희 두 사람의</span>
+        <span class="l k1 ko-only" style="--i:1">결혼식에 초대합니다</span>
+        <span class="l k2 ko-only" style="--i:2">주현 <em>&amp;</em> 핀</span>
+        <span class="l k3 ko-only" style="--i:4">2027. 4. 24. 토요일 오후 4시</span>
       </div></div></div>
     </div>
     <div class="cover-card" aria-hidden="true">
@@ -623,8 +635,14 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
     <div class="canvas">
       <div class="petal-wrap"><img class="petal" src="assets/petal.webp" alt="" width="1910" height="1282"></div>
       <div class="lines">
-        <span class="l hero-name en-only" style="--i:0">Joohyun &amp; Fin</span>
-        <span class="l hero-name ko-only" style="--i:0">주현 &amp; 핀</span>
+        <span class="l l1 en-only" style="--i:0">please join us</span>
+        <span class="l l2 en-only" style="--i:1">in celebrating</span>
+        <span class="l l3 en-only" style="--i:2">the marriage of</span>
+        <span class="l l4 en-only" style="--i:3">Joohyun &amp; Fin</span>
+        <span class="l k1 ko-only" style="--i:0">저희 두 사람의</span>
+        <span class="l k1 ko-only" style="--i:1">결혼식에 초대합니다</span>
+        <span class="l k2 ko-only" style="--i:2">주현 <em>&amp;</em> 핀</span>
+        <span class="l k3 ko-only" style="--i:4">2027. 4. 24. 토요일 오후 4시</span>
       </div>
     </div>
   </div>
