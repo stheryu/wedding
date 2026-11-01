@@ -296,10 +296,6 @@ html[lang="ko"] .guest-action{font-family:var(--ko);letter-spacing:0;font-size:1
 .send:disabled{opacity:.7;cursor:default}
 html[lang="ko"] .send{font-family:var(--ko);letter-spacing:.2em;font-size:14px}
 .msg{text-align:center;min-height:1.6em;color:var(--blush-ink)}
-.rsvp-summary{border-top:1px solid var(--rule);padding-top:22px;color:var(--ink-soft)}
-.rsvp-summary h3{font-family:var(--display);font-size:1.55rem;font-style:italic;font-weight:400;color:var(--ink);margin-bottom:10px}
-.rsvp-summary p{font-size:1rem;line-height:1.55;margin-top:6px}
-html[lang="ko"] .rsvp-summary h3{font-family:var(--ko-head);font-style:normal}
 footer{text-align:center;padding-block:36px 24px;border-top:1px solid var(--rule);display:flex;flex-direction:column;align-items:center;gap:8px;font-family:var(--label);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
 footer img{width:72px}
 html[lang="ko"] footer{font-family:var(--ko);letter-spacing:.1em;font-size:12px}
@@ -921,7 +917,6 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
       <div class="field"><label for="message" data-ko="메시지 (선택)">Message (optional)</label><textarea id="message" name="message" placeholder="A note for us" data-ko-ph="전하고 싶은 말"></textarea></div>
       <button class="send" id="send" type="submit" data-ko="보내기">Send RSVP</button>
       <p class="msg" id="rsvp-msg" role="status"></p>
-      <div class="rsvp-summary" id="rsvp-summary" hidden></div>
     </form>
   </div>
 </section>
@@ -1105,29 +1100,10 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
     var data={name:name,email:email,attending:att==='yes'?'O':'X',guests:att==='yes'?String(guestCount):'0',guestNames:guestNames,brunch:att==='yes'?(b==='yes'?'O':b==='no'?'X':''):'',afterparty:att==='no'?'X':!apOn?'':ap==='yes'?'O':'X',message:note,lang:ko?'ko':'en'};
     btn.disabled=true;btn.textContent=ko?'보내는 중…':'Sending…';msg.textContent='';
     function failed(text){btn.disabled=false;btn.textContent=ko?'보내기':'Send RSVP';msg.textContent=text}
-    function showSummary(){
-      var summary=document.getElementById('rsvp-summary');
-      summary.textContent='';summary.hidden=false;
-      var title=document.createElement('h3');title.textContent=ko?'회신 내용':'Your RSVP';summary.appendChild(title);
-      function line(value){var p=document.createElement('p');p.textContent=value;summary.appendChild(p)}
-      line((ko?'참석 여부: ':'Attendance: ')+(att==='yes'?(ko?'참석':'Attending'):(ko?'불참':'Unable to attend')));
-      line((ko?'이메일: ':'Email: ')+email);
-      if(att==='yes'){
-        line((ko?'함께 오시는 분: ':'Coming: ')+[name].concat(guestNames).join(', '));
-        line(ko?'모든 시간은 한국 시간입니다.':'All times are Seoul time (KST).');
-        line(ko?'예식 및 피로연 · 2027년 4월 24일 오후 4:00–6:00 · 삼청각 일화당':'Wedding & dinner · April 24, 2027, 4:00–6:00 PM · Ilhwadang, Samcheonggak');
-        if(!ko){
-          line('After party: '+(ap==='yes'?'Yes · April 24, 7:00 PM–April 25, 1:00 AM · Pairing, 163-22 Hyehwa-dong':ap==='no'?'No':'Not selected'));
-          line('Farewell brunch: '+(b==='yes'?'Yes · April 25, 10:00 AM–1:00 PM · Venue to follow':b==='no'?'No':'Not selected'));
-        }
-      }
-      if(note)line((ko?'메시지: ':'Your note: ')+note);
-    }
     function succeeded(res){
       btn.textContent=ko?'감사합니다':'Thank you';
       msg.textContent=res.mailed?(ko?'회신이 전달되었습니다. 확인 메일을 보내드렸습니다.':'Your RSVP is in! A confirmation email is on its way.'):email?(ko?'회신은 저장되었지만 확인 메일을 보내지 못했습니다.':'Your RSVP is in, but we couldn’t send the confirmation email.'):(ko?'회신이 전달되었습니다. 감사합니다.':'Your RSVP is in. Thank you!');
       if(Array.isArray(res.calendarFailed)&&res.calendarFailed.length)msg.textContent+=' '+(ko?'일부 캘린더 일정 변경을 완료하지 못했습니다.':'Some calendar changes could not be completed.');
-      showSummary();
     }
     /* the thank-you only shows once Google confirms the RSVP was saved in the sheet */
     fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(data)})
