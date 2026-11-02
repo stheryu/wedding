@@ -4,7 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Joohyun &amp; Fin · Wedding</title>
+<meta name="description" content="Joohyun &amp; Fin are getting married on April 24, 2027 at Samcheonggak in Seoul. We can't wait to celebrate with you.">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#fff9eb">
+<link rel="canonical" href="https://stheryu.github.io/wedding/">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stheryu.github.io/wedding/">
+<meta property="og:title" content="The wedding of Joohyun &amp; Fin">
+<meta property="og:description" content="April 24, 2027 · Samcheonggak, Seoul. We can't wait to celebrate with you.">
+<meta property="og:image" content="https://stheryu.github.io/wedding/assets/share-preview.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Joohyun and Fin smiling together at a café">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&amp;family=Josefin+Sans:wght@300;400&amp;family=Hahmlet:wght@300;400;500&amp;family=Diphylleia&amp;display=swap">
@@ -278,6 +294,16 @@ form{max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:22px;p
 .field{display:flex;flex-direction:column;gap:4px}
 .field label{font-family:var(--label);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
 html[lang="ko"] .field label{font-family:var(--ko);letter-spacing:.06em;font-size:13px}
+.guest-list{display:flex;flex-direction:column;gap:16px}
+.guest-list:has(.guest-heading:not([hidden])){border-top:1px solid var(--rule);padding-top:22px}
+.guest-heading{font-family:var(--display);font-size:1.65rem;line-height:1.2;font-style:italic;color:var(--ink)}
+html[lang="ko"] .guest-heading{font-family:var(--ko-head);font-size:1.5rem;font-style:normal}
+.guest-label-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.guest-action{align-self:flex-start;border:0;background:none;padding:4px 0;color:var(--blush-ink);font-family:var(--label);font-size:12px;letter-spacing:.08em;cursor:pointer}
+html[lang="ko"] .guest-action{font-family:var(--ko);letter-spacing:0;font-size:13px}
+.guest-action:hover,.guest-action:focus-visible{text-decoration:underline;text-underline-offset:3px}
+.add-guest{align-self:stretch;margin-top:2px;padding:13px 16px;border:1px solid var(--blush);background:rgba(188,82,105,.05);text-align:center;font-size:13px;letter-spacing:.12em}
+.add-guest:hover,.add-guest:focus-visible{background:rgba(188,82,105,.11);text-decoration:none}
 .field input,.field select,.field textarea{font:inherit;font-size:1.2rem;color:var(--ink);background:transparent;border:0;border-bottom:1px solid rgba(47,41,37,.4);padding:8px 2px;border-radius:0;appearance:none;-webkit-appearance:none;width:100%}
 .field select{background-image:linear-gradient(45deg,transparent 50%,var(--ink-soft) 50%),linear-gradient(135deg,var(--ink-soft) 50%,transparent 50%);background-position:calc(100% - 14px) 55%,calc(100% - 9px) 55%;background-size:5px 5px;background-repeat:no-repeat}
 .field textarea{resize:vertical;min-height:70px}
@@ -427,12 +453,10 @@ html[lang="ko"] .h2{color:var(--ink)}
 .cover-p .petal-wrap{position:absolute;left:15.4%;top:10.4%;width:69.25%}
 .cover-p .petal{display:block;width:100%;height:auto}
 .cover-p .lines{top:50.5%;transform:translate(-50%,-50%);color:#fff;text-shadow:0 1px 3px rgba(150,55,70,.28);z-index:2}
-.cover-p .l1,.cover-p .l3{font-size:5.5cqw}
-.cover-p .l2,.cover-p .l4{font-size:6.5cqw}
-.cover-p .k1{color:#fff;font-size:4cqw}
-.cover-p .k2{color:#fff;font-size:8.6cqw}
-.cover-p .k2 em{color:#fff;opacity:.85}
-.cover-p .k3{color:rgba(255,255,255,.95);font-size:1.5cqw}
+.cover-p .title-kicker{font-size:5.3cqw;font-weight:400}
+.cover-p .title-names{font-size:8.4cqw;font-weight:400;margin-top:.12em;white-space:nowrap}
+html[lang="ko"] .cover-p .title-kicker{font-family:var(--ko);font-size:4.6cqw;color:#fff}
+html[lang="ko"] .cover-p .title-names{font-family:var(--ko-head);font-size:8.8cqw;color:#fff;letter-spacing:.04em}
 .cover-p.play{--base:.5s}
 
 /* section ornaments: single still petals */
@@ -476,8 +500,6 @@ html[lang="ko"] .pbook .en-txt{display:none}
 
 @media (max-width:720px){
   .cover-p .canvas{width:146%;max-width:none;margin-left:-23%}
-  .cover-p .l2,.cover-p .l4{font-size:6.1cqw}
-  .cover-p .k3{font-size:2.3cqw}
 }
 
 /* left petal of the open card: blank and faint */
@@ -558,18 +580,14 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
 
 
 <!-- ============ the folded invitation ============ -->
-<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Invitation">
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Invitation" hidden>
   <div class="book pbook" id="book">
     <div class="inside"><img src="assets/petal.webp" alt="" width="1910" height="1282">
       <div class="cover-p vwrap" aria-hidden="true"><div class="vcanvas"><div class="lines">
-        <span class="l l1 en-only" style="--i:0">please join us</span>
-        <span class="l l2 en-only" style="--i:1">in celebrating</span>
-        <span class="l l3 en-only" style="--i:2">the marriage of</span>
-        <span class="l l4 en-only" style="--i:3">Joohyun &amp; Fin</span>
-        <span class="l k1 ko-only" style="--i:0">저희 두 사람의</span>
-        <span class="l k1 ko-only" style="--i:1">결혼식에 초대합니다</span>
-        <span class="l k2 ko-only" style="--i:2">주현 <em>&amp;</em> 핀</span>
-        <span class="l k3 ko-only" style="--i:4">2027. 4. 24. 토요일 오후 4시</span>
+        <span class="l title-kicker en-only" style="--i:0">The wedding of</span>
+        <span class="l title-names en-only" style="--i:1">Joohyun &amp; Fin</span>
+        <span class="l title-kicker ko-only" style="--i:0">결혼식에 초대합니다</span>
+        <span class="l title-names ko-only" style="--i:1">주현 &amp; 핀</span>
       </div></div></div>
     </div>
     <div class="cover-card" aria-hidden="true">
@@ -617,7 +635,7 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
 </header>
 
 <main>
-<h1 class="sr-only" data-ko="주현 &amp; 핀의 결혼식">Joohyun &amp; Fin's Wedding</h1>
+<h1 class="sr-only" tabindex="-1" data-ko="주현 &amp; 핀의 결혼식">Joohyun &amp; Fin's Wedding</h1>
 
 <!-- ============ cover: three draft designs ============ -->
 <section class="hero" aria-label="Cover">
@@ -625,14 +643,10 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
     <div class="canvas">
       <div class="petal-wrap"><img class="petal" src="assets/petal.webp" alt="" width="1910" height="1282"></div>
       <div class="lines">
-        <span class="l l1 en-only" style="--i:0">please join us</span>
-        <span class="l l2 en-only" style="--i:1">in celebrating</span>
-        <span class="l l3 en-only" style="--i:2">the marriage of</span>
-        <span class="l l4 en-only" style="--i:3">Joohyun &amp; Fin</span>
-        <span class="l k1 ko-only" style="--i:0">저희 두 사람의</span>
-        <span class="l k1 ko-only" style="--i:1">결혼식에 초대합니다</span>
-        <span class="l k2 ko-only" style="--i:2">주현 <em>&amp;</em> 핀</span>
-        <span class="l k3 ko-only" style="--i:4">2027. 4. 24. 토요일 오후 4시</span>
+        <span class="l title-kicker en-only" style="--i:0">The wedding of</span>
+        <span class="l title-names en-only" style="--i:1">Joohyun &amp; Fin</span>
+        <span class="l title-kicker ko-only" style="--i:0">결혼식에 초대합니다</span>
+        <span class="l title-names ko-only" style="--i:1">주현 &amp; 핀</span>
       </div>
     </div>
   </div>
@@ -640,7 +654,6 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
 
 <!-- ============ date + countdown ============ -->
 <section class="wrap dateband" aria-label="Date">
-  <p class="eyebrow" data-ko="결혼식 안내">Save the Date</p>
   <div class="parents ko-only"><div class="fam"><span class="pn">베르미어 카이</span><span class="pn">베르미어 이나</span><span class="rel">의 장남</span><b>핀</b></div><i class="fam-rule" aria-hidden="true"></i><div class="fam"><span class="pn">유충겸</span><span class="pn">양혜경</span><span class="rel">의 장녀</span><b>주현</b></div></div>
   <span class="ko-only ko-rule" aria-hidden="true"></span>
   <p class="when" data-ko="2027년 4월 24일 토요일 오후 4시">Saturday, April 24, 2027</p>
@@ -902,15 +915,20 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
     <div class="sec-head"><img class="orn rv" src="assets/petal-sm.webp" alt=""><h2 class="h2 rv" data-ko="참석 여부">RSVP</h2></div>
     <p class="due en-only">Kindly try to respond by February 24, 2027</p>
     <form id="rsvp-form" novalidate>
-      <div class="field"><label for="name" data-ko="성함">Full name</label><input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" data-ko-ph="이름"></div>
-      <div class="field"><label for="email" data-ko="이메일 (선택 · 확인 메일 발송)">Email (for your confirmation)</label><input id="email" name="email" type="email" autocomplete="email" placeholder="your@email.com" data-ko-ph="your@email.com"></div>
       <div class="field"><label for="attendance" data-ko="참석 여부">Attending?</label>
         <select id="attendance" name="attendance"><option value="" data-ko="선택해 주세요">Please select</option><option value="yes" data-ko="예">Yes</option><option value="no" data-ko="아니요">No</option></select></div>
-      <div class="field"><label for="guests" data-ko="인원">Guests</label>
-        <select id="guests" name="guests"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-      <div class="field ap-field"><label for="afterparty" data-ko="애프터 파티 참석">After party</label>
+      <div class="guest-list">
+        <p class="guest-heading" id="guest-heading" data-ko="누가 함께 오시나요?" hidden>Who's joining you?</p>
+        <div class="field"><label for="name" data-ko="성함">Your full name</label><input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" data-ko-ph="이름"></div>
+        <div class="field guest-name-field" data-guest-slot="2" hidden><div class="guest-label-row"><label id="guest-2-label" for="guest-2" data-ko="동반인 1 성함">Their full name</label><button class="guest-action remove-guest" type="button" data-guest-slot="2" aria-describedby="guest-2-label" data-ko="삭제">Remove</button></div><input id="guest-2" name="guest2Name" type="text" autocomplete="off" placeholder="Full name" data-ko-ph="성함"></div>
+        <div class="field guest-name-field" data-guest-slot="3" hidden><div class="guest-label-row"><label id="guest-3-label" for="guest-3" data-ko="동반인 2 성함">Another person's full name</label><button class="guest-action remove-guest" type="button" data-guest-slot="3" aria-describedby="guest-3-label" data-ko="삭제">Remove</button></div><input id="guest-3" name="guest3Name" type="text" autocomplete="off" placeholder="Full name" data-ko-ph="성함"></div>
+        <div class="field guest-name-field" data-guest-slot="4" hidden><div class="guest-label-row"><label id="guest-4-label" for="guest-4" data-ko="동반인 3 성함">Another person's full name</label><button class="guest-action remove-guest" type="button" data-guest-slot="4" aria-describedby="guest-4-label" data-ko="삭제">Remove</button></div><input id="guest-4" name="guest4Name" type="text" autocomplete="off" placeholder="Full name" data-ko-ph="성함"></div>
+        <button class="guest-action add-guest" id="add-guest" type="button" data-ko="＋ 이름 추가" hidden>＋ Add a name</button>
+      </div>
+      <div class="field"><label for="email" data-ko="이메일 (확인 메일 및 일정 초대장)">Email (confirmation & calendar invites)</label><input id="email" name="email" type="email" autocomplete="email" placeholder="your@email.com" data-ko-ph="your@email.com"></div>
+      <div class="field ap-field attending-field"><label for="afterparty" data-ko="애프터 파티 참석">After party</label>
         <select id="afterparty" name="afterparty"><option value="" data-ko="선택해 주세요">Please select</option><option value="yes" data-ko="예">Yes</option><option value="no" data-ko="아니요">No</option></select></div>
-      <div class="field en-only"><label for="brunch" data-ko="작별 브런치 (다음 날)">Farewell brunch (next day)</label>
+      <div class="field en-only attending-field"><label for="brunch" data-ko="작별 브런치 (다음 날)">Farewell brunch (next day)</label>
         <select id="brunch" name="brunch"><option value="" data-ko="선택해 주세요">Please select</option><option value="yes" data-ko="예">Yes</option><option value="no" data-ko="아니요">No</option></select></div>
       <div class="field"><label for="message" data-ko="메시지 (선택)">Message (optional)</label><textarea id="message" name="message" placeholder="A note for us" data-ko-ph="전하고 싶은 말"></textarea></div>
       <button class="send" id="send" type="submit" data-ko="보내기">Send RSVP</button>
@@ -928,7 +946,7 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
 
 <script>
 (function(){
-  var SCRIPT_URL='https://script.google.com/macros/s/AKfycbwtDsPiIgrVxRX9QvY8KeblFG1WyxhUAwAgsPv4zv0og4TauKH2X5zXjASYE7ZcZBw/exec';
+  var SCRIPT_URL='https://script.google.com/macros/s/AKfycbwQuxybNUo-oSVCHf2hJSd7ySrz-u16fcynLnfvcxH4zaOmtO6L-vSIK8cH9BvVXP2hrQ/exec';
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
   function sess(k,v){try{if(v===undefined)return sessionStorage.getItem(k);sessionStorage.setItem(k,v)}catch(e){return null}}
@@ -957,10 +975,11 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
 
   /* ---- countdown ---- */
   var wed=new Date('2027-04-24T16:00:00+09:00').getTime();
+  var weddingDayEnd=new Date('2027-04-25T00:00:00+09:00').getTime();
   function pad(n){return String(n).padStart(2,'0')}
   function tick(){
     var d=wed-Date.now(),cd=document.getElementById('countdown');
-    if(d<=0){cd.innerHTML='<p class="when">'+(document.documentElement.lang==='ko'?'오늘입니다!':'Today is the day!')+'</p>';return}
+    if(d<=0){cd.innerHTML='<p class="when">'+(Date.now()<weddingDayEnd?(document.documentElement.lang==='ko'?'오늘입니다!':'Today is the day!'):(document.documentElement.lang==='ko'?'함께해 주셔서 감사합니다!':'Thank you for celebrating with us!'))+'</p>';return}
     document.getElementById('cd-days').textContent=pad(Math.floor(d/864e5));
     document.getElementById('cd-hours').textContent=pad(Math.floor(d%864e5/36e5));
     document.getElementById('cd-mins').textContent=pad(Math.floor(d%36e5/6e4));
@@ -991,7 +1010,7 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
 
   /* ---- the folded invitation ---- */
   var intro=document.getElementById('intro'),opened=false,timer;
-  function finish(){var bk=document.getElementById('book');if(bk&&bk.getAnimations)bk.getAnimations().forEach(function(a){a.cancel()});intro.classList.remove('fading');intro.hidden=true;intro.classList.remove('opening');document.body.style.overflow=''}
+  function finish(){var bk=document.getElementById('book');if(bk&&bk.getAnimations)bk.getAnimations().forEach(function(a){a.cancel()});intro.classList.remove('fading');intro.hidden=true;intro.classList.remove('opening');document.body.style.overflow='';document.querySelectorAll('header, main, footer').forEach(function(el){el.inert=false});document.querySelector('main h1').focus()}
   function openCard(){
     if(opened)return; opened=true; sess('opened','1');
     if(reduce){finish();return}
@@ -1011,6 +1030,12 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
   /* the card opens only once a language is chosen */
   intro.querySelectorAll('.lang button').forEach(function(b){
     b.addEventListener('click',function(){ if(opened)return; intro.classList.add('chosen'); setTimeout(openCard,450); });
+  });
+  intro.addEventListener('keydown',function(e){
+    if(e.key!=='Tab')return;
+    var buttons=intro.querySelectorAll('.lang button'),first=buttons[0],last=buttons[buttons.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
   });
 
   /* ---- scroll reveal (arms only what is below the fold) ---- */
@@ -1035,26 +1060,73 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
 
   /* ---- RSVP ---- */
   var form=document.getElementById('rsvp-form'),msg=document.getElementById('rsvp-msg'),btn=document.getElementById('send');
+  var attendance=document.getElementById('attendance'),addGuest=document.getElementById('add-guest'),guestCount=1;
+  function updateGuestList(){
+    var attending=attendance.value==='yes';
+    document.getElementById('guest-heading').hidden=!attending;
+    addGuest.hidden=!attending||guestCount===4;
+    form.querySelectorAll('.guest-name-field').forEach(function(field){
+      var show=attending&&Number(field.dataset.guestSlot)<=guestCount;
+      field.hidden=!show;
+      field.querySelector('input').required=show;
+    });
+  }
+  function updateAttendance(){
+    var attending=attendance.value==='yes';
+    form.querySelectorAll('.attending-field').forEach(function(el){el.hidden=!attending});
+    updateGuestList();
+  }
+  attendance.addEventListener('change',updateAttendance);
+  addGuest.addEventListener('click',function(){
+    if(guestCount===4)return;
+    guestCount++;
+    updateGuestList();
+    document.getElementById('guest-'+guestCount).focus();
+  });
+  form.querySelectorAll('.remove-guest').forEach(function(button){
+    button.addEventListener('click',function(){
+      var slot=Number(button.dataset.guestSlot);
+      for(var i=slot;i<guestCount;i++)document.getElementById('guest-'+i).value=document.getElementById('guest-'+(i+1)).value;
+      document.getElementById('guest-'+guestCount).value='';
+      guestCount--;
+      updateGuestList();
+      addGuest.focus();
+    });
+  });
+  updateAttendance();
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var ko=document.documentElement.lang==='ko';
     var name=document.getElementById('name').value.trim(),att=document.getElementById('attendance').value,email=document.getElementById('email').value.trim();
     if(!name||!att){msg.textContent=ko?'성함과 참석 여부를 입력해 주세요.':'Please add your name and let us know if you can come.';return}
-    if(!ko&&!email){msg.textContent='Please add your email so we can send your confirmation.';return}
+    if(!email){msg.textContent=ko?'확인 메일과 일정 초대장을 받을 이메일을 입력해 주세요.':'Please add your email for confirmation and calendar invitations.';return}
     if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.textContent=ko?'이메일 주소를 다시 확인해 주세요.':'Please check your email address.';return}
+    var guestNames=[];
+    if(att==='yes'){
+      for(var i=2;i<=guestCount;i++){
+        var input=document.getElementById('guest-'+i),guestName=input.value.trim();
+        if(!guestName){msg.textContent=ko?'동반인 성함을 모두 입력해 주세요.':'Please add each person’s full name.';input.focus();return}
+        guestNames.push(guestName);
+      }
+    }
     var b=ko?'':document.getElementById('brunch').value;
-    var apOn=document.querySelector('.ap-field').offsetParent!==null,ap=apOn?document.getElementById('afterparty').value:'';
+    var apOn=att==='yes'&&document.querySelector('.ap-field').offsetParent!==null,ap=apOn?document.getElementById('afterparty').value:'';
     if(apOn&&att==='yes'&&!ap){msg.textContent=ko?'애프터 파티 참석 여부를 선택해 주세요.':'Please let us know if you’ll join the after party.';return}
-    var data={name:name,email:email,attending:att==='yes'?'O':'X',guests:document.getElementById('guests').value,brunch:b==='yes'?'O':b==='no'?'X':'',afterparty:!apOn?'':att!=='yes'?'X':ap==='yes'?'O':'X',message:document.getElementById('message').value.trim(),lang:ko?'ko':'en'};
+    var note=document.getElementById('message').value.trim();
+    var data={name:name,email:email,attending:att==='yes'?'O':'X',guests:att==='yes'?String(guestCount):'0',guestNames:guestNames,brunch:att==='yes'?(b==='yes'?'O':b==='no'?'X':''):'',afterparty:att==='no'?'X':!apOn?'':ap==='yes'?'O':'X',message:note,lang:ko?'ko':'en'};
     btn.disabled=true;btn.textContent=ko?'보내는 중…':'Sending…';msg.textContent='';
     function failed(text){btn.disabled=false;btn.textContent=ko?'보내기':'Send RSVP';msg.textContent=text}
+    function succeeded(res){
+      btn.textContent=ko?'감사합니다':'Thank you';
+      msg.textContent=res.mailed?(ko?'회신이 전달되었습니다. 확인 메일을 보내드렸습니다.':'Your RSVP is in! A confirmation email is on its way.'):email?(ko?'회신은 저장되었지만 확인 메일을 보내지 못했습니다.':'Your RSVP is in, but we couldn’t send the confirmation email.'):(ko?'회신이 전달되었습니다. 감사합니다.':'Your RSVP is in. Thank you!');
+      if(Array.isArray(res.calendarFailed)&&res.calendarFailed.length)msg.textContent+=' '+(ko?'일부 캘린더 일정 변경을 완료하지 못했습니다.':'Some calendar changes could not be completed.');
+    }
     /* the thank-you only shows once Google confirms the RSVP was saved in the sheet */
     fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(data)})
       .then(function(r){return r.json()})
       .then(function(res){
-        if(!res||!res.ok){failed(ko?'회신이 저장되지 않았습니다. 잠시 후 다시 시도해 주세요.':'Your RSVP wasn’t saved. Please try again in a moment.');return}
-        btn.textContent=ko?'감사합니다':'Thank you';
-        msg.textContent=res.mailed?(ko?'회신이 전달되었습니다. 확인 메일을 보내드렸습니다.':'Your RSVP is in! A confirmation email is on its way.'):(ko?'회신이 전달되었습니다. 감사합니다.':'Your RSVP is in. Thank you!');
+        if(!res||(res.ok!==true&&res.result!=='success')){failed(ko?'회신이 저장되지 않았습니다. 잠시 후 다시 시도해 주세요.':'Your RSVP wasn’t saved. Please try again in a moment.');return}
+        succeeded(res);
       })
       .catch(function(){failed(ko?'회신을 보내지 못했습니다. 인터넷 연결을 확인하신 뒤 다시 시도해 주세요.':'Your RSVP couldn’t be sent. Please check your connection and try again.')});
   });
@@ -1091,7 +1163,7 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
   if(q==='ko'||q==='en')lang=q;else if(saved==='ko'||saved==='en')lang=saved;else if((navigator.language||'').toLowerCase().indexOf('ko')===0)lang='ko';
   showCover('p',false);
   setLang(lang);
-  if(sess('opened')==='1'||reduce){opened=true;intro.hidden=true}else{document.body.style.overflow='hidden'}
+  if(sess('opened')==='1'||reduce){opened=true}else{intro.hidden=false;document.body.style.overflow='hidden';document.querySelectorAll('header, main, footer').forEach(function(el){el.inert=true});intro.querySelector('.lang button[data-lang="'+lang+'"]').focus()}
   armReveals();
 })();
 </script>
