@@ -1126,7 +1126,7 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
     function failed(text){btn.disabled=false;btn.textContent=ko?'보내기':'Send RSVP';msg.textContent=text}
     function succeeded(res){
       btn.textContent=ko?'감사합니다':'Thank you';
-      msg.textContent=res.mailed?(ko?'참석 여부가 확인되었습니다.\n입력하신 메일로 안내를 드렸습니다.':'Your RSVP is in.\nA confirmation email is on its way.'):email?(ko?'참석 여부는 확인되었습니다.\n안내 메일은 일시적인 오류로 전송되지 않았습니다.':'Your RSVP is in.\nWe couldn’t send the confirmation email.'):(ko?'회신이 전달되었습니다. 감사합니다.':'Your RSVP is in. Thank you!');
+      msg.textContent=res.mailed?(ko?'참석 여부가 확인되었습니다.\n입력하신 메일로 안내를 드렸습니다.':'Your RSVP is in.\nA confirmation email is on its way.'):email?(ko?'일시적인 오류로 전송되지 않았습니다.\n잠시 후 다시 시도해 주세요.':'Your RSVP is in.\nWe couldn’t send the confirmation email.'):(ko?'회신이 전달되었습니다. 감사합니다.':'Your RSVP is in. Thank you!');
       if(Array.isArray(res.calendarFailed)&&res.calendarFailed.length)msg.textContent+='\n'+(ko?'일부 캘린더 일정 변경을 완료하지 못했습니다.':'Some calendar changes could not be completed.');
     }
     /* the thank-you only shows once Google confirms the RSVP was saved in the sheet */
