@@ -2,6 +2,15 @@
 
 This folder is the source copy of the RSVP Google Apps Script. The website is configured to use the owner's deployed `/exec` URL in `index.html`.
 
+## Dogfood before changing the live RSVP
+
+1. Create a separate Google Sheet named **Wedding RSVP Test**. In that sheet, open **Extensions → Apps Script**. Paste [Code.gs](Code.gs) into `Code.gs`, add a second script file named `RsvpEmail`, and paste [RsvpEmail.gs](RsvpEmail.gs) there. This keeps test rows and calendar events away from the live RSVP sheet and calendar.
+2. In the test copy of `RsvpEmail.gs`, temporarily set `EMAIL_PETAL_URL` to `https://raw.githubusercontent.com/stheryu/wedding/codex/korean-rsvp-phone-owner-copy/assets/petal-mini.png`. That image is available before the PR is merged.
+3. Save both files and run **`setupCalendar`** once in the test project. Check that the test sheet has a **Phone** column and a new wedding calendar was created.
+4. Choose **Deploy → New deployment → Web app**, set **Execute as: Me** and **Who has access: Anyone**, then copy the test URL ending in `/exec`. Send that URL to the site maintainer to point a local preview at the test backend. Keep the existing production `/exec` URL in `index.html` unchanged. The editor-only `/dev` URL is not a substitute for an end-to-end guest test.
+5. Submit a Korean RSVP with a phone number using an alternate email address, then an English RSVP without a phone number, and a declined RSVP. For each, check the **Wedding RSVP Test** sheet, the guest confirmation card, the copy sent to `fin.vermehr@gmail.com`, and the selected calendar invitations. Confirm that the card has no extra **Add to calendar** link. Use only your own addresses for these tests.
+6. After the test passes, merge the website PR. In the live Apps Script project, paste both updated files, run **`setupCalendar`** to add the Phone column, and update the existing web app deployment to a **new version**. Confirm with one live RSVP to an alternate address.
+
 1. In **your Google account**, create a new Google Sheet called something like **Wedding RSVPs**.
 2. In that sheet, open **Extensions → Apps Script**. Replace the contents of `Code.gs` in the editor with [Code.gs](Code.gs). Create a second script file named `RsvpEmail` and paste in [RsvpEmail.gs](RsvpEmail.gs), then save both files.
 3. Select `setupCalendar` in the editor and click **Run**. Approve the permissions for Sheets, sending email, and Calendar. This creates the **RSVPs** tab, stores its sheet ID, and creates a separate **Joohyun & Fin — RSVP Invitations** calendar set to **Asia/Seoul**.
