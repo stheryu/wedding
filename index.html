@@ -292,6 +292,7 @@ html[lang="ko"] .label{font-family:var(--ko);letter-spacing:.08em;font-size:13px
 .due{text-align:center;color:var(--ink-soft);margin-top:-22px;margin-bottom:30px}
 form{max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:22px;position:relative;z-index:1}
 .field{display:flex;flex-direction:column;gap:4px}
+html[lang="ko"] .field.ko-only{display:flex!important}
 .field label{font-family:var(--label);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
 html[lang="ko"] .field label{font-family:var(--ko);letter-spacing:.06em;font-size:13px}
 .guest-list{display:flex;flex-direction:column;gap:16px}
@@ -934,6 +935,7 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
         <button class="guest-action add-guest" id="add-guest" type="button" data-ko="＋ 이름 추가" hidden>＋ Add a name</button>
       </div>
       <div class="field"><label for="email" data-ko="이메일 (확인 메일 및 일정 초대장)">Email (confirmation & calendar invites)</label><input id="email" name="email" type="email" autocomplete="email" placeholder="your@email.com" data-ko-ph="your@email.com"></div>
+      <div class="field ko-only"><label for="phone">연락처 (선택)</label><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" placeholder="010-1234-5678"></div>
       <div class="field ap-field attending-field"><label for="afterparty" data-ko="애프터 파티 참석">After party</label>
         <select id="afterparty" name="afterparty"><option value="" data-ko="선택해 주세요">Please select</option><option value="yes" data-ko="예">Yes</option><option value="no" data-ko="아니요">No</option></select></div>
       <div class="field en-only attending-field"><label for="brunch" data-ko="작별 브런치 (다음 날)">Farewell brunch (next day)</label>
@@ -1121,7 +1123,7 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
     var apOn=att==='yes'&&document.querySelector('.ap-field').offsetParent!==null,ap=apOn?document.getElementById('afterparty').value:'';
     if(apOn&&att==='yes'&&!ap){msg.textContent=ko?'애프터 파티 참석 여부를 선택해 주세요.':'Please let us know if you’ll join the after party.';return}
     var note=document.getElementById('message').value.trim();
-    var data={name:name,email:email,attending:att==='yes'?'O':'X',guests:att==='yes'?String(guestCount):'0',guestNames:guestNames,brunch:att==='yes'?(b==='yes'?'O':b==='no'?'X':''):'',afterparty:att==='no'?'X':!apOn?'':ap==='yes'?'O':'X',message:note,lang:ko?'ko':'en'};
+    var data={name:name,email:email,phone:ko?document.getElementById('phone').value.trim():'',attending:att==='yes'?'O':'X',guests:att==='yes'?String(guestCount):'0',guestNames:guestNames,brunch:att==='yes'?(b==='yes'?'O':b==='no'?'X':''):'',afterparty:att==='no'?'X':!apOn?'':ap==='yes'?'O':'X',message:note,lang:ko?'ko':'en'};
     btn.disabled=true;btn.textContent=ko?'보내는 중…':'Sending…';msg.textContent='';
     function failed(text){btn.disabled=false;btn.textContent=ko?'보내기':'Send RSVP';msg.textContent=text}
     function succeeded(res){
