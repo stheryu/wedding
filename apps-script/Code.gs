@@ -5,7 +5,8 @@ const RSVP_OWNER_EMAILS = ['fin.vermehr@gmail.com', 'joohyun.vermehr@gmail.com']
 const RSVP_HEADERS = [
   'Submitted at', 'Name', 'Email', 'Attending', 'Total people',
   'Joining with', 'After party', 'Farewell brunch', 'Message',
-  'Language', 'Confirmation email', 'Calendar status', 'Calendar event IDs', 'Phone'
+  'Language', 'Confirmation email', 'Calendar status', 'Calendar event IDs', 'Phone',
+  'Owner notification'
 ];
 const RSVP_EVENTS = [
   {
@@ -83,7 +84,7 @@ function doPost(event) {
       const row = [
         new Date(), rsvp.name, rsvp.email, rsvp.attending, rsvp.guests,
         rsvp.guestNames.join('; '), rsvp.afterparty, rsvp.brunch,
-        rsvp.message, rsvp.lang, 'Pending', 'Pending', '', rsvp.phone
+        rsvp.message, rsvp.lang, 'Pending', 'Pending', '', rsvp.phone, 'Pending'
       ];
       // Keep names and notes as text, including any that begin with "=".
       sheet.getRange(rowNumber, 2, 1, RSVP_HEADERS.length - 1).setNumberFormat('@');
@@ -112,10 +113,6 @@ function doPost(event) {
         htmlBody: mail.html,
         name: 'Joohyun & Fin'
       };
-      const ownerCopies = RSVP_OWNER_EMAILS.filter(function (address) {
-        return address.toLowerCase() !== rsvp.email.toLowerCase();
-      });
-      if (ownerCopies.length) confirmation.bcc = ownerCopies.join(',');
       MailApp.sendEmail(confirmation);
       mailed = true;
     } catch (mailError) {
@@ -128,6 +125,24 @@ function doPost(event) {
       ]]);
     } catch (statusError) {
       console.error('Could not update email status for row ' + rowNumber + ': ' + statusError);
+    }
+    let ownerNotified = false;
+    try {
+      const notice = ownerNotification_(rsvp, mailed);
+      MailApp.sendEmail({
+        to: RSVP_OWNER_EMAILS.join(','),
+        subject: notice.subject,
+        body: notice.body,
+        name: 'Joohyun & Fin RSVP'
+      });
+      ownerNotified = true;
+    } catch (ownerMailError) {
+      console.error('Owner notification failed for row ' + rowNumber + ': ' + ownerMailError);
+    }
+    try {
+      sheet.getRange(rowNumber, 15).setValue(ownerNotified ? 'Sent' : 'Failed');
+    } catch (ownerStatusError) {
+      console.error('Could not update owner notification status for row ' + rowNumber + ': ' + ownerStatusError);
     }
     return jsonResponse_({result: 'success', mailed: mailed});
   } catch (error) {
@@ -190,6 +205,26 @@ function choice_(value) {
   if (value == null || value === '') return '';
   if (value !== 'O' && value !== 'X') throw new Error('Invalid choice.');
   return value;
+}
+
+function ownerNotification_(rsvp, guestMailed) {
+  const attending = rsvp.attending === 'O';
+  const subject = 'RSVP: ' + rsvp.name.replace(/[\r\n]+/g, ' ') +
+    (attending ? ' — Attending' : ' — Unable to attend');
+  const lines = [
+    rsvp.name + ' submitted an RSVP.', '',
+    'Attendance: ' + (attending ? 'Attending' : 'Unable to attend'),
+    'Email: ' + rsvp.email
+  ];
+  if (rsvp.phone) lines.push('Phone: ' + rsvp.phone);
+  if (attending) {
+    lines.push('Coming: ' + [rsvp.name].concat(rsvp.guestNames).join(', '));
+    if (rsvp.afterparty) lines.push('After party: ' + (rsvp.afterparty === 'O' ? 'Yes' : 'No'));
+    if (rsvp.brunch) lines.push('Farewell brunch: ' + (rsvp.brunch === 'O' ? 'Yes' : 'No'));
+  }
+  if (rsvp.message) lines.push('Message: ' + rsvp.message);
+  lines.push('Guest confirmation email: ' + (guestMailed ? 'Sent' : 'Failed'));
+  return {subject: subject, body: lines.join('\n')};
 }
 
 function jsonResponse_(value) {
