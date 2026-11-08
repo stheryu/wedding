@@ -3,6 +3,12 @@ const RSVP_SHEET_NAME = 'RSVPs';
 const RSVP_SHEET_ID_KEY = 'RSVP_SPREADSHEET_ID';
 const RSVP_OWNER_EMAILS = ['fin.vermehr@gmail.com', 'joohyun.vermehr@gmail.com'];
 const RSVP_HEADERS = [
+  'Name', 'Email', 'Phone', 'Total people', 'Joining with',
+  'Attending', 'After party', 'Farewell brunch', 'Message', 'Submitted at',
+  'Language', 'Confirmation email', 'Calendar status', 'Calendar event IDs',
+  'Owner notification'
+];
+const RSVP_LEGACY_HEADERS = [
   'Submitted at', 'Name', 'Email', 'Attending', 'Total people',
   'Joining with', 'After party', 'Farewell brunch', 'Message',
   'Language', 'Confirmation email', 'Calendar status', 'Calendar event IDs', 'Phone',
@@ -42,13 +48,65 @@ function setup() {
 
   const sheet = spreadsheet.getSheetByName(RSVP_SHEET_NAME) ||
     spreadsheet.insertSheet(RSVP_SHEET_NAME);
-  sheet.getRange(1, 1, 1, RSVP_HEADERS.length).setValues([RSVP_HEADERS]);
-  sheet.setFrozenRows(1);
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    ensureSheetSchema_(sheet);
+  } finally {
+    lock.releaseLock();
+  }
   PropertiesService.getScriptProperties().setProperty(RSVP_SHEET_ID_KEY, spreadsheet.getId());
 
   // Request mail permission during setup, before guests start submitting RSVPs.
   MailApp.getRemainingDailyQuota();
   return 'Ready: ' + spreadsheet.getName() + ' / ' + sheet.getName();
+}
+
+function ensureSheetSchema_(sheet) {
+  migrateSheet_(sheet);
+  sheet.getRange(1, 1, 1, RSVP_HEADERS.length).setValues([RSVP_HEADERS]);
+  sheet.setFrozenRows(1);
+}
+
+function migrateSheet_(sheet) {
+  if (sheet.getLastRow() === 0) return;
+  const headers = sheet.getRange(1, 1, 1, RSVP_HEADERS.length).getValues()[0];
+  if (headers.join('|') === RSVP_HEADERS.join('|')) return;
+  const oldHeaders = headers.slice(0, RSVP_LEGACY_HEADERS.length - 1);
+  if (oldHeaders.join('|') !== RSVP_LEGACY_HEADERS.slice(0, -1).join('|')) {
+    throw new Error('Unexpected RSVP columns. No rows were changed.');
+  }
+  const count = sheet.getLastRow() - 1;
+  if (!count) return;
+  const rows = sheet.getRange(2, 1, count, RSVP_HEADERS.length).getValues();
+  const migrated = rows.map(function (row) {
+    return [
+      row[1], row[2], row[13], row[4], row[5],
+      sheetBoolean_(row[3]), sheetBoolean_(row[6]), sheetBoolean_(row[7]),
+      row[8], row[0], row[9], row[10], row[11], row[12], row[14]
+    ];
+  });
+  formatRsvpRows_(sheet, 2, count);
+  sheet.getRange(2, 1, count, RSVP_HEADERS.length).setValues(migrated);
+}
+
+function sheetBoolean_(value) {
+  if (value === 'O' || value === true) return true;
+  if (value === 'X' || value === false) return false;
+  if (value === '') return '';
+  throw new Error('Unexpected RSVP choice in the sheet. No rows were changed.');
+}
+
+function formatRsvpRows_(sheet, startRow, count) {
+  sheet.getRange(startRow, 1, count, RSVP_HEADERS.length).setNumberFormat('General');
+  [1, 2, 3, 5, 9, 11, 12, 13, 14, 15].forEach(function (column) {
+    sheet.getRange(startRow, column, count, 1).setNumberFormat('@');
+  });
+  sheet.getRange(startRow, 10, count, 1).setNumberFormat('m/d/yyyy h:mm');
+}
+
+function column_(header) {
+  return RSVP_HEADERS.indexOf(header) + 1;
 }
 
 // Legacy alias for previous setup instructions; optional links need no owner calendar.
@@ -80,14 +138,18 @@ function doPost(event) {
     lock.waitLock(10000);
     let rowNumber;
     try {
+      ensureSheetSchema_(sheet);
       rowNumber = sheet.getLastRow() + 1;
       const row = [
-        new Date(), rsvp.name, rsvp.email, rsvp.attending, rsvp.guests,
-        rsvp.guestNames.join('; '), rsvp.afterparty, rsvp.brunch,
-        rsvp.message, rsvp.lang, 'Pending', 'Pending', '', rsvp.phone, 'Pending'
+        rsvp.name, rsvp.email, rsvp.phone, rsvp.guests,
+        rsvp.guestNames.join('; '), rsvp.attending === 'O',
+        sheetBoolean_(rsvp.afterparty), sheetBoolean_(rsvp.brunch),
+        rsvp.message, new Date(), rsvp.lang,
+        rsvp.email ? 'Pending' : 'No email provided',
+        rsvp.email ? 'Pending' : 'No email provided', '', 'Pending'
       ];
       // Keep names and notes as text, including any that begin with "=".
-      sheet.getRange(rowNumber, 2, 1, RSVP_HEADERS.length - 1).setNumberFormat('@');
+      formatRsvpRows_(sheet, rowNumber, 1);
       sheet.getRange(rowNumber, 1, 1, RSVP_HEADERS.length).setValues([row]);
       SpreadsheetApp.flush();
     } finally {
@@ -95,33 +157,35 @@ function doPost(event) {
     }
 
     let mailed = false;
-    try {
-      const mail = renderRsvpEmail({
-        lang: rsvp.lang,
-        name: rsvp.name,
-        phone: rsvp.phone,
-        message: rsvp.message,
-        attending: rsvp.attending === 'O',
-        guests: [rsvp.name].concat(rsvp.guestNames),
-        afterparty: rsvp.afterparty === 'O',
-        brunch: rsvp.brunch === 'O'
-      });
-      const confirmation = {
-        to: rsvp.email,
-        subject: mail.subject,
-        body: mail.text,
-        htmlBody: mail.html,
-        name: 'Joohyun & Fin'
-      };
-      MailApp.sendEmail(confirmation);
-      mailed = true;
-    } catch (mailError) {
-      console.error('Confirmation email failed for row ' + rowNumber + ': ' + mailError);
+    if (rsvp.email) {
+      try {
+        const mail = renderRsvpEmail({
+          lang: rsvp.lang,
+          name: rsvp.name,
+          phone: rsvp.phone,
+          message: rsvp.message,
+          attending: rsvp.attending === 'O',
+          guests: [rsvp.name].concat(rsvp.guestNames),
+          afterparty: rsvp.afterparty === 'O',
+          brunch: rsvp.brunch === 'O'
+        });
+        const confirmation = {
+          to: rsvp.email,
+          subject: mail.subject,
+          body: mail.text,
+          htmlBody: mail.html,
+          name: 'Joohyun & Fin'
+        };
+        MailApp.sendEmail(confirmation);
+        mailed = true;
+      } catch (mailError) {
+        console.error('Confirmation email failed for row ' + rowNumber + ': ' + mailError);
+      }
     }
     try {
-      sheet.getRange(rowNumber, 11, 1, 2).setValues([[
-        mailed ? 'Sent' : 'Failed',
-        !mailed ? 'Email failed' : rsvp.attending === 'O' ? 'Links emailed' : 'No links (declined)'
+      sheet.getRange(rowNumber, column_('Confirmation email'), 1, 2).setValues([[
+        !rsvp.email ? 'No email provided' : mailed ? 'Sent' : 'Failed',
+        !rsvp.email ? 'No email provided' : !mailed ? 'Email failed' : rsvp.attending === 'O' ? 'Links emailed' : 'No links (declined)'
       ]]);
     } catch (statusError) {
       console.error('Could not update email status for row ' + rowNumber + ': ' + statusError);
@@ -140,7 +204,7 @@ function doPost(event) {
       console.error('Owner notification failed for row ' + rowNumber + ': ' + ownerMailError);
     }
     try {
-      sheet.getRange(rowNumber, 15).setValue(ownerNotified ? 'Sent' : 'Failed');
+      sheet.getRange(rowNumber, column_('Owner notification')).setValue(ownerNotified ? 'Sent' : 'Failed');
     } catch (ownerStatusError) {
       console.error('Could not update owner notification status for row ' + rowNumber + ': ' + ownerStatusError);
     }
@@ -161,11 +225,12 @@ function parseRsvp_(data) {
   const guests = Number(data.guests);
   const guestNames = data.guestNames;
   const lang = data.lang === 'ko' ? 'ko' : 'en';
-  const phone = lang === 'ko' ? shortText_(data.phone, 30) : '';
+  const phone = shortText_(data.phone, 30);
 
   if (!name || !['O', 'X'].includes(attending)) throw new Error('Name or attendance missing.');
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('Invalid email.');
-  if (!email) throw new Error('Email required for confirmation and calendar links.');
+  if (lang === 'en' && !email) throw new Error('Email required for English RSVPs.');
+  if (lang === 'ko' && !phone) throw new Error('Phone required for Korean RSVPs.');
   if (!Array.isArray(guestNames)) throw new Error('Names must be a list.');
   if (attending === 'O') {
     if (!Number.isInteger(guests) || guests < 1 || guests > 4 || guestNames.length !== guests - 1) {
@@ -214,7 +279,7 @@ function ownerNotification_(rsvp, guestMailed) {
   const lines = [
     rsvp.name + ' submitted an RSVP.', '',
     'Attendance: ' + (attending ? 'Attending' : 'Unable to attend'),
-    'Email: ' + rsvp.email
+    'Email: ' + (rsvp.email || 'Not provided')
   ];
   if (rsvp.phone) lines.push('Phone: ' + rsvp.phone);
   if (attending) {
@@ -223,7 +288,7 @@ function ownerNotification_(rsvp, guestMailed) {
     if (rsvp.brunch) lines.push('Farewell brunch: ' + (rsvp.brunch === 'O' ? 'Yes' : 'No'));
   }
   if (rsvp.message) lines.push('Message: ' + rsvp.message);
-  lines.push('Guest confirmation email: ' + (guestMailed ? 'Sent' : 'Failed'));
+  lines.push('Guest confirmation email: ' + (!rsvp.email ? 'Not requested (no email)' : guestMailed ? 'Sent' : 'Failed'));
   return {subject: subject, body: lines.join('\n')};
 }
 

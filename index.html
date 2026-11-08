@@ -934,8 +934,8 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
         <div class="field guest-name-field" data-guest-slot="4" hidden><div class="guest-label-row"><label id="guest-4-label" for="guest-4" data-ko="동반인 3 성함">Another person's full name</label><button class="guest-action remove-guest" type="button" data-guest-slot="4" aria-describedby="guest-4-label" data-ko="삭제">Remove</button></div><input id="guest-4" name="guest4Name" type="text" autocomplete="off" placeholder="Full name" data-ko-ph="성함"></div>
         <button class="guest-action add-guest" id="add-guest" type="button" data-ko="＋ 이름 추가" hidden>＋ Add a name</button>
       </div>
-      <div class="field"><label for="email" data-ko="이메일 (확인 메일 및 일정 링크)">Email (confirmation & calendar links)</label><input id="email" name="email" type="email" autocomplete="email" placeholder="your@email.com" data-ko-ph="your@email.com"></div>
-      <div class="field ko-only"><label for="phone">연락처 (선택)</label><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" placeholder="010-1234-5678"></div>
+      <div class="field"><label for="email" data-ko="이메일 (선택 · 확인 메일 및 일정 링크)">Email (confirmation & calendar links)</label><input id="email" name="email" type="email" autocomplete="email" placeholder="your@email.com" data-ko-ph="your@email.com"></div>
+      <div class="field"><label for="phone" data-ko="연락처 (필수)">Phone number (optional)</label><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" placeholder="Phone number" data-ko-ph="010-1234-5678"></div>
       <div class="field ap-field attending-field"><label for="afterparty" data-ko="애프터 파티 참석">After party</label>
         <select id="afterparty" name="afterparty"><option value="" data-ko="선택해 주세요">Please select</option><option value="yes" data-ko="예">Yes</option><option value="no" data-ko="아니요">No</option></select></div>
       <div class="field en-only attending-field"><label for="brunch" data-ko="작별 브런치 (다음 날)">Farewell brunch (next day)</label>
@@ -976,6 +976,8 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
       if(el.dataset.enPh===undefined)el.dataset.enPh=el.placeholder;
       el.placeholder=lang==='ko'?el.dataset.koPh:el.dataset.enPh;
     });
+    document.getElementById('email').required=lang==='en';
+    document.getElementById('phone').required=lang==='ko';
     document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.lang===lang?'true':'false')});
     document.title=lang==='ko'?'주현 & 핀의 결혼식':"Joohyun & Fin's Wedding";
     store('lang',lang);
@@ -1107,9 +1109,10 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var ko=document.documentElement.lang==='ko';
-    var name=document.getElementById('name').value.trim(),att=document.getElementById('attendance').value,email=document.getElementById('email').value.trim();
+    var name=document.getElementById('name').value.trim(),att=document.getElementById('attendance').value,email=document.getElementById('email').value.trim(),phone=document.getElementById('phone').value.trim();
     if(!name||!att){msg.textContent=ko?'성함과 참석 여부를 입력해 주세요.':'Please add your name and let us know if you can come.';return}
-    if(!email){msg.textContent=ko?'확인 메일과 일정 링크를 받을 이메일을 입력해 주세요.':'Please add your email for confirmation and calendar links.';return}
+    if(!ko&&!email){msg.textContent='Please add your email for confirmation and calendar links.';return}
+    if(ko&&!phone){msg.textContent='연락처를 입력해 주세요.';document.getElementById('phone').focus();return}
     if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.textContent=ko?'이메일 주소를 다시 확인해 주세요.':'Please check your email address.';return}
     var guestNames=[];
     if(att==='yes'){
@@ -1123,7 +1126,7 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
     var apOn=att==='yes'&&document.querySelector('.ap-field').offsetParent!==null,ap=apOn?document.getElementById('afterparty').value:'';
     if(apOn&&att==='yes'&&!ap){msg.textContent=ko?'애프터 파티 참석 여부를 선택해 주세요.':'Please let us know if you’ll join the after party.';return}
     var note=document.getElementById('message').value.trim();
-    var data={name:name,email:email,phone:ko?document.getElementById('phone').value.trim():'',attending:att==='yes'?'O':'X',guests:att==='yes'?String(guestCount):'0',guestNames:guestNames,brunch:att==='yes'?(b==='yes'?'O':b==='no'?'X':''):'',afterparty:att==='no'?'X':!apOn?'':ap==='yes'?'O':'X',message:note,lang:ko?'ko':'en'};
+    var data={name:name,email:email,phone:phone,attending:att==='yes'?'O':'X',guests:att==='yes'?String(guestCount):'0',guestNames:guestNames,brunch:att==='yes'?(b==='yes'?'O':b==='no'?'X':''):'',afterparty:att==='no'?'X':!apOn?'':ap==='yes'?'O':'X',message:note,lang:ko?'ko':'en'};
     btn.disabled=true;btn.textContent=ko?'보내는 중…':'Sending…';msg.textContent='';
     function failed(text){btn.disabled=false;btn.textContent=ko?'보내기':'Send RSVP';msg.textContent=text}
     function succeeded(res){
