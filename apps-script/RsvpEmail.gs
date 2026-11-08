@@ -20,7 +20,7 @@ var EMAIL_PETAL_URL = 'https://joohyunfin.com/assets/petal-mini.png';
  * @param {Object} d
  *   d.lang        'en' or 'ko'
  *   d.name        the guest's name as typed in the form, e.g. 'Joohyun Vermehr' or '유주현'
- *   d.phone       optional Korean RSVP phone number
+ *   d.phone       RSVP phone number (required for Korean submissions)
  *   d.message     optional note from the guest
  *   d.attending   true / false
  *   d.guests      array of attending names, e.g. ['Joohyun Vermehr', 'Fin Vermehr']
