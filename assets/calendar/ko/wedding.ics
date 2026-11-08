@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Joohyun and Fin//Wedding Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:wedding-20270424@joohyunfin.com
+DTSTAMP:20261108T000000Z
+DTSTART:20270424T070000Z
+DTEND:20270424T090000Z
+SUMMARY:주현 & 핀 — 예식 및 피로연
+DESCRIPTION:예식 오후 4시\, 피로연 오후 4시 45분. 모든 시간
+ 은 한국 시간입니다.\nhttps://joohyunfin.com/
+LOCATION:삼청각 일화당\, 서울
+URL:https://joohyunfin.com/
+END:VEVENT
+END:VCALENDAR

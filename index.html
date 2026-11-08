@@ -934,7 +934,7 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
         <div class="field guest-name-field" data-guest-slot="4" hidden><div class="guest-label-row"><label id="guest-4-label" for="guest-4" data-ko="동반인 3 성함">Another person's full name</label><button class="guest-action remove-guest" type="button" data-guest-slot="4" aria-describedby="guest-4-label" data-ko="삭제">Remove</button></div><input id="guest-4" name="guest4Name" type="text" autocomplete="off" placeholder="Full name" data-ko-ph="성함"></div>
         <button class="guest-action add-guest" id="add-guest" type="button" data-ko="＋ 이름 추가" hidden>＋ Add a name</button>
       </div>
-      <div class="field"><label for="email" data-ko="이메일 (확인 메일 및 일정 초대장)">Email (confirmation & calendar invites)</label><input id="email" name="email" type="email" autocomplete="email" placeholder="your@email.com" data-ko-ph="your@email.com"></div>
+      <div class="field"><label for="email" data-ko="이메일 (확인 메일 및 일정 링크)">Email (confirmation & calendar links)</label><input id="email" name="email" type="email" autocomplete="email" placeholder="your@email.com" data-ko-ph="your@email.com"></div>
       <div class="field ko-only"><label for="phone">연락처 (선택)</label><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" placeholder="010-1234-5678"></div>
       <div class="field ap-field attending-field"><label for="afterparty" data-ko="애프터 파티 참석">After party</label>
         <select id="afterparty" name="afterparty"><option value="" data-ko="선택해 주세요">Please select</option><option value="yes" data-ko="예">Yes</option><option value="no" data-ko="아니요">No</option></select></div>
@@ -1109,7 +1109,7 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
     var ko=document.documentElement.lang==='ko';
     var name=document.getElementById('name').value.trim(),att=document.getElementById('attendance').value,email=document.getElementById('email').value.trim();
     if(!name||!att){msg.textContent=ko?'성함과 참석 여부를 입력해 주세요.':'Please add your name and let us know if you can come.';return}
-    if(!email){msg.textContent=ko?'확인 메일과 일정 초대장을 받을 이메일을 입력해 주세요.':'Please add your email for confirmation and calendar invitations.';return}
+    if(!email){msg.textContent=ko?'확인 메일과 일정 링크를 받을 이메일을 입력해 주세요.':'Please add your email for confirmation and calendar links.';return}
     if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.textContent=ko?'이메일 주소를 다시 확인해 주세요.':'Please check your email address.';return}
     var guestNames=[];
     if(att==='yes'){
@@ -1129,7 +1129,6 @@ html[data-kofont],html[data-kohead]{--ko:'Hahmlet','AppleMyungjo','Batang',serif
     function succeeded(res){
       btn.textContent=ko?'감사합니다':'Thank you';
       msg.textContent=res.mailed?(ko?'참석 여부가 확인되었습니다.\n입력하신 메일로 안내를 드렸습니다.':'Your RSVP is in.\nA confirmation email is on its way.'):email?(ko?'일시적인 오류로 전송되지 않았습니다.\n잠시 후 다시 시도해 주세요.':'Your RSVP is in.\nWe couldn’t send the confirmation email.'):(ko?'회신이 전달되었습니다. 감사합니다.':'Your RSVP is in. Thank you!');
-      if(Array.isArray(res.calendarFailed)&&res.calendarFailed.length)msg.textContent+='\n'+(ko?'일부 캘린더 일정 변경을 완료하지 못했습니다.':'Some calendar changes could not be completed.');
     }
     /* the thank-you only shows once Google confirms the RSVP was saved in the sheet */
     fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(data)})

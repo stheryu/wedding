@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Joohyun and Fin//Wedding Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:afterparty-20270424@joohyunfin.com
+DTSTAMP:20261108T000000Z
+DTSTART:20270424T100000Z
+DTEND:20270424T160000Z
+SUMMARY:주현 & 핀 — 애프터 파티
+DESCRIPTION:페어링에서 열리는 애프터 파티. 모든 시간은 
+ 한국 시간입니다.\nhttps://joohyunfin.com/
+LOCATION:페어링\, 서울 종로구 혜화동 163-22
+URL:https://joohyunfin.com/
+END:VEVENT
+END:VCALENDAR

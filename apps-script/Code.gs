@@ -1,8 +1,7 @@
 // Paste this file into the Apps Script project attached to your RSVP spreadsheet.
 const RSVP_SHEET_NAME = 'RSVPs';
 const RSVP_SHEET_ID_KEY = 'RSVP_SPREADSHEET_ID';
-const RSVP_CALENDAR_ID_KEY = 'RSVP_CALENDAR_ID';
-const RSVP_OWNER_EMAIL = 'fin.vermehr@gmail.com';
+const RSVP_OWNER_EMAILS = ['fin.vermehr@gmail.com', 'joohyun.vermehr@gmail.com'];
 const RSVP_HEADERS = [
   'Submitted at', 'Name', 'Email', 'Attending', 'Total people',
   'Joining with', 'After party', 'Farewell brunch', 'Message',
@@ -10,22 +9,28 @@ const RSVP_HEADERS = [
 ];
 const RSVP_EVENTS = [
   {
-    key: 'wedding', title: 'Joohyun & Fin — Wedding & Dinner',
+    key: 'wedding', title: 'Joohyun & Fin — Wedding & Dinner', titleKo: '주현 & 핀 — 예식 및 피로연',
     start: '2027-04-24T16:00:00+09:00', end: '2027-04-24T18:00:00+09:00',
     location: 'Ilhwadang, Samcheonggak, Seoul, South Korea',
-    description: 'Ceremony 4:00–4:40 PM; dinner reception 4:45–6:00 PM. All times are Seoul time (KST).'
+    locationKo: '삼청각 일화당, 서울',
+    description: 'Ceremony 4:00–4:40 PM; dinner reception 4:45–6:00 PM. All times are Seoul time (KST).',
+    descriptionKo: '예식 오후 4시, 피로연 오후 4시 45분. 모든 시간은 한국 시간입니다.'
   },
   {
-    key: 'afterparty', title: 'Joohyun & Fin — After Party',
+    key: 'afterparty', title: 'Joohyun & Fin — After Party', titleKo: '주현 & 핀 — 애프터 파티',
     start: '2027-04-24T19:00:00+09:00', end: '2027-04-25T01:00:00+09:00',
     location: 'Pairing, 163-22 Hyehwa-dong, Jongno-gu, Seoul, South Korea',
-    description: 'After party at Pairing. All times are Seoul time (KST).'
+    locationKo: '페어링, 서울 종로구 혜화동 163-22',
+    description: 'After party at Pairing. All times are Seoul time (KST).',
+    descriptionKo: '페어링에서 열리는 애프터 파티. 모든 시간은 한국 시간입니다.'
   },
   {
-    key: 'brunch', title: 'Joohyun & Fin — Farewell Brunch',
+    key: 'brunch', title: 'Joohyun & Fin — Farewell Brunch', titleKo: '주현 & 핀 — 작별 브런치',
     start: '2027-04-25T10:00:00+09:00', end: '2027-04-25T13:00:00+09:00',
     location: '',
-    description: 'Farewell brunch. Venue to follow. All times are Seoul time (KST).'
+    locationKo: '',
+    description: 'Farewell brunch. Venue to follow. All times are Seoul time (KST).',
+    descriptionKo: '작별 브런치. 장소는 추후 안내드립니다. 모든 시간은 한국 시간입니다.'
   }
 ];
 
@@ -45,20 +50,9 @@ function setup() {
   return 'Ready: ' + spreadsheet.getName() + ' / ' + sheet.getName();
 }
 
-// Run after setup() to create a separate wedding calendar in your account.
+// Legacy alias for previous setup instructions; optional links need no owner calendar.
 function setupCalendar() {
-  setup();
-  const properties = PropertiesService.getScriptProperties();
-  let calendar = properties.getProperty(RSVP_CALENDAR_ID_KEY) &&
-    CalendarApp.getCalendarById(properties.getProperty(RSVP_CALENDAR_ID_KEY));
-  if (!calendar) {
-    calendar = CalendarApp.createCalendar('Joohyun & Fin — RSVP Invitations', {
-      description: 'Calendar invitations sent from the wedding RSVP form.',
-      timeZone: 'Asia/Seoul'
-    });
-    properties.setProperty(RSVP_CALENDAR_ID_KEY, calendar.getId());
-  }
-  return 'Ready: ' + calendar.getName() + ' (' + calendar.getTimeZone() + ')';
+  return setup();
 }
 
 // A read-only check for the deployed /exec URL. It never includes private sheet data.
@@ -67,7 +61,7 @@ function doGet() {
   return jsonResponse_({
     result: 'ready',
     configured: Boolean(properties.getProperty(RSVP_SHEET_ID_KEY)),
-    calendarConfigured: Boolean(properties.getProperty(RSVP_CALENDAR_ID_KEY))
+    calendarMode: 'optional_links'
   });
 }
 
@@ -84,10 +78,8 @@ function doPost(event) {
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
     let rowNumber;
-    let previousEventIds;
     try {
       rowNumber = sheet.getLastRow() + 1;
-      previousEventIds = previousEventIds_(sheet, rsvp.email, rowNumber - 1);
       const row = [
         new Date(), rsvp.name, rsvp.email, rsvp.attending, rsvp.guests,
         rsvp.guestNames.join('; '), rsvp.afterparty, rsvp.brunch,
@@ -101,17 +93,6 @@ function doPost(event) {
       lock.releaseLock();
     }
 
-    const calendarResult = syncCalendar_(rsvp, previousEventIds);
-    try {
-      sheet.getRange(rowNumber, 12).setValue(calendarResult.failed.length ?
-        'Failed: ' + calendarResult.failed.join(', ') :
-        rsvp.attending === 'X' ? 'No invitations (declined)' :
-          'Invited: ' + calendarResult.sent.join(', '));
-      sheet.getRange(rowNumber, 13).setValue(JSON.stringify(calendarResult.eventIds));
-    } catch (calendarStatusError) {
-      console.error('Could not record calendar status for row ' + rowNumber + ': ' + calendarStatusError);
-    }
-
     let mailed = false;
     try {
       const mail = renderRsvpEmail({
@@ -122,8 +103,7 @@ function doPost(event) {
         attending: rsvp.attending === 'O',
         guests: [rsvp.name].concat(rsvp.guestNames),
         afterparty: rsvp.afterparty === 'O',
-        brunch: rsvp.brunch === 'O',
-        calendarFailed: calendarResult.failed
+        brunch: rsvp.brunch === 'O'
       });
       const confirmation = {
         to: rsvp.email,
@@ -132,24 +112,24 @@ function doPost(event) {
         htmlBody: mail.html,
         name: 'Joohyun & Fin'
       };
-      if (rsvp.email.toLowerCase() !== RSVP_OWNER_EMAIL.toLowerCase()) {
-        confirmation.bcc = RSVP_OWNER_EMAIL;
-      }
+      const ownerCopies = RSVP_OWNER_EMAILS.filter(function (address) {
+        return address.toLowerCase() !== rsvp.email.toLowerCase();
+      });
+      if (ownerCopies.length) confirmation.bcc = ownerCopies.join(',');
       MailApp.sendEmail(confirmation);
       mailed = true;
     } catch (mailError) {
       console.error('Confirmation email failed for row ' + rowNumber + ': ' + mailError);
     }
     try {
-      sheet.getRange(rowNumber, 11).setValue(mailed ? 'Sent' : 'Failed');
+      sheet.getRange(rowNumber, 11, 1, 2).setValues([[
+        mailed ? 'Sent' : 'Failed',
+        !mailed ? 'Email failed' : rsvp.attending === 'O' ? 'Links emailed' : 'No links (declined)'
+      ]]);
     } catch (statusError) {
       console.error('Could not update email status for row ' + rowNumber + ': ' + statusError);
     }
-    return jsonResponse_({
-      result: 'success', mailed: mailed,
-      calendarInvites: calendarResult.sent,
-      calendarFailed: calendarResult.failed
-    });
+    return jsonResponse_({result: 'success', mailed: mailed});
   } catch (error) {
     console.error('RSVP failed: ' + error);
     return jsonResponse_({result: 'error', message: 'Could not save RSVP.'});
@@ -170,7 +150,7 @@ function parseRsvp_(data) {
 
   if (!name || !['O', 'X'].includes(attending)) throw new Error('Name or attendance missing.');
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('Invalid email.');
-  if (!email) throw new Error('Email required for confirmation and calendar invitations.');
+  if (!email) throw new Error('Email required for confirmation and calendar links.');
   if (!Array.isArray(guestNames)) throw new Error('Names must be a list.');
   if (attending === 'O') {
     if (!Number.isInteger(guests) || guests < 1 || guests > 4 || guestNames.length !== guests - 1) {
@@ -210,89 +190,6 @@ function choice_(value) {
   if (value == null || value === '') return '';
   if (value !== 'O' && value !== 'X') throw new Error('Invalid choice.');
   return value;
-}
-
-function previousEventIds_(sheet, email, lastRow) {
-  if (lastRow < 2) return {};
-  const emails = sheet.getRange(2, 3, lastRow - 1, 1).getValues();
-  const eventIds = sheet.getRange(2, 13, lastRow - 1, 1).getValues();
-  for (let i = emails.length - 1; i >= 0; i--) {
-    if (String(emails[i][0]).toLowerCase() !== email.toLowerCase() || !eventIds[i][0]) continue;
-    try {
-      const parsed = JSON.parse(eventIds[i][0]);
-      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
-    } catch (error) { /* check an older row */ }
-  }
-  return {};
-}
-
-function selectedEventKeys_(rsvp) {
-  if (rsvp.attending !== 'O') return [];
-  const keys = ['wedding'];
-  if (rsvp.afterparty === 'O') keys.push('afterparty');
-  if (rsvp.brunch === 'O') keys.push('brunch');
-  return keys;
-}
-
-function syncCalendar_(rsvp, previousIds) {
-  const desired = selectedEventKeys_(rsvp);
-  const result = {sent: [], failed: [], eventIds: {}};
-  const calendarId = PropertiesService.getScriptProperties().getProperty(RSVP_CALENDAR_ID_KEY);
-  let calendar;
-  try { calendar = calendarId && CalendarApp.getCalendarById(calendarId); }
-  catch (error) { console.error('Could not open RSVP calendar: ' + error); }
-  if (!calendar) {
-    result.failed = desired.length ? desired : Object.keys(previousIds);
-    result.eventIds = previousIds;
-    return result;
-  }
-
-  RSVP_EVENTS.forEach(function (spec) {
-    const oldId = previousIds[spec.key];
-    let oldEvent;
-    try {
-      oldEvent = oldId && calendar.getEventById(oldId);
-      if (desired.indexOf(spec.key) !== -1) {
-        if (oldEvent) {
-          updateCalendarEvent_(oldEvent, spec, rsvp);
-          result.eventIds[spec.key] = oldId;
-        } else {
-          // Include all guest-facing details before sending the first invitation.
-          // Editing the event immediately afterward can send a second update email.
-          const event = calendar.createEvent(spec.title, new Date(spec.start), new Date(spec.end), {
-            description: eventDescription_(spec, rsvp),
-            location: spec.location,
-            guests: rsvp.email,
-            sendInvites: true
-          });
-          result.eventIds[spec.key] = event.getId();
-        }
-        result.sent.push(spec.key);
-      } else if (oldEvent) {
-        oldEvent.deleteEvent();
-      }
-    } catch (error) {
-      console.error('Calendar ' + spec.key + ' failed: ' + error);
-      result.failed.push(spec.key);
-      if (oldId) result.eventIds[spec.key] = oldId;
-    }
-  });
-  return result;
-}
-
-function eventDescription_(spec, rsvp) {
-  return spec.description + '\nRSVP for: ' + [rsvp.name].concat(rsvp.guestNames).join(', ');
-}
-
-function updateCalendarEvent_(event, spec, rsvp) {
-  if (event.getTitle() !== spec.title) event.setTitle(spec.title);
-  if (event.getStartTime().getTime() !== new Date(spec.start).getTime() ||
-      event.getEndTime().getTime() !== new Date(spec.end).getTime()) {
-    event.setTime(new Date(spec.start), new Date(spec.end));
-  }
-  if (event.getLocation() !== spec.location) event.setLocation(spec.location);
-  const description = eventDescription_(spec, rsvp);
-  if (event.getDescription() !== description) event.setDescription(description);
 }
 
 function jsonResponse_(value) {

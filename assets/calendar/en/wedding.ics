@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Joohyun and Fin//Wedding Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:wedding-20270424@joohyunfin.com
+DTSTAMP:20261108T000000Z
+DTSTART:20270424T070000Z
+DTEND:20270424T090000Z
+SUMMARY:Joohyun & Fin — Wedding & Dinner
+DESCRIPTION:Ceremony 4:00–4:40 PM\; dinner reception 4:45–6:00 PM. All 
+ times are Seoul time (KST).\nhttps://joohyunfin.com/
+LOCATION:Ilhwadang\, Samcheonggak\, Seoul\, South Korea
+URL:https://joohyunfin.com/
+END:VEVENT
+END:VCALENDAR

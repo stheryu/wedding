@@ -26,7 +26,6 @@ var EMAIL_PETAL_URL = 'https://joohyunfin.com/assets/petal-mini.png';
  *   d.guests      array of attending names, e.g. ['Joohyun Vermehr', 'Fin Vermehr']
  *   d.afterparty  true / false / null (null = not asked, e.g. Korean site)
  *   d.brunch      true / false / null (null = not asked)
- *   d.calendarFailed  event keys whose calendar invitations failed
  * @return {{subject:string, html:string, text:string}}
  */
 function renderRsvpEmail(d) {
@@ -50,8 +49,12 @@ function renderRsvpEmail(d) {
   function rule() {
     return '<table role="presentation" align="center" cellpadding="0" cellspacing="0" style="margin:30px auto"><tr><td width="36" height="1" style="width:36px;height:1px;line-height:1px;font-size:1px;background:' + C.rule + '">&nbsp;</td></tr></table>';
   }
-  function event(title, when) {
-    return p(title, 25, 'font-style:' + (ko ? 'normal' : 'italic') + ';margin-top:12px') + p(when, 17, 'margin-top:2px');
+  function event(title, when, key) {
+    return p(title, 25, 'font-style:' + (ko ? 'normal' : 'italic') + ';margin-top:12px') +
+      p(when, 17, 'margin-top:2px') +
+      '<p style="margin:7px 0 0;font-family:' + serif + ';font-size:14px;line-height:1.8;color:' + C.deep + '">' +
+      link_(googleUrl_(key, ko), T.googleCal, C.deep) + '&nbsp;&nbsp;·&nbsp;&nbsp;' +
+      link_(icsUrl_(key, ko), T.appleCal, C.deep) + '</p>';
   }
 
   // ---- body blocks ----
@@ -74,11 +77,11 @@ function renderRsvpEmail(d) {
     blocks.push(p(guests.map(esc_).join(ko ? ', ' : ' &amp; '), 20, 'font-style:' + (ko ? 'normal' : 'italic') + ';margin-top:6px'));
     blocks.push(rule());
     blocks.push(label(T.sat));
-    blocks.push(event(T.ceremony, T.ceremonyWhen));
-    if (d.afterparty === true) blocks.push(event(T.party, T.partyWhen));
+    blocks.push(event(T.ceremony, T.ceremonyWhen, 'wedding'));
+    if (d.afterparty === true) blocks.push(event(T.party, T.partyWhen, 'afterparty'));
     if (d.brunch === true) {
       blocks.push(label(T.sun, 'margin-top:28px'));
-      blocks.push(event(T.brunch, T.brunchWhen));
+      blocks.push(event(T.brunch, T.brunchWhen, 'brunch'));
     }
     if (T.tzNote) blocks.push(p(T.tzNote, 14, 'color:' + C.soft + ';margin-top:18px'));
     blocks.push(rule());
@@ -92,7 +95,6 @@ function renderRsvpEmail(d) {
     blocks.push(label(T.noteLabel, 'margin-top:28px'));
     blocks.push(p(esc_(d.message).replace(/\r?\n/g, '<br>'), 17, 'margin-top:6px'));
   }
-  if (d.calendarFailed && d.calendarFailed.length) blocks.push(p(T.calendarFailed, 15, 'color:' + C.soft + ';margin-top:18px'));
   blocks.push(p(T.close, 21, 'font-style:' + (ko ? 'normal' : 'italic') + ';margin-top:34px'));
   blocks.push(p(T.change, 15, 'color:' + C.soft + ';margin-top:10px'));
 
@@ -111,12 +113,14 @@ function renderRsvpEmail(d) {
   if (ko && d.phone) text.push(T.phone + ': ' + d.phone, '');
   if (d.attending) {
     text.push(T.attendingLabel + ': ' + guests.join(', '), '', T.sat, T.ceremony + ': ' + T.ceremonyWhen);
-    if (d.afterparty === true) text.push(T.party + ': ' + T.partyWhen);
-    if (d.brunch === true) text.push('', T.sun, T.brunch + ': ' + T.brunchWhen);
+    text.push(T.googleCal + ': ' + googleUrl_('wedding', ko), T.appleCal + ': ' + icsUrl_('wedding', ko));
+    if (d.afterparty === true) text.push(T.party + ': ' + T.partyWhen,
+      T.googleCal + ': ' + googleUrl_('afterparty', ko), T.appleCal + ': ' + icsUrl_('afterparty', ko));
+    if (d.brunch === true) text.push('', T.sun, T.brunch + ': ' + T.brunchWhen,
+      T.googleCal + ': ' + googleUrl_('brunch', ko), T.appleCal + ': ' + icsUrl_('brunch', ko));
     if (T.tzNote) text.push('', T.tzNote);
   }
   if (d.message) text.push('', T.noteLabel + ': ' + d.message);
-  if (d.calendarFailed && d.calendarFailed.length) text.push('', T.calendarFailed);
   text.push(T.site + ': ' + EMAIL_SITE_URL, '', T.closePlain, T.change);
 
   return { subject: d.attending ? T.subjectYes : T.subjectNo, html: html, text: plain_(text.join('\n')) };
@@ -141,8 +145,9 @@ var EN_COPY = {
   brunchWhen: '10:00 AM to 1:00 PM · Venue to follow',
   tzNote: 'All times are Seoul time.',
   site: 'OUR WEBSITE',
+  googleCal: 'GOOGLE CALENDAR',
+  appleCal: 'APPLE / OUTLOOK',
   noteLabel: 'YOUR NOTE',
-  calendarFailed: 'Some calendar invitations could not be completed. Please check your calendar against the schedule above.',
   close: 'With love, Joohyun &amp; Fin',
   closePlain: 'With love, Joohyun & Fin',
   change: 'Need to change something? Just reply to this email.'
@@ -167,16 +172,40 @@ var KO_COPY = {
   brunchWhen: '오전 10:00 ~ 오후 1:00 · 장소 추후 안내',
   tzNote: '',
   site: '웹사이트 보기',
+  googleCal: '구글 캘린더',
+  appleCal: 'Apple / Outlook',
   phone: '연락처',
   noteLabel: '남겨 주신 말씀',
-  calendarFailed: '일부 캘린더 일정 변경을 완료하지 못했습니다. 일정을 확인해 주세요.',
   close: '주현 &amp; 핀 드림',
   closePlain: '주현 & 핀 드림',
   change: '변경 사항이 있으시면 이 메일에 회신해 주세요.'
 };
 
+function calendarSpec_(key) {
+  for (var i = 0; i < RSVP_EVENTS.length; i++) {
+    if (RSVP_EVENTS[i].key === key) return RSVP_EVENTS[i];
+  }
+  throw new Error('Unknown calendar event: ' + key);
+}
+
+function googleUrl_(key, ko) {
+  var spec = calendarSpec_(key);
+  function utc(value) { return new Date(value).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+    '&text=' + encodeURIComponent(ko ? spec.titleKo : spec.title) +
+    '&dates=' + utc(spec.start) + '/' + utc(spec.end) +
+    '&location=' + encodeURIComponent(ko ? spec.locationKo : spec.location) +
+    '&details=' + encodeURIComponent((ko ? spec.descriptionKo : spec.description) + '\n' + EMAIL_SITE_URL) +
+    '&ctz=Asia/Seoul';
+}
+
+function icsUrl_(key, ko) {
+  calendarSpec_(key);
+  return EMAIL_SITE_URL + 'assets/calendar/' + (ko ? 'ko' : 'en') + '/' + key + '.ics';
+}
+
 function link_(href, text, color) {
-  return '<a href="' + href + '" style="color:' + color + ';text-decoration:underline">' + text + '</a>';
+  return '<a href="' + esc_(href) + '" style="color:' + color + ';text-decoration:underline">' + text + '</a>';
 }
 
 // Turns the HTML bits of the copy into plain text for the text-only version.

@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Joohyun and Fin//Wedding Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:brunch-20270424@joohyunfin.com
+DTSTAMP:20261108T000000Z
+DTSTART:20270425T010000Z
+DTEND:20270425T040000Z
+SUMMARY:Joohyun & Fin — Farewell Brunch
+DESCRIPTION:Farewell brunch. Venue to follow. All times are Seoul time (KST
+ ).\nhttps://joohyunfin.com/
+URL:https://joohyunfin.com/
+END:VEVENT
+END:VCALENDAR
