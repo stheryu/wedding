@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Joohyun and Fin//Wedding Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:afterparty-20270424@joohyunfin.com
+DTSTAMP:20261108T000000Z
+DTSTART:20270424T100000Z
+DTEND:20270424T160000Z
+SUMMARY:Joohyun & Fin — After Party
+DESCRIPTION:After party at Pairing. All times are Seoul time (KST).\nhttps:
+ //joohyunfin.com/
+LOCATION:Pairing\, 163-22 Hyehwa-dong\, Jongno-gu\, Seoul\, South Korea
+URL:https://joohyunfin.com/
+END:VEVENT
+END:VCALENDAR

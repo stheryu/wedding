@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Joohyun and Fin//Wedding Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:brunch-20270424@joohyunfin.com
+DTSTAMP:20261108T000000Z
+DTSTART:20270425T010000Z
+DTEND:20270425T040000Z
+SUMMARY:주현 & 핀 — 작별 브런치
+DESCRIPTION:작별 브런치. 장소는 추후 안내드립니다. 모든 
+ 시간은 한국 시간입니다.\nhttps://joohyunfin.com/
+URL:https://joohyunfin.com/
+END:VEVENT
+END:VCALENDAR
